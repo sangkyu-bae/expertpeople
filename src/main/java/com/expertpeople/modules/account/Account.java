@@ -3,11 +3,13 @@ package com.expertpeople.modules.account;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Account {
+
 
     @Id @GeneratedValue
     private Long id;
@@ -17,6 +19,12 @@ public class Account {
 
     @Column
     private String nickname;
+
+    private String name;
+
+    private String address;
+
+    private String role;
 
     private String password;
 
@@ -52,4 +60,8 @@ public class Account {
     private boolean workUpdateByWeb;
     //자기소개 오픈 여부
     private boolean openBio;
+
+    public void createEmailCheckToken() {
+        this.emailCheckToken= UUID.randomUUID().toString();
+    }
 }
