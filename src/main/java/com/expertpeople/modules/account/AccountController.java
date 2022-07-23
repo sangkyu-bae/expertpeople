@@ -51,7 +51,7 @@ public class AccountController {
     public String checkEmailToken(String token, String email,Model model){
         String view = "account/checked-email";
         Account account=accountRepository.findByEmail(email);
-
+        System.out.println("dd");
         if(account==null){
             model.addAttribute("error","존재하는 이메일이 아닙니다");
             return view;
