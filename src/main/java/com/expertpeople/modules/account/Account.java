@@ -3,6 +3,7 @@ package com.expertpeople.modules.account;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -29,10 +30,11 @@ public class Account {
     private String password;
 
     private boolean emailVerified;
-
     private String emailCheckToken;
     //자기소개
     private String bio;
+
+    private LocalDateTime joinAt;
 
     private String url;
     //수정필요 일
@@ -61,7 +63,18 @@ public class Account {
     //자기소개 오픈 여부
     private boolean openBio;
 
+
+
     public void createEmailCheckToken() {
         this.emailCheckToken= UUID.randomUUID().toString();
+    }
+
+    public boolean isValidToken(String token) {
+        return this.emailCheckToken.equals(token);
+    }
+
+    public void completeSginUp() {
+        this.emailVerified=true;
+        this.joinAt=LocalDateTime.now();
     }
 }

@@ -19,7 +19,7 @@ public class AccountController {
 
     private final AccountService accountService;
     private final JoinUpFormValidator joinUpFormValidator;
-
+    private final AccountRepository accountRepository;
     @InitBinder("joinUpForm")
     public void initBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(joinUpFormValidator);
@@ -31,7 +31,7 @@ public class AccountController {
         if(account!=null){
             return "redirect:/";
         }
-        model.addAttribute("joinUpForm",new JoinUpForm());
+        model.addAttribute(new JoinUpForm());
 
         return "account/join-up";
     }
@@ -45,6 +45,29 @@ public class AccountController {
         Account account=accountService.newAccount(joinUpForm);
         accountService.login(account);
         return "redirect:/";
+    }
+
+    @GetMapping("check-email-token")
+    public String checkEmailToken(String token, String email,Model model){
+        String view = "account/checked-email";
+        Account account=accountRepository.findByEmail(email);
+
+        if(account==null){
+            model.addAttribute("error","존재하는 이메일이 아닙니다");
+            return view;
+        }
+
+        if(!account.isValidToken(token)){
+            model.addAttribute("error","토큰 값이 틀립니다.");
+            return view;
+        }
+
+        accountService.completSignUp(account);
+
+        model.addAttribute("userCount",accountRepository.count());
+        model.addAttribute("name",account.getName());
+
+        return view;
     }
 
 }
