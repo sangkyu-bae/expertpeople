@@ -1,6 +1,7 @@
 package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.JoinUpForm;
+import com.expertpeople.modules.account.form.Profile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -70,12 +71,17 @@ public class AccountService implements UserDetailsService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new UserAccount(account),
                 account.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                List.of(new SimpleGrantedAuthority(account.getRole())));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
-    public void completSignUp(Account account) {
+    public void completeSignUp(Account account) {
         account.completeSginUp();
         login(account);
+    }
+
+    public void updateAccountProfile(Account account, Profile profile) {
+        modelMapper.map(profile,account);
+        accountRepository.save(account);
     }
 }

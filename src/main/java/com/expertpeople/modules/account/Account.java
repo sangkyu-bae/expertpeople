@@ -22,26 +22,23 @@ public class Account {
     private String nickname;
 
     private String name;
-
+    //주소
     private String address;
 
     private String role;
 
     private String password;
-
     private boolean emailVerified;
     private String emailCheckToken;
     //자기소개
+    @Lob @Basic(fetch = FetchType.EAGER)
     private String bio;
-
     private LocalDateTime joinAt;
-
-    private String url;
     //수정필요 일
     private String job;
     //경력
     private int career;
-    //주소
+    //원하는 지역
     private String location;
     //핸드폰
     private String phone;
@@ -62,8 +59,6 @@ public class Account {
     private boolean workUpdateByWeb;
     //자기소개 오픈 여부
     private boolean openBio;
-
-
 
     public void createEmailCheckToken() {
         this.emailCheckToken= UUID.randomUUID().toString();

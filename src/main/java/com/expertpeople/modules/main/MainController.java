@@ -21,4 +21,13 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String loginForm(@CurrentAccount Account account){
+        if(account!=null){
+            throw new IllegalArgumentException("현재 로그인이 되어 있습니다");
+        }
+
+        return "login";
+    }
+
 }
