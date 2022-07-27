@@ -1,0 +1,19 @@
+.container{
+    width: 80%;
+    margin:0 auto;
+}
+.text-center{
+    margin-top:1em;
+    text-align: center;
+}
+.lead{
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+.text-center h2{
+    color: darkblue;
+    font-size: 1.7em;
+}
+.justify-content-center{
+    margin-top: 4em;
+}
