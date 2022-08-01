@@ -1,0 +1,44 @@
+.navbar{
+    background-color: black;
+    color: white;
+    height: 5.5em;
+}
+.flex{
+    display: flex;
+}
+.main{
+    line-height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    flex: 0.7;
+}
+.item{
+    flex: 0.3;
+    line-height: 3.8em;
+    font-size: 1.3em;
+}
+.head-wrap {
+    height: 100%;
+}
+.main a{
+    display: block;
+    width: 19%;
+    height: 100%;
+    padding: 0 2em;
+    color: white;
+    text-decoration: none;
+}
+.nav-item{
+    height: 100%;
+}
+.nav-items{
+    flex: 0.2;
+    text-align: center;
+}
+.nav-items a{
+    color: white;
+    text-decoration: none;
+}
+a:hover{
+    cursor: pointer;
+}
