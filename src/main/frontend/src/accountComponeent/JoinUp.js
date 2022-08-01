@@ -51,7 +51,7 @@ function JoinUp(props) {
                                 <small id="passwordHelp" className="form-text text-muted">
                                     8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며 공백은 사용할 수 없습니다.
                                 </small>
-                                <small className="invalid-feedback">패스워드를 입력하세요.</small>
+                                <small className="invalid-feedback">패스워드를 입력하세요ㄴㄴ.</small>
                                 <small className="form-text text-danger">Password Error</small>
                         </div>
 
@@ -60,7 +60,6 @@ function JoinUp(props) {
                             <input id="password-check" type="password" className="form-control"
                                    aria-describedby="password-checkHelp" required minLength="8" maxLength="50"/>
                                 <small id="password-checkHelp" className="form-text text-muted">
-
                                 </small>
                                 <small className="invalid-feedback">패스워드 확인을 입력하세요.</small>
                         </div>
