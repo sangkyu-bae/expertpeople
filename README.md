@@ -10,7 +10,6 @@ expertpeople은 기존 인력사무소를 간편하게 웹으로 만나게 해�
 <ul>
   <li>Sprig boot</li>
   <li>Sprig Data JPA</li>
-  <li>Thymeleaf</li>
+  <li>React</li>
   <li>MYSql</li>
-  <li>Js</li>
 </ul>
