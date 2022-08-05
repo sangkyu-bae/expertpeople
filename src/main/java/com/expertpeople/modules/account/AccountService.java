@@ -10,9 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,29 +20,28 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AccountService implements UserDetailsService {
+public class AccountService  {
 
     private final AccountRepository accountRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-       Account account=accountRepository.findByEmail(email);
-       if(account==null){
-           throw new UsernameNotFoundException(email);
-       }
-
-       return new UserAccount(account);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//
+//       Account account=accountRepository.findByEmail(email);
+//       if(account==null){
+//           throw new UsernameNotFoundException(email);
+//       }
+//
+//       return new UserAccount(account);
+//    }
 
     public Account newAccount(JoinUpForm joinUpForm) {
         Account newAccount=saveNewAccount(joinUpForm);
         sandJoinUpEmail(newAccount);
-        
         return newAccount;
     }
 

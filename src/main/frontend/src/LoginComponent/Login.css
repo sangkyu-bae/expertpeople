@@ -2,7 +2,7 @@
     width: 80%;
     margin:0 auto;
 }
-.text-center{
+.text-centers{
     margin-top:1em;
     text-align: center;
 }
@@ -10,12 +10,12 @@
     font-size: 2em;
     margin-bottom: 1em;
 }
-.text-center h2{
+.text-centers h2{
     color: darkblue;
     font-size: 1.7em;
 }
 .justify-content-center{
-    width: 50%;
+    width: 70%;
     margin:0 auto;
     margin-top: 4em;
 }
@@ -32,6 +32,7 @@ input{
     font-weight: bold;
 }
 .btn-block{
+    width: 100%;
     height: 3em;
     background-color: darkblue;
     border: none;

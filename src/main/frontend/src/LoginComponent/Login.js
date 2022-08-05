@@ -1,12 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import MainNav from "../mainCompoment/MainNav";
 import './Login.css';
+import Alert from "../CommonComponent/Alert";
+import Help from "../CommonComponent/Help";
 
 function Login(props) {
+
+    const[isEmail,setIsEmail]=useState(true);
+    const[isPassword,setIsPassword]=useState(true);
+
+    const[email,setEmail]=useState("");
+    const[password,setPassword]=useState("");
+
+    const changeEmail =e=>{
+        const regEmail= /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if(regEmail.test(e.target.value))setIsEmail(true);
+        else setIsEmail(false);
+        setEmail(e.target.value);
+    }
+    const changePassword=e=>{
+        if(e.target.value.length<9)setIsPassword(false);
+        else setIsPassword(true);
+        setPassword(e.target.value);
+    }
+
     return (
         <div>
             <div className="container">
-                <div className="py-5 text-center">
+                <div className="py-5 text-centers">
                     <p className="lead">ExpertPeople</p>
                     <h2>로그인</h2>
                 </div>
@@ -23,22 +44,25 @@ function Login(props) {
                               noValidate>
                             <div className="form-group my-3">
                                 <input id="username" type="text" name="username" className="form-control"
-                                       placeholder="your@email.com" aria-describedby="emailHelp" required/>
+                                       placeholder="your@email.com"
+                                       value={email}
+                                       onChange={changeEmail}/>
                                 <div>
+
                                     <small id="emailHelp" className="form-text text-muted">
                                         가입할 때 사용한 이메일을 입력하시오.
-                                    </small>
-                                    <small className="invlid-feedback"> 이메일을 입력하세요.</small>
+                                    </small><br/>
+                                    {!isEmail&&<Alert text={"이메일을 입력하세요."}></Alert>}
                                 </div>
                             </div>
                             <div className="form-group my-3">
                                 <input id="password" type="password" name="password" className="form-control"
-                                       aria-describedby="passwordHelp" required/>
+                                        value={password} onChange={changePassword}/>
                                 <div>
-                                    <small id="passwordHelp" className="form-text text-muted">
+                                    <small id="Help" className="form-text text-muted">
                                         패스워드가 기억나지 않는다면, <a>패스워드 찾기</a>
-                                    </small>
-                                    <small className="invlid-feedback"> 패스워드를 입력하세요.</small>
+                                    </small><br/>
+                                    {!isPassword&&<Alert text={"패스워드를 입력하세요. 7자 이상입니다."}></Alert>}
                                 </div>
                             </div>
                             <div className="form-group">
