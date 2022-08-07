@@ -25,6 +25,7 @@ public class JwtAuthController {
          jwtService.authenticate(modelMapper.map(authenticationRequest, Account.class));
 
          final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(authenticationRequest.getEmail());
+        System.out.println(userDetails);
          final String token =jwtTokenUtil.generateToken(userDetails);
 
          return ResponseEntity.ok(new JwtResponse(token));

@@ -3,6 +3,7 @@ import MainNav from "../mainCompoment/MainNav";
 import './Login.css';
 import Alert from "../CommonComponent/Alert";
 import Help from "../CommonComponent/Help";
+import axios from "axios";
 
 function Login(props) {
 
@@ -24,6 +25,25 @@ function Login(props) {
         setPassword(e.target.value);
     }
 
+    const loginSubmit=e=>{
+        e.preventDefault();
+        if(email.length<5&&!isEmail){
+            alert("이메일을 확인하세요");
+            return false;
+        }
+        if(password.length<8&&!isPassword) {
+            alert("패스워드를 확인하세요");
+            return false;
+        }
+        axios.post("/login", {
+            email: email,
+            password: password
+        }).then(e=>{
+            console.log(e)
+        }).catch(e=> {
+            console.log(e)
+        });
+    }
     return (
         <div>
             <div className="container">
@@ -40,8 +60,7 @@ function Login(props) {
                                 확인 후 다시 입력하시거나, <a>패스워드 찾기</a> 을 이용하세요
                             </p>
                         </div>
-                        <form className="needs-validation col-sm-6" action="#" method="post"
-                              noValidate>
+                        <form className="needs-validation col-sm-6" onSubmit={loginSubmit}>
                             <div className="form-group my-3">
                                 <input id="username" type="text" name="username" className="form-control"
                                        placeholder="your@email.com"

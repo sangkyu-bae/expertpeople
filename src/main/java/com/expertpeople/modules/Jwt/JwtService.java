@@ -1,7 +1,7 @@
 package com.expertpeople.modules.Jwt;
 
 import com.expertpeople.modules.account.Account;
-import com.expertpeople.modules.account.UserAccount;
+//import com.expertpeople.modules.account.UserAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,9 +20,9 @@ public class JwtService {
     public void authenticate(Account account) throws Exception {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    new UserAccount(account),
+                  account.getEmail(),
                     account.getPassword(),
-                    List.of(new SimpleGrantedAuthority(account.getRole()))));
+                    List.of(new SimpleGrantedAuthority("ROLE_USER"))));
         }catch (DisabledException e){
             throw new Exception("USER_DISABLED",e);
         }catch (BadCredentialsException e){

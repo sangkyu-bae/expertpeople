@@ -65,7 +65,7 @@ public class AccountService  {
 
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                new UserAccount(account),
+                account.getEmail(),
                 account.getPassword(),
                 List.of(new SimpleGrantedAuthority(account.getRole())));
         SecurityContextHolder.getContext().setAuthentication(token);
