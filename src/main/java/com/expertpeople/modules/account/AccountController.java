@@ -38,7 +38,6 @@ public class AccountController {
 
     @PostMapping("/join-up")
     public String joinUpSubmit(@Valid JoinUpForm joinUpForm, Errors errors){
-
         if(errors.hasErrors()){
             return "account/join-up";
         }

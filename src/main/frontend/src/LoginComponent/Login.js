@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import MainNav from "../mainCompoment/MainNav";
-import './Login.css';
+
 import Alert from "../CommonComponent/Alert";
 import Help from "../CommonComponent/Help";
 import axios from "axios";

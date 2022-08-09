@@ -1,0 +1,21 @@
+.form-group{
+    margin-bottom: 1.5em;
+}
+label{
+    font-weight: bold;
+    line-height: 1.2em;
+}
+input{
+    margin: 1.2em 0;
+}
+.text-danger{
+    color: rgb(184, 49, 47);
+    font-weight: bold;
+}
+button{
+    width: 100%;
+}
+.invalid-feedback{
+    font-weight: bold;
+    line-height: 2.5em;
+}
