@@ -28,6 +28,13 @@ function JoinUp(props) {
 
     const [rePasswrod,setRePassword]=useState("");
     const changeRePasswrod=e=>setRePassword(e.target.value);
+    const [serverErrors,setServerErrors]=useState({
+        isServerEmail:false,
+        isServerPassword:false,
+        isServerNickname:false,
+        isServerName:false
+    })
+
 
     const onSubmit=e=>{
         e.preventDefault();
@@ -41,11 +48,17 @@ function JoinUp(props) {
 
         console.log(isName)
         if(isEmail&&isPasswrod&&isName&&isNickname){
-            axios.post("/api/join-up",{
-                "joinUpForm":inputs
-            })
+            axios.post("/api/join-up",inputs)
                 .then(e=> console.log(e))
-                .catch(e=>console.log(e))
+                .catch(e=>{
+                    console.log(e);
+                    console.log(e.request.response.indexOf("fidId"));
+                    console.log(e.request.response);
+
+                    if(e.request.response.indexOf("email")>0){
+
+                    }
+                })
         }else{
             alert("입력하지 않은 요소를 확인하세요.")
         }
