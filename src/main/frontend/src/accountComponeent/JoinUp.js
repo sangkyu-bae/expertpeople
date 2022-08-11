@@ -28,13 +28,11 @@ function JoinUp(props) {
 
     const [rePasswrod,setRePassword]=useState("");
     const changeRePasswrod=e=>setRePassword(e.target.value);
-    const [serverErrors,setServerErrors]=useState({
-        isServerEmail:false,
-        isServerPassword:false,
-        isServerNickname:false,
-        isServerName:false
-    })
 
+    const [isServerEmail,setIsServerEmail]=useState(false);
+    const [isServerPassword,setIsServerPassword]=useState(false);
+    const [isSeverNickname,setIsServerNickname]=useState(false);
+    const [isServerName,setIsServerName]=useState(false);
 
     const onSubmit=e=>{
         e.preventDefault();
@@ -51,12 +49,17 @@ function JoinUp(props) {
             axios.post("/api/join-up",inputs)
                 .then(e=> console.log(e))
                 .catch(e=>{
-                    console.log(e);
-                    console.log(e.request.response.indexOf("fidId"));
-                    console.log(e.request.response);
-
                     if(e.request.response.indexOf("email")>0){
-
+                        setIsServerEmail(true);
+                    }
+                    if(e.request.response.indexOf("nickname")>0){
+                        setIsServerNickname(true);
+                    }
+                    if(e.request.response.indexOf("passwrod")>0){
+                        setIsServerPassword(true);
+                    }
+                    if(e.request.response.indexOf("name")>0){
+                        setIsServerName(true);
                     }
                 })
         }else{
@@ -79,7 +82,7 @@ function JoinUp(props) {
                                     placeholder="이름을 입력하세요"   maxLength="20"/>
                                 <small id="nameHelp" className="form-text text-muted">가입할 회원의 이름을 입력하세요</small><br/>
                                 {!isName && <Error nullText={"이름을 입력하세요."}></Error>}
-                                <small className="form-text text-danger">Nickname Error</small>
+                                {isServerName&&<small className="form-text text-danger">name Error</small>}
                         </div>
 
                         <div className="form-group py-1">
@@ -92,7 +95,7 @@ function JoinUp(props) {
                                     공백없이 문자와 숫자로만 3자 이상 20자 이내로 입력하세요. 가입후에 변경할 수 있습니다.
                                 </small><br/>
                                 {!isNickname&& <Error nullText={"닉네임을 입력하세요."}></Error>}
-                                <small className="form-text text-danger">Nickname Error</small>
+                                {isSeverNickname &&<small className="form-text text-danger">Nickname Error</small>}
                         </div>
 
                         <div className="form-group py-1">
@@ -104,9 +107,9 @@ function JoinUp(props) {
                                 <small id="emailHelp" className="form-text text-muted">
                                     ExpertPeople 는 사용자의 이메일을 공개하지 않습니다.
                                 </small><br/>
-                                {!isEmail&& <Error nullText={"이메일을 입력하세요."}></Error>}
-                                <small className="invalid-feedback">이메일을 입력하세요.</small>
-                                <small className="form-text text-danger">Email Error</small>
+                                {!isEmail&& <Error nullText={"이메일을 입력하세요."}></Error> }
+                                    <small className="invalid-feedback">이메일을 입력하세요.</small>
+                                {isServerEmail&& <small className="form-text text-danger">Email Error 중복된 이메일이 있습니다.</small>}
                         </div>
 
                         <div className="form-group py-1">
@@ -118,7 +121,7 @@ function JoinUp(props) {
                                     8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며 공백은 사용할 수 없습니다.
                                 </small><br/>
                                 {!password&& <Error nullText={"패스워드를 입력하세요."}></Error>}
-                                <small className="form-text text-danger">Password Error</small>
+                                {isServerPassword&&<small className="form-text text-danger">Password Error</small>}
                         </div>
 
                         <div className="form-group py-1">
@@ -137,6 +140,7 @@ function JoinUp(props) {
                 </div>
             </div>
         </div>
+
     );
 }
 

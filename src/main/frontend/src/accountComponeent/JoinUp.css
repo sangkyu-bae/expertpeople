@@ -16,6 +16,9 @@ button{
     width: 100%;
 }
 .invalid-feedback{
-    font-weight: bold;
+    /*font-weight: bold;*/
     line-height: 2.5em;
+}
+.btn-primary:hover{
+    cursor: pointer;
 }

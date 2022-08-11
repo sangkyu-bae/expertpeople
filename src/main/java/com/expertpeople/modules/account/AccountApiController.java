@@ -30,6 +30,7 @@ public class AccountApiController {
     }
     @PostMapping("/api/join-up")
     public ResponseEntity<?> createAccount(@RequestBody @Valid JoinUpForm joinUpForm, Errors errors) throws Exception {
+        System.out.println(joinUpForm);
         if(errors.hasErrors()){
             System.out.println(errors);
             return ResponseEntity.badRequest().body(errors);

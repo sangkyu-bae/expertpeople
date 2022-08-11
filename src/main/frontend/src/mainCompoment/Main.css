@@ -42,3 +42,17 @@
 a:hover{
     cursor: pointer;
 }
+footer{
+    height: 5em;
+    background-color: #f8f9fa;
+}
+.footer_wrap{
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
+.foot_text{
+    font-size: 1.1em;
+    line-height: 4em;
+    font-weight: bold;
+}
