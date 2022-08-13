@@ -4,6 +4,9 @@ import MainNav from "../mainCompoment/MainNav";
 import Alert from "../CommonComponent/Alert";
 import Help from "../CommonComponent/Help";
 import axios from "axios";
+import API from "../util/common/APICommon";
+import requests from "../util/common/RequestUrl";
+import axiosCo from "../util/common/axiosCommon";
 
 function Login(props) {
 
@@ -35,15 +38,9 @@ function Login(props) {
             alert("패스워드를 확인하세요");
             return false;
         }
-        axios.post("/login", {
-            email: email,
-            password: password
-        }).then(e=>{
-            console.log(e)
-        }).catch(e=> {
-            console.log(e)
-        });
+        axiosCo.login(email,password)
     }
+
     return (
         <div>
             <div className="container">

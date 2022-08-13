@@ -44,7 +44,6 @@ function JoinUp(props) {
         if(password.length<9||rePasswrod.length<9) setIsPassword(false);
         if(password!=rePasswrod) setIsPassword(false)
 
-        console.log(isName)
         if(isEmail&&isPasswrod&&isName&&isNickname){
             axios.post("/api/join-up",inputs)
                 .then(e=> console.log(e))
