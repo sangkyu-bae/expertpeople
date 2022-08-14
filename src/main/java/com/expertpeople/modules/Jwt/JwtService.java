@@ -3,18 +3,13 @@ package com.expertpeople.modules.Jwt;
 import com.expertpeople.infra.jwt.JwtTokenUtil;
 import com.expertpeople.infra.jwt.JwtUserDetailService;
 import com.expertpeople.modules.account.Account;
-import com.expertpeople.modules.account.UserAccount;
+import com.expertpeople.modules.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,31 +18,49 @@ public class JwtService {
     private final AuthenticationManager authenticationManager;
     private final JwtUserDetailService jwtUserDetailService;
     private final JwtTokenUtil  jwtTokenUtil;
-
+    private final AccountRepository accountRepository;
     public void authenticate(Account account) throws Exception {
-        try{
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    new UserAccount(account),
-                    account.getPassword(),
-                    List.of(new SimpleGrantedAuthority(account.getRole())));
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }catch (DisabledException e){
-            throw new Exception("USER_DISABLED",e);
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        account.getEmail(),
+                        account.getPassword()
+                    ));
         }catch (BadCredentialsException e){
-            throw new Exception("INVALID_CREDENTIALS",e);
+            throw new BadCredentialsException("잘못된 패스워드 입니다.");
         }
     }
 
-    public JwtResponse getJwtResponse(Account account) throws Exception {
+    public JwtResponse getJwtResponse(Account account,boolean isInitLogin) throws Exception {
         authenticate(account);
         final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account.getEmail());
         final String token=jwtTokenUtil.generateToken(userDetails);
 
+        JwtResponse jwtResponse;
+
+        if(isInitLogin){
+            Account login=accountRepository.findByEmail(account.getEmail());
+            jwtResponse=getJwtResponse(login,token);
+        }else{
+           jwtResponse = getJwtResponse(account, token);
+        }
+
+        return jwtResponse;
+    }
+
+    private JwtResponse getJwtResponse(Account account, String token) {
         JwtResponse jwtResponse=JwtResponse.builder()
                 .id(account.getEmail())
                 .name(account.getName())
                 .token(token)
                 .build();
         return jwtResponse;
+    }
+
+    public Account getAccount(JwtRequest authenticationRequest) {
+        Account checkLogin=Account.builder()
+                .email(authenticationRequest.getEmail())
+                .password(authenticationRequest.getPassword())
+                .build();
+        return checkLogin;
     }
 }

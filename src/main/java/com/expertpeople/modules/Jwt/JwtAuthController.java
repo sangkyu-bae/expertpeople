@@ -16,12 +16,18 @@ public class JwtAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authenticationRequest)throws Exception{
-         Account account=accountRepository.findByEmail(authenticationRequest.getEmail());
-         if(account==null){
-             return ResponseEntity.badRequest().body("존재하지 않은 이메일입니다.");
+         Account checkLogin;
+         JwtResponse jwtResponse = null;
+         try {
+             checkLogin= jwtService.getAccount(authenticationRequest);
+             jwtResponse=jwtService.getJwtResponse(checkLogin,true);
+         }catch (Exception e){
+            return ResponseEntity.badRequest().build();
          }
-        JwtResponse jwtResponse=jwtService.getJwtResponse(account);
-         return ResponseEntity.ok(jwtResponse);
+
+        return ResponseEntity.ok(jwtResponse);
     }
+
+
 
 }

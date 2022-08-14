@@ -32,7 +32,7 @@ public class AccountApiController {
             return ResponseEntity.badRequest().body(errors);
         }
         Account account=accountService.newAccount(joinUpForm);
-        JwtResponse jwtResponse = jwtService.getJwtResponse(account);
+        JwtResponse jwtResponse = jwtService.getJwtResponse(account,false);
         return ResponseEntity.ok(jwtResponse);
     }
 }

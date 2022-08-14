@@ -7,6 +7,9 @@ import axios from "axios";
 import API from "../util/common/APICommon";
 import requests from "../util/common/RequestUrl";
 import axiosCo from "../util/common/axiosCommon";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {loginUser} from "../util/Redux/userReducer";
 
 function Login(props) {
 
@@ -15,6 +18,9 @@ function Login(props) {
 
     const[email,setEmail]=useState("");
     const[password,setPassword]=useState("");
+    const[isServerError,setIsServerError]=useState(false);
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const changeEmail =e=>{
         const regEmail= /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -38,7 +44,13 @@ function Login(props) {
             alert("패스워드를 확인하세요");
             return false;
         }
-        axiosCo.login(email,password)
+        const t=axiosCo.login(email,password);
+        t.then(t=>{
+            console.log(t.data);
+            localStorage.setItem("jwt",t.data.token);
+            dispatch(loginUser(t.data));
+            navigate("/");
+        }).catch(t=>setIsServerError(true));
     }
 
     return (
@@ -50,13 +62,16 @@ function Login(props) {
                 </div>
                 <div className="row justify-content-center">
                     <div className="row justify-content-center">
-                        <div  className="alert alert-danger" role="alert">
-                            <p>이메일(또는 닉네임)과 패스워드가 정확하지 않습니다.</p>
-                            <p>또는 확인되지 않은 이메일을 사용했습니다. 이메일을 확인해 주세요.</p>
-                            <p>
-                                확인 후 다시 입력하시거나, <a>패스워드 찾기</a> 을 이용하세요
-                            </p>
-                        </div>
+                        {isServerError &&
+                            <div  className="alert alert-danger" role="alert">
+                                <p>이메일(또는 닉네임)과 패스워드가 정확하지 않습니다.</p>
+                                <p>또는 확인되지 않은 이메일을 사용했습니다. 이메일을 확인해 주세요.</p>
+                                <p>
+                                    확인 후 다시 입력하시거나, <a>패스워드 찾기</a> 을 이용하세요
+                                </p>
+                            </div>
+                        }
+
                         <form className="needs-validation col-sm-6" onSubmit={loginSubmit}>
                             <div className="form-group my-3">
                                 <input id="username" type="text" name="username" className="form-control"

@@ -1,7 +1,10 @@
 import React from 'react';
 import './Index.css'
+import {useSelector} from "react-redux";
 
 function Index(props) {
+    const login=useSelector(state=> state.userReducer.user);
+    console.log(login);
     return (
         <div>
             <div className="container">
