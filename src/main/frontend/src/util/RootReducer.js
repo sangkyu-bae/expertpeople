@@ -2,6 +2,8 @@ import {combineReducers} from "redux";
 import userReducer from "./Redux/userReducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {persistReducer} from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+
 import thunk from 'redux-thunk';
 const RootReducer =combineReducers({
     userReducer:userReducer,

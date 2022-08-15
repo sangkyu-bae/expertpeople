@@ -24,10 +24,6 @@ public class JwtAuthController {
          }catch (Exception e){
             return ResponseEntity.badRequest().build();
          }
-
         return ResponseEntity.ok(jwtResponse);
     }
-
-
-
 }

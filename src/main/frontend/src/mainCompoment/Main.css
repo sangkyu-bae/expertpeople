@@ -10,10 +10,10 @@
     line-height: 3em;
     font-size: 1.7em;
     font-weight: bold;
-    flex: 0.7;
+    flex: 0.9;
 }
 .item{
-    flex: 0.3;
+    flex: 0.1;
     line-height: 3.8em;
     font-size: 1.3em;
 }
@@ -22,7 +22,7 @@
 }
 .main a{
     display: block;
-    width: 19%;
+    width: 13%;
     height: 100%;
     padding: 0 2em;
     color: white;
@@ -32,7 +32,7 @@
     height: 100%;
 }
 .nav-items{
-    flex: 0.2;
+    flex: 0.5;
     text-align: center;
 }
 .nav-items a{

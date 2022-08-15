@@ -7,7 +7,8 @@ export const loginUser=(userData)=>({
         id:userData.id,
         name:userData.id,
         token:userData.token
-    }
+    },
+    isLogin:true
 });
 export const logoutUser=()=>({
     type:LOGOUT_USER,
@@ -15,7 +16,8 @@ export const logoutUser=()=>({
         id:'',
         name:'',
         token:''
-    }
+    },
+    isLogin: false
 });
 
 const initialState={
@@ -23,7 +25,8 @@ const initialState={
         id:'',
         name:'',
         token:''
-    }
+    },
+    isLogin:false
 }
 
 export default function userReducer(state=initialState,action){
@@ -31,14 +34,16 @@ export default function userReducer(state=initialState,action){
         case LOGIN_USER:{
             return{
                 ...state,
-                user:action.user
+                user:action.user,
+                isLogin: action.isLogin
             }
         }
 
         case LOGOUT_USER:{
             return {
                 ...state,
-                user:action.user
+                user:action.user,
+                isLogin: action.isLogin
             }
         }
 

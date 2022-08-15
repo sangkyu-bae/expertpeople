@@ -7,7 +7,6 @@ const axiosCo={
             email:email,
             password:password
         })
-        console.log(res);
         return res;
     }
 }
