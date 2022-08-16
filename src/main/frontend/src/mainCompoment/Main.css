@@ -1,5 +1,5 @@
 .navbar{
-    background-color: black;
+    background-color: #212121;
     color: white;
     height: 5.5em;
 }
@@ -22,7 +22,7 @@
 }
 .main a{
     display: block;
-    width: 13%;
+    width: 2%;
     height: 100%;
     padding: 0 2em;
     color: white;
@@ -36,7 +36,7 @@
     text-align: center;
 }
 .nav-items a{
-    color: white;
+    color: #808080;
     text-decoration: none;
 }
 a:hover{
@@ -55,4 +55,36 @@ footer{
     font-size: 1.1em;
     line-height: 4em;
     font-weight: bold;
+}
+.bell{
+    width: 1.2em;
+    height: 100%;
+}
+.nav-item :hover{
+    cursor: pointer;
+}
+.drop-box{
+    background-color: #f8f9fa;
+    color: gray;
+    text-align: center;
+    height: 100%;
+    border: 1px solid gray;
+    border-radius: 0.5em;
+}
+.drop-box li{
+    height: 33%;
+    font-weight: bold;
+    line-height: 2.5em;
+    font-size: 0.7em;
+
+}
+.border-bottom{
+    border-bottom: 1px solid gray;
+}
+.drop-box li:hover{
+    cursor: pointer;
+}
+.drop-wrap{
+    margin-top: -0.5em;
+    height: 5em;
 }

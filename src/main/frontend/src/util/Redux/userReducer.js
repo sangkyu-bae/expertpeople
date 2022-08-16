@@ -5,7 +5,7 @@ export const loginUser=(userData)=>({
     type:LOGIN_USER,
     user:{
         id:userData.id,
-        name:userData.id,
+        name:userData.name,
         token:userData.token
     },
     isLogin:true

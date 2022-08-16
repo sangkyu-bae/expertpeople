@@ -4,47 +4,37 @@ import { Link, useNavigate } from 'react-router-dom';
 import commnMethod from "../util/common/CommnMethod";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../util/Redux/userReducer";
-import { IconName } from "react-icons/bs";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import{faHelmetSafety} from "@fortawesome/free-solid-svg-icons";
+import TrueLogin from "../LoginComponent/isLoginComponent/TrueLogin";
+import FalseLogin from "../LoginComponent/isLoginComponent/FalseLogin";
+
+
 function MainNav(props) {
     const dispatch=useDispatch();
     const isLogin=useSelector(state=> state.userReducer.isLogin);
+    const userName=useSelector(state=>state.userReducer.user);
+    const navigate=useNavigate();
     const logout=()=>{
         localStorage.removeItem("jwt");
         dispatch(logoutUser());
+        navigate("/");
     }
     return (
         <nav className="navbar">
             <div className="head-wrap flex">
                 <div className="main">
                     <Link to="/">
-                        ExpertPeople
+                        <FontAwesomeIcon icon={faHelmetSafety} />
                     </Link>
                 </div>
                 <div className="item ">
-                    <ul className="nav-item flex">
                         {!isLogin &&
-                            <li className="nav-items">
-                                <Link to="/login">
-                                    login
-                                </Link>
-                            </li>
+                         <TrueLogin></TrueLogin>
                         }
                         {isLogin &&
-                            <li className="nav-items">
-                                <Link to="/" onClick={logout}>
-                                    logout
-                                </Link>
-                            </li>
+                            <FalseLogin name ={userName.name} logout={logout}></FalseLogin>
                         }
-                        {!isLogin&&
-                            <li className="nav-items">
-                                <Link to="/join-up">
-                                    join
-                                </Link>
-                            </li>
-                        }
-                        <BsFillFileEarmarkPersonFill></BsFillFileEarmarkPersonFill>
-                    </ul>
                 </div>
             </div>
         </nav>
