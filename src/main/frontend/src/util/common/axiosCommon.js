@@ -1,4 +1,4 @@
-import API from "./APICommon";
+import {API} from "./APICommon";
 import requests from "./RequestUrl";
 
 const axiosCo={

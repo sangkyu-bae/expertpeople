@@ -1,7 +1,7 @@
 .navbar{
     background-color: #212121;
     color: white;
-    height: 5.5em;
+    height: 4.5em;
 }
 .flex{
     display: flex;
@@ -27,6 +27,10 @@
     padding: 0 2em;
     color: white;
     text-decoration: none;
+}
+.icons{
+    width: 1em;
+    height: 1em;
 }
 .nav-item{
     height: 100%;
@@ -64,18 +68,19 @@ footer{
     cursor: pointer;
 }
 .drop-box{
-    background-color: #f8f9fa;
-    color: gray;
-    text-align: center;
+    background-color: white;
+    color: black;
     height: 100%;
-    border: 1px solid gray;
-    border-radius: 0.5em;
+    border: 0.5px solid gray;
+}
+.name{
+    color: gray;
 }
 .drop-box li{
-    height: 33%;
     font-weight: bold;
     line-height: 2.5em;
     font-size: 0.7em;
+    height: 50%;
 
 }
 .border-bottom{
@@ -86,5 +91,20 @@ footer{
 }
 .drop-wrap{
     margin-top: -0.5em;
-    height: 5em;
+    height: 8em;
+    width: 7.5em;
+    display: none;
+}
+.head_info{
+    height: 50%;
+}
+.setting{
+    height: 50%;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.drop-box span{
+    padding-left: 2em;
 }

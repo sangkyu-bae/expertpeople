@@ -25,7 +25,7 @@ function MainNav(props) {
             <div className="head-wrap flex">
                 <div className="main">
                     <Link to="/">
-                        <FontAwesomeIcon icon={faHelmetSafety} />
+                        <FontAwesomeIcon class="icons" icon={faHelmetSafety} />
                     </Link>
                 </div>
                 <div className="item ">

@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -34,5 +31,10 @@ public class AccountApiController {
         Account account=accountService.newAccount(joinUpForm);
         JwtResponse jwtResponse = jwtService.getJwtResponse(account,false);
         return ResponseEntity.ok(jwtResponse);
+    }
+    @PostMapping("/api/account")
+    public Account getAccountInfo(@RequestParam(name="email") String email) throws Exception {
+        Account account=accountService.getAccount(email);
+        return account;
     }
 }

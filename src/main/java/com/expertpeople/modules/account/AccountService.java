@@ -80,4 +80,14 @@ public class AccountService  {
         modelMapper.map(profile,account);
         accountRepository.save(account);
     }
+
+    public Account getAccount(String email) throws Exception{
+        Account account=accountRepository.findByEmail(email);
+
+        if(account==null){
+            throw new NullPointerException("존재하지 않은 아이디 입니다.");
+        }
+
+        return account;
+    }
 }
