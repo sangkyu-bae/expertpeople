@@ -19,6 +19,43 @@ public class JwtRequestFilter extends GenericFilter {
     private  JwtTokenUtil jwtTokenUtil;
 
     private final JwtTokenProvider jwtTokenProvider;
+
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+//        final String requestTokenHeader= jwtTokenProvider.resolveToken((HttpServletRequest) request);
+//
+//        String username="";
+//        String jwtToken="";
+//
+//        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+//            jwtToken = requestTokenHeader.substring(7);
+//            try {
+//                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Unable to get JWT Token");
+//            } catch (ExpiredJwtException e) {
+//                System.out.println("JWT Token has expired");
+//            }
+//        } else {
+//            logger.warn("JWT Token does not begin with Bearer String");
+//        }
+//
+//        if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
+//            UserDetails userDetails = jwtUserDetailService.loadUserByUsername(username);
+//
+//            if(jwtTokenUtil.validateToken(jwtToken,userDetails)){
+//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(
+//                        userDetails,null,userDetails.getAuthorities()
+//                );
+//
+//                usernamePasswordAuthenticationToken
+//                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//
+//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//            }
+//        }
+//        chain.doFilter(request,response);
+//    }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.

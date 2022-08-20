@@ -1,5 +1,6 @@
 package com.expertpeople.modules.Jwt;
 
+import com.expertpeople.infra.jwt.JwtTokenProvider;
 import com.expertpeople.infra.jwt.JwtTokenUtil;
 import com.expertpeople.infra.jwt.JwtUserDetailService;
 import com.expertpeople.modules.account.Account;
@@ -19,6 +20,7 @@ public class JwtService {
     private final JwtUserDetailService jwtUserDetailService;
     private final JwtTokenUtil  jwtTokenUtil;
     private final AccountRepository accountRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     public void authenticate(Account account) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -33,7 +35,8 @@ public class JwtService {
     public JwtResponse getJwtResponse(Account account,boolean isInitLogin) throws Exception {
         authenticate(account);
         final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account.getEmail());
-        final String token=jwtTokenUtil.generateToken(userDetails);
+        //final String token=jwtTokenUtil.generateToken(userDetails);
+        final String token=jwtTokenProvider.generateToken(userDetails);
 
         JwtResponse jwtResponse;
 

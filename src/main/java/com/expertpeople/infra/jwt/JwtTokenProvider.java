@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Component
@@ -22,6 +21,8 @@ public class JwtTokenProvider {
     // 키
     private String secretKey = "lalala";
 
+    @Value("${jwt.secret}")
+    private String secret;
     // 토큰 유효시간 | 30min
     private long tokenValidTime = 30 * 60 * 1000L;
 
@@ -33,6 +34,20 @@ public class JwtTokenProvider {
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
+    //추가
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername());
+    }
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder().
+                setClaims(claims).
+                setSubject(subject).
+                setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenValidTime * 1000))
+                .signWith(SignatureAlgorithm.HS512, secretKey).compact();
+    }
+    //추가
 
     // JWT Token 생성.
     public String createToken(String user, List<String> roles){
