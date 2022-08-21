@@ -1,4 +1,4 @@
-import {API} from "./APICommon";
+import {accessAPI, API} from "./APICommon";
 import requests from "./RequestUrl";
 
 const axiosCo={
@@ -8,7 +8,16 @@ const axiosCo={
             password:password
         })
         return res;
+    },
+    myInfo:async (email)=>{
+        const res=await accessAPI.get(requests.fetchGetAccountInfo,{
+            params:{
+                email:email
+            }
+        })
+        return res;
     }
+
 }
 
 export default axiosCo;

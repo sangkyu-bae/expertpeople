@@ -1,7 +1,7 @@
 package com.expertpeople.modules.Jwt;
 
+import com.expertpeople.infra.jwt.JwtTokenProvider;
 import com.expertpeople.modules.account.Account;
-import com.expertpeople.modules.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class JwtAuthController {
     private final JwtService jwtService;
-    private final AccountRepository accountRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authenticationRequest)throws Exception{

@@ -3,6 +3,7 @@ package com.expertpeople.infra.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
@@ -42,13 +43,19 @@ public class SwaggerConfig {
         return produces;
     }
     private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+        return springfox
+                .documentation
+                .spi.service
+                .contexts
+                .SecurityContext
+                .builder()
+                .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
     }
-    private List<SecurityReference> defaultAuth() {
+    List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
     }
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");

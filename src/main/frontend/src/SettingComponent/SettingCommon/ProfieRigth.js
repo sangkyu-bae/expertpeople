@@ -1,30 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarCheck, faEnvelope, faLocationArrow, faPersonDigging} from "@fortawesome/free-solid-svg-icons";
 
 function ProfieRigth(props) {
+    const [userData,setUserData]=useState([]);
+    useEffect(()=>{
+        setUserData(props.userInfo);
+    },[props.userInfo])
+
     return (
         <div className="right">
             <div className="my-info-wrap">
-                <div className="my-name">이름</div>
-                <div className="my-info">한 줄 소개를 추가하세요.</div>
+                <div className="my-name">{userData.name}</div>
+                {userData.bio ?
+                    <div className="my-info">{userData.bio}</div>:
+                    <div className="my-info">한 줄 소개를 추가하세요.</div>
+                }
+
             </div>
             <div className="join-info-wrap">
                 <div className="job">
                     <FontAwesomeIcon className="icons" icon={faPersonDigging}></FontAwesomeIcon>
-                    <span>업종</span>
+                    {userData.job?
+                        <span>{userData.job}</span>:
+                        <span>업종을 등록하세요</span>
+                    }
+
                 </div>
                 <div className="location">
                     <FontAwesomeIcon className="icons" icon={faLocationArrow}></FontAwesomeIcon>
-                    <span>지역</span>
+                    {userData.location?
+                        <span>{userData.location}</span>:
+                        <span>활동 지역을 등록하세요</span>
+                    }
+
                 </div>
                 <div className="email">
                     <FontAwesomeIcon className="icons" icon={faEnvelope}></FontAwesomeIcon>
-                    <span>email</span>
+                    <span>{userData.email}</span>
                 </div>
                 <div className="join-date">
                     <FontAwesomeIcon className="icons" icon={faCalendarCheck}></FontAwesomeIcon>
-                    <span>경력</span>
+                    <span>{userData.career} 년차</span>
                 </div>
             </div>
             <button>프로필 수정</button>

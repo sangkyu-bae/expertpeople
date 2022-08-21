@@ -17,9 +17,9 @@ let persistor=persistStore(store)
 root.render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
-            <React.StrictMode>
+            {/*<React.StrictMode>*/}
                 <App />
-            </React.StrictMode>
+            {/*</React.StrictMode>*/}
         </PersistGate>
     </Provider>
 );
