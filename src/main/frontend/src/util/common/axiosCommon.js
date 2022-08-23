@@ -16,6 +16,9 @@ const axiosCo={
             }
         })
         return res;
+    },test:async ()=>{
+        const res=await accessAPI.post(requests.fetchGetTest)
+        return res;
     }
 
 }

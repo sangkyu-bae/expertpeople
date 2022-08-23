@@ -15,6 +15,6 @@ public class Profile {
 
     private String profileImage;
 
-    private String address;
+    private String location;
 
 }

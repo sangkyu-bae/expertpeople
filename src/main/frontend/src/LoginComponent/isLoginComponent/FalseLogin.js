@@ -19,13 +19,6 @@ function FalseLogin(props) {
 
     return (
         <>
-
-
-            {/*<li className="nav-items">*/}
-            {/*    <Link to="/" onClick={props.logout}>*/}
-            {/*        logout*/}
-            {/*    </Link>*/}
-            {/*</li>*/}
             <ul className="nav-item flex">
                 <li className="nav-items">
                     <FontAwesomeIcon className="bell" icon={faBell}></FontAwesomeIcon>
@@ -41,7 +34,7 @@ function FalseLogin(props) {
                             <span>{props.name}</span>
                         </li>
                         <li className="border-bottom profile" >
-                            <span><Link to="/setting/profile">프로필</Link></span>
+                            <span><Link to="/myprofile">프로필</Link></span>
                         </li>
                     </div>
                     <div className="setting">
@@ -50,7 +43,7 @@ function FalseLogin(props) {
                         </li>
                         <li>
                             <span>
-                                <Link to="/">
+                                <Link to="/setting/profile">
                                     설정
                                 </Link>
                            </span>

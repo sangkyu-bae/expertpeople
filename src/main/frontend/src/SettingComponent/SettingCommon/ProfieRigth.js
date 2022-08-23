@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarCheck, faEnvelope, faLocationArrow, faPersonDigging} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
 
 function ProfieRigth(props) {
     const [userData,setUserData]=useState([]);
@@ -44,7 +45,10 @@ function ProfieRigth(props) {
                     <span>{userData.career} 년차</span>
                 </div>
             </div>
-            <button>프로필 수정</button>
+           <Link to="/setting/profile">
+               <button>프로필 수정</button>
+           </Link>
+
         </div>
     );
 }

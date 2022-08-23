@@ -6,6 +6,7 @@ import Index from './mainCompoment/Index';
 import JoinUp from "./accountComponeent/JoinUp";
 import Footer from "./mainCompoment/Footer";
 import Profile from "./SettingComponent/ProfileComponet/Profile";
+import MyProfile from "./SettingComponent/MyProfile/MyProfile";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
               <Route path="/" element={<Index></Index>}/>
               <Route path="/login" element={<Login></Login>}/>
               <Route path="/join-up" element={<JoinUp></JoinUp>}/>
-              <Route path="/setting/profile" element={<Profile></Profile>}/>
+              <Route path="/myprofile" element={<Profile></Profile>}/>
+              <Route path="/setting/profile" element={<MyProfile></MyProfile>}/>
             </Routes>
         <Footer></Footer>
       </BrowserRouter>

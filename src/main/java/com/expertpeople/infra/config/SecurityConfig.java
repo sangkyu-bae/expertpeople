@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 X
                 .and()
                 .authorizeRequests()
-                .antMatchers("/join", "/login","/","/index",
+                .antMatchers("/join", "/login","/","/index","/api/setting/profile",
                         "/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui", "/configuration/security", "/swagger-ui.html", "/webjars/**","/v3/api-docs/**", "/swagger-ui/**",
                         "/api/join-up","/test").permitAll()
 
