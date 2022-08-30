@@ -12,7 +12,6 @@ function Profile(props) {
     const [userInfo,setUserInfo]=useState([]);
 
     useEffect(()=>{
-
        const checkAuth=CommnMethod.checkAuth(login.id);
        if(checkAuth){
            const res=axiosCo.myInfo(login.id)

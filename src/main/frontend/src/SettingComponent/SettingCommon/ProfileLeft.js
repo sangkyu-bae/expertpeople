@@ -1,21 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAddressCard} from "@fortawesome/free-solid-svg-icons";
+import UserImg from "./UserImg";
 
 function ProfileLeft(props) {
-    const [userImage,setUserImage]=useState("");
-    useEffect(()=>{
-        setUserImage(props.userImage)
-    },[])
+
     return (
         <div className="left">
-            <div className="profile-img-wrap">
-                {userImage?
-                    <img src={userImage}/>:
-                    <FontAwesomeIcon className="img" icon={faAddressCard}></FontAwesomeIcon>
-                }
-
-            </div>
+            <UserImg></UserImg>
             <div className="itme-wrap">
                 <ul className="my-item">
                     <li className="items click">

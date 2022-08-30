@@ -54,6 +54,7 @@ public class JwtService {
         JwtResponse jwtResponse=JwtResponse.builder()
                 .id(account.getEmail())
                 .name(account.getName())
+                .profileImage(account.getProfileImage())
                 .token(token)
                 .build();
         return jwtResponse;

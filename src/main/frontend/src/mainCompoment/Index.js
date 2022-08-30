@@ -6,9 +6,9 @@ import axiosCo from "../util/common/axiosCommon";
 function Index(props) {
     const login=useSelector(state=> state.userReducer.user);
     console.log(login);
-    const te=axiosCo.test()
-        .then(e=>console.log(e))
-        .catch(e=>console.log(e))
+    // const te=axiosCo.test()
+    //     .then(e=>console.log(e))
+    //     .catch(e=>console.log(e))
 
     return (
         <div>

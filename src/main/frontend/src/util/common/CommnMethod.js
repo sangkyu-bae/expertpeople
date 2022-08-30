@@ -1,3 +1,4 @@
+import {useSelector} from "react-redux";
 
 const commonMethod={
     logout:()=>{
@@ -7,7 +8,7 @@ const commonMethod={
         const localJwt=localStorage.getItem("jwt");
         if(localJwt&&reduxUserEmail)return true
         else return false
-    }
+    },
 }
 
 export default commonMethod;

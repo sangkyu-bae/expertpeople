@@ -6,6 +6,7 @@ export const loginUser=(userData)=>({
     user:{
         id:userData.id,
         name:userData.name,
+        profileImage:userData.profileImage,
         token:userData.token
     },
     isLogin:true
@@ -15,6 +16,7 @@ export const logoutUser=()=>({
     user:{
         id:'',
         name:'',
+        profileImage:'',
         token:''
     },
     isLogin: false
@@ -24,6 +26,7 @@ const initialState={
     user:{
         id:'',
         name:'',
+        profileImage:'',
         token:''
     },
     isLogin:false

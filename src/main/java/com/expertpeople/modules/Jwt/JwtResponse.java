@@ -15,4 +15,6 @@ public class JwtResponse implements Serializable {
     private String name;
 
     private String id;
+
+    private String profileImage;
 }
