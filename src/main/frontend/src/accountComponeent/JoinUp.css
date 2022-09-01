@@ -1,7 +1,7 @@
 .form-group{
     margin-bottom: 1.5em;
 }
-label{
+.py-1 label{
     font-weight: bold;
     line-height: 1.2em;
 }

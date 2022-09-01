@@ -1,9 +1,12 @@
 package com.expertpeople.modules.account;
 
+import com.expertpeople.modules.zone.Zone;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -59,6 +62,8 @@ public class Account {
     private boolean workUpdateByWeb;
     //자기소개 오픈 여부
     private boolean openBio;
+    @ManyToMany
+    private Set<Zone> zone =new HashSet<>();
 
     public void createEmailCheckToken() {
         this.emailCheckToken= UUID.randomUUID().toString();

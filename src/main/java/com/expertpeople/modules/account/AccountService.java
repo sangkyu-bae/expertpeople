@@ -2,6 +2,7 @@ package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.JoinUpForm;
 import com.expertpeople.modules.account.form.Profile;
+import com.expertpeople.modules.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Transactional
 @Slf4j
@@ -89,5 +92,15 @@ public class AccountService  {
         }
 
         return account;
+    }
+
+    public void addZone(Account account, Zone zone) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        byId.ifPresent(a ->a.getZone().add(zone));
+    }
+
+    public Set<Zone> getZone(Account account) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        return byId.orElseThrow().getZone();
     }
 }
