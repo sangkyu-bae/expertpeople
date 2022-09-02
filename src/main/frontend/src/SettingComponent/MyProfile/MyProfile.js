@@ -9,26 +9,45 @@ import UserImg from "../SettingCommon/UserImg";
 import RigthMyProfile from "./RigthMyProfile";
 function MyProfile(props) {
     const login=useSelector(state => state.userReducer.user);
-    const [userInfo,setUserInfo]=useState([]);
-
+    // const [userInfo,setUserInfo]=useState([]);
+    //
     useEffect(()=>{
         console.log(login)
     },[])
-    const [inputs,setInputs]=useState({
-        bio:'',
-        job:'',
-        profileImage:'',
-        location:''
-    })
+    // const [inputs,setInputs]=useState({
+    //     bio:'',
+    //     job:'',
+    //     profileImage:'',
+    //     location:''
+    // })
+    //
 
-    const{bio,job,profileImage,location}=inputs;
+    const[bio,setBio]=useState("");
+    const[job,setJob]=useState("");
+    const[profileImage,setProfileImage]=useState("");
+    const[location,setLocation]=useState("");
 
-    const onChange=e=>{
-        const{name,value}=e.target;
-        setInputs({
-            ...inputs,
-            [name]:value
-        });
+    const changeBio=e=>setBio(e.target.value);
+    const changeJob=e=>setJob(e.target.value);
+    const changeProfileImage=e=>setProfileImage(e.target.value);
+    const changeLocation=e=>{
+        let reader=new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload=()=>setLocation(reader.result);
+    }
+    // const{bio,job,profileImage,location}=inputs;
+
+
+    // const onChange=e=>{
+    //     const{name,value}=e.target;
+    //     setInputs({
+    //         ...inputs,
+    //         [name]:value
+    //     });
+    // }
+    const onSubmit=e=>{
+        e.preventDefault();
+
     }
 
     return (
@@ -37,8 +56,18 @@ function MyProfile(props) {
                 <div className="flex">
 
                         <LeftMyProfile></LeftMyProfile>
-                        <CenterMyProfile></CenterMyProfile>
-                        {/*<RigthMyProfile></RigthMyProfile>*/}
+                        <CenterMyProfile changeJob={changeJob}
+                                         changeBio={changeBio}
+                                         changeLocation={changeLocation}
+                                         bio={bio}
+                                         job={job}
+                                         location={location}
+                                         onSubmit={onSubmit}
+                        ></CenterMyProfile>
+                        <RigthMyProfile
+                            profileImage={profileImage}
+                            changeProfileImage={changeProfileImage}
+                        ></RigthMyProfile>
 
                 </div>
             </div>

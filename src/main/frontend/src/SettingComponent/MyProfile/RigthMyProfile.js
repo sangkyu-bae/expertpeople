@@ -9,10 +9,6 @@ function RigthMyProfile(props) {
     const changeImage=(e)=>{
         setIsImage(true);
         setFileImage(URL.createObjectURL(e.target.files[0]));
-
-        let reader=new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload=()=>setBase64(reader.result);
     }
 
     const cancelImage=()=>{
@@ -43,7 +39,8 @@ function RigthMyProfile(props) {
                 <div className="filebox preview-image">
                     <input className="upload-name" value="파일선택" disabled="disabled"/>
                     <label htmlFor="input-file">업로드</label>
-                    <input type="file" onChange={changeImage}  id="input-file" className="upload-hidden"/>
+                    <input type="file" onChange={()=>{changeImage()
+                        props.changeLocation()}}  id="input-file" className="upload-hidden"/>
                 </div>
                 {
                     isImage&&

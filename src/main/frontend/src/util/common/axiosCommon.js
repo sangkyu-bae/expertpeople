@@ -19,6 +19,9 @@ const axiosCo={
     },test:async ()=>{
         const res=await accessAPI.post(requests.fetchGetTest)
         return res;
+    },updateProfile:async (bio,job,location,profileImage)=>{
+        const res=await accessAPI.post(requests.fetchUpdateProfile)
+        return res;
     }
 
 }
