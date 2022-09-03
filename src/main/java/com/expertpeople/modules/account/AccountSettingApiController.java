@@ -33,6 +33,7 @@ public class AccountSettingApiController {
     @PostMapping("/setting/profile")
     public ResponseEntity<?>updateProfile(@CurrentAccount Account account,@RequestBody @Valid Profile profile,
                                           Errors errors)throws JsonProcessingException{
+
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().build();
         }

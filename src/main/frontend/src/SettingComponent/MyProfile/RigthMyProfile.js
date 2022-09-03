@@ -39,8 +39,8 @@ function RigthMyProfile(props) {
                 <div className="filebox preview-image">
                     <input className="upload-name" value="파일선택" disabled="disabled"/>
                     <label htmlFor="input-file">업로드</label>
-                    <input type="file" onChange={()=>{changeImage()
-                        props.changeLocation()}}  id="input-file" className="upload-hidden"/>
+                    <input type="file" onChange={e=>{changeImage(e)
+                        props.changeProfileImage(e)}}  id="input-file" className="upload-hidden"/>
                 </div>
                 {
                     isImage&&

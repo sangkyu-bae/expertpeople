@@ -7,66 +7,62 @@ import CenterMyProfile from "./CenterMyProfile";
 import {useSelector} from "react-redux";
 import UserImg from "../SettingCommon/UserImg";
 import RigthMyProfile from "./RigthMyProfile";
+import axiosCo from "../../util/common/axiosCommon";
+import {useNavigate} from "react-router-dom";
 function MyProfile(props) {
-    const login=useSelector(state => state.userReducer.user);
-    // const [userInfo,setUserInfo]=useState([]);
-    //
-    useEffect(()=>{
-        console.log(login)
-    },[])
-    // const [inputs,setInputs]=useState({
-    //     bio:'',
-    //     job:'',
-    //     profileImage:'',
-    //     location:''
-    // })
-    //
 
-    const[bio,setBio]=useState("");
-    const[job,setJob]=useState("");
-    const[profileImage,setProfileImage]=useState("");
-    const[location,setLocation]=useState("");
+    const [inputs,setInputs]=useState({
+        bio:'',
+        job:'',
+        profileImage:'',
+        location:''
+    })
 
-    const changeBio=e=>setBio(e.target.value);
-    const changeJob=e=>setJob(e.target.value);
-    const changeProfileImage=e=>setProfileImage(e.target.value);
-    const changeLocation=e=>{
+    const changeProfileImage=e=>{
         let reader=new FileReader();
         reader.readAsDataURL(e.target.files[0]);
-        reader.onload=()=>setLocation(reader.result);
+        reader.onload=()=>setInputs({
+            ...inputs,
+            profileImage:reader.result
+        })
     }
-    // const{bio,job,profileImage,location}=inputs;
 
 
-    // const onChange=e=>{
-    //     const{name,value}=e.target;
-    //     setInputs({
-    //         ...inputs,
-    //         [name]:value
-    //     });
-    // }
+    const{bio,job,profileImage,location}=inputs;
+    const onChange=e=>{
+        const{name,value}=e.target;
+        setInputs({
+            ...inputs,
+            [name]:value
+        });
+    }
+    const nav=useNavigate();
+
     const onSubmit=e=>{
         e.preventDefault();
-
+        const updateProfile=axiosCo.updateProfile(inputs)
+        updateProfile.then(e=>{
+            console.log(e);
+            //nav('/Profile');
+        })
+                    .catch(e=>console.log(e));
     }
-
     return (
         <div className="container">
             <div className="container-wrap">
                 <div className="flex">
 
                         <LeftMyProfile></LeftMyProfile>
-                        <CenterMyProfile changeJob={changeJob}
-                                         changeBio={changeBio}
-                                         changeLocation={changeLocation}
+                        <CenterMyProfile
                                          bio={bio}
                                          job={job}
                                          location={location}
                                          onSubmit={onSubmit}
+                                         onChange={onChange}
                         ></CenterMyProfile>
                         <RigthMyProfile
                             profileImage={profileImage}
-                            changeProfileImage={changeProfileImage}
+                             changeProfileImage={changeProfileImage}
                         ></RigthMyProfile>
 
                 </div>
