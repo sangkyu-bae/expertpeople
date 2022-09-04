@@ -41,10 +41,7 @@ function MyProfile(props) {
     const onSubmit=e=>{
         e.preventDefault();
         const updateProfile=axiosCo.updateProfile(inputs)
-        updateProfile.then(e=>{
-            console.log(e);
-            //nav('/Profile');
-        })
+        updateProfile.then(e=> nav('/Profile'))
                     .catch(e=>console.log(e));
     }
     return (
@@ -52,7 +49,7 @@ function MyProfile(props) {
             <div className="container-wrap">
                 <div className="flex">
 
-                        <LeftMyProfile></LeftMyProfile>
+                        <LeftMyProfile  check={'profile'}></LeftMyProfile>
                         <CenterMyProfile
                                          bio={bio}
                                          job={job}

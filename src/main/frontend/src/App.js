@@ -7,6 +7,7 @@ import JoinUp from "./accountComponeent/JoinUp";
 import Footer from "./mainCompoment/Footer";
 import Profile from "./SettingComponent/ProfileComponet/Profile";
 import MyProfile from "./SettingComponent/MyProfile/MyProfile";
+import PasswordUpdate from "./SettingComponent/ProfilePassWord/PasswordUpdate";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/join-up" element={<JoinUp></JoinUp>}/>
               <Route path="/myprofile" element={<Profile></Profile>}/>
               <Route path="/setting/profile" element={<MyProfile></MyProfile>}/>
+              <Route path="/setting/password" element={<PasswordUpdate></PasswordUpdate>}/>
             </Routes>
         <Footer></Footer>
       </BrowserRouter>

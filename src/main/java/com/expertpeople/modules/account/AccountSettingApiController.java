@@ -1,5 +1,6 @@
 package com.expertpeople.modules.account;
 
+import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +32,10 @@ public class AccountSettingApiController {
     private final AccountService accountService;
     private final ZoneRepository zoneRepository;
 
+    @InitBinder("passwordForm")
+    public void passwordBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators();
+    }
     @PostMapping("/setting/profile")
     public ResponseEntity<?>updateProfile(@CurrentAccount Account account,@RequestBody @Valid Profile profile,
                                           Errors errors)throws JsonProcessingException{
@@ -42,6 +48,16 @@ public class AccountSettingApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/setting/password")
+    public ResponseEntity<?>updatePassword(@CurrentAccount Account account, @RequestBody @Valid PasswordForm passwordForm,
+                                           Errors errors) throws JsonProcessingException{
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        accountService.updatePassword(account,passwordForm);
+
+        return ResponseEntity.ok().build();
+    }
     @GetMapping("/zone")
     public ResponseEntity<?> getZoneTag(@CurrentAccount Account account) throws JsonProcessingException{
         Map<String,Object> zone =new HashMap<>();

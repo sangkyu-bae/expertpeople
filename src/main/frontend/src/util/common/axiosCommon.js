@@ -19,12 +19,20 @@ const axiosCo={
     },test:async ()=>{
         const res=await accessAPI.post(requests.fetchGetTest)
         return res;
-    },updateProfile:async (profile)=>{
-        console.log(profile)
+    },updateProfile:async (Profile)=>{
         const res=await accessAPI.post(requests.fetchUpdateProfile,{
-            profile
+                bio:Profile.bio,
+                location:Profile.location,
+                profileImage:Profile.profileImage,
+                job:Profile.job
         })
         return res;
+    },updatePassword:async (passwordForm)=>{
+        const res=await accessAPI.post(requests.fetchUpdatePassword,{
+            password:passwordForm.password,
+            passwordCheck : passwordForm.newPassword
+        });
+        return res
     }
 
 }

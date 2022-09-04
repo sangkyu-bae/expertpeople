@@ -1,6 +1,7 @@
 package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.JoinUpForm;
+import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.zone.Zone;
 import lombok.RequiredArgsConstructor;
@@ -102,5 +103,10 @@ public class AccountService  {
     public Set<Zone> getZone(Account account) {
         Optional<Account> byId=accountRepository.findById(account.getId());
         return byId.orElseThrow().getZone();
+    }
+
+    public void updatePassword(Account account,PasswordForm passwordForm) {
+        account.setPassword(passwordEncoder.encode(passwordForm.getPassword()));
+        accountRepository.save(account);
     }
 }

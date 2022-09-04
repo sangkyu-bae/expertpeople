@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import {Link} from "react-router-dom";
 
 function LeftMyProfile(props) {
+
     return (
         <div className="left">
             <div className="itme-wrap">
                 <ul className="my-item">
-                    <li className="items click first">
-                        <span>
-                            프로필
-                        </span>
-                    </li>
-                    <li className="items">
-                        <span>
-                            패스워드
-                        </span>
-                    </li>
+                    <Link to='/setting/profile'>
+                        <li className={`items first ${props.check=='profile' && "click"}`} >
+                            <span >
+                                프로필
+                            </span>
+                        </li>
+                    </Link>
+                    <Link to='/setting/password'>
+                        <li className={`items ${props.check=='passwrod' && "click"}`} >
+                            <span>
+                                패스워드
+                            </span>
+                        </li>
+                    </Link>
+
                     <li className="items">
                         <span>
                             알림

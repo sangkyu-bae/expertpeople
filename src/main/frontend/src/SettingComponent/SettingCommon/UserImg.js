@@ -12,7 +12,7 @@ function UserImg(props) {
     return (
         <div className="profile-img-wrap">
             {userImage?
-                <img src={userImage}/>:
+                <img className="profile-img" src={userImage}/>:
                 <FontAwesomeIcon className="img" icon={faAddressCard}></FontAwesomeIcon>
             }
 
