@@ -32,6 +32,28 @@ public class JwtService {
         }
     }
 
+    public JwtResponse testGetJwtResponse(boolean isInitLogin) throws Exception {
+        Account account= Account.builder().
+                email("uiwv29l@naver.com")
+                .password("wnsvaf309")
+                .build();
+        authenticate(account);
+        final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account.getEmail());
+        //final String token=jwtTokenUtil.generateToken(userDetails);
+        final String token=jwtTokenProvider.generateToken(userDetails);
+
+        JwtResponse jwtResponse;
+
+        if(isInitLogin){
+            Account login=accountRepository.findByEmail(account.getEmail());
+            jwtResponse=getJwtResponse(login,token);
+        }else{
+            jwtResponse = getJwtResponse(account, token);
+        }
+
+        return jwtResponse;
+    }
+
     public JwtResponse getJwtResponse(Account account,boolean isInitLogin) throws Exception {
         authenticate(account);
         final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account.getEmail());
