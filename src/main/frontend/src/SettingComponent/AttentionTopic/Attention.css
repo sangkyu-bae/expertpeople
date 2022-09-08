@@ -1,0 +1,26 @@
+.topic-wrap{
+    flex: 0.8;
+    margin-top: 3em;
+    height: 100%;
+    padding-left: 0.5em;
+}
+.topic-content{
+    height: 7%;
+    margin-top: 1.5em;
+    line-height: 1.7em;
+    font-weight: bold;
+    background-color: #47E1A8;
+    color: white;
+    padding: 1em;
+}
+.topic-head{
+    height: 7%;
+    font-weight: bold;
+    font-size: 2em;
+}
+.tags-input{
+    margin-top: 2em;
+}
+.tags-input .tagify{
+    width: 100%;
+}

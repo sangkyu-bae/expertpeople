@@ -27,11 +27,14 @@ function LeftMyProfile(props) {
                             알림
                         </span>
                     </li>
-                    <li className="items">
-                        <span>
-                            관심 일감
-                        </span>
-                    </li>
+                    <Link to="/setting/attention-topic">
+                        <li className={`items ${props.check=='attention' && "click"}`}>
+                            <span>
+                                관심 일감
+                            </span>
+                        </li>
+                    </Link>
+
                     <li className="items">
                         <span>
                             활동 지역

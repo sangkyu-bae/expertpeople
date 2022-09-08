@@ -58,7 +58,7 @@ class AccountSettingApiControllerTest {
         token=jwtResponse.getToken();
     }
 
-    @WithAccount("uiwv29l@naver.com")
+    @WithAccount(email = "uiwv29l@naver.com")
     @DisplayName("프로필 수정 - 입력값 정상")
     @Test
     void updateProfile() throws Exception{

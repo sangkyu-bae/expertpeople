@@ -20,7 +20,7 @@ public class withAccountSecurityContextFactory implements WithSecurityContextFac
 
     @Override
     public SecurityContext createSecurityContext(WithAccount withAccount) {
-        String email=withAccount.value();
+        String email=withAccount.email();
 
         Account account= Account.builder().
                 email("uiwv29l@naver.com")
