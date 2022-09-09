@@ -1,5 +1,6 @@
 package com.expertpeople.modules.account;
 
+import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.zone.Zone;
 import lombok.*;
 
@@ -64,6 +65,10 @@ public class Account {
     private boolean openBio;
     @ManyToMany
     private Set<Zone> zone =new HashSet<>();
+    //직업 태그
+    @ManyToMany
+    private Set<Job>jobs=new HashSet<>();
+
 
     public void createEmailCheckToken() {
         this.emailCheckToken= UUID.randomUUID().toString();

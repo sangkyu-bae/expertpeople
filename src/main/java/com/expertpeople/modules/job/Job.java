@@ -20,4 +20,15 @@ public class Job {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Carrer carrer;
+
+    @Override
+    public String toString(){
+        String changeCarrer="";
+        if(this.carrer.name().equals("NORMAL")){
+            changeCarrer="일반";
+        }else {
+            changeCarrer="기술공";
+        }
+        return String.format("%s(%s)",job,changeCarrer);
+    }
 }

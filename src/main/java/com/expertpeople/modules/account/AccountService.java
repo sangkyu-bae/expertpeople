@@ -3,7 +3,10 @@ package com.expertpeople.modules.account;
 import com.expertpeople.modules.account.form.JoinUpForm;
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
+import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.zone.Zone;
+import com.expertpeople.modules.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Slf4j
@@ -30,6 +34,7 @@ public class AccountService  {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final JobRepository jobRepository;
 
 //    @Override
 //    @Transactional(readOnly = true)
@@ -108,5 +113,15 @@ public class AccountService  {
     public void updatePassword(Account account,PasswordForm passwordForm) {
         account.setPassword(passwordEncoder.encode(passwordForm.getPassword()));
         accountRepository.save(account);
+    }
+
+    public Set<Job> getJob(Account account) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        return byId.orElseThrow().getJobs();
+    }
+
+    public void addJobs(Account account, Job job) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        byId.ifPresent(a->a.getJobs().add(job));
     }
 }

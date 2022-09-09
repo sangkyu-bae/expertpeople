@@ -1,9 +1,17 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css"
 import tagifySetting from "./TagifySetting";
+import axiosCo from "../../util/common/axiosCommon";
 
 function CenterAttention(props) {
+
+    useEffect(()=>{
+        axiosCo.getMyJobs()
+            .then(e=>console.log(e))
+            .catch(e=>console.log(e));
+    },[])
+
     const tagifySettings ={
         blacklist: ["xxx", "yyy", "zzz"],
             maxTags: 6,

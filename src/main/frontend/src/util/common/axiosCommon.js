@@ -33,6 +33,9 @@ const axiosCo={
             passwordCheck : passwordForm.newPassword
         });
         return res
+    },getMyJobs:async()=>{
+        const res=await accessAPI.get(requests.fetchGetMyJob)
+        return res;
     }
 
 }

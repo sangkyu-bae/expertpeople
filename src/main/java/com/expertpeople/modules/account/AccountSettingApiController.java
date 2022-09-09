@@ -2,6 +2,9 @@ package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
+import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
 import com.expertpeople.modules.zone.ZoneService;
@@ -31,6 +34,7 @@ public class AccountSettingApiController {
 
     private final AccountService accountService;
     private final ZoneRepository zoneRepository;
+    private final JobRepository jobRepository;
 
     @InitBinder("passwordForm")
     public void passwordBinder(WebDataBinder webDataBinder){
@@ -58,10 +62,8 @@ public class AccountSettingApiController {
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/zone")
+    @GetMapping("/setting/zone")
     public ResponseEntity<?> getZoneTag(@CurrentAccount Account account) throws JsonProcessingException{
-        Map<String,Object> zone =new HashMap<>();
-
         Set<Zone> zones =accountService.getZone(account);
         List<String> allZone=zoneRepository.findAll().stream().map(Zone::toString).collect(Collectors.toList());
 
@@ -69,7 +71,7 @@ public class AccountSettingApiController {
     }
 
 
-    @PostMapping("/zone/add")
+    @PostMapping("/setting/zone/add")
     public ResponseEntity<?>addZoneTag(@CurrentAccount Account account, @RequestBody ZoneForm zoneForm)throws JsonProcessingException {
         Zone zone=zoneRepository.findByCityAndProvince(zoneForm.getCityName(),zoneForm.getProvinceName());
         if(zone==null){
@@ -79,6 +81,25 @@ public class AccountSettingApiController {
 
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/setting/job")
+    public ResponseEntity<?> getJobTag(@CurrentAccount Account account) throws JsonProcessingException{
+        Set<Job>jobs=accountService.getJob(account);
+        List<String> allJobs=jobRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(new JobResult<>(jobs,allJobs));
+    }
+
+    @PostMapping("/setting/add/jobs")
+    public ResponseEntity<?>addJobsTag(@CurrentAccount Account account, @RequestBody JobForm jobForm)throws JsonProcessingException{
+        Job job=jobRepository.findByJobAndCarrer(jobForm.getJobName(),jobForm.getCarrer());
+        if(job==null){
+            return ResponseEntity.badRequest().build();
+        }
+        accountService.addJobs(account,job);
+
+        return ResponseEntity.ok().build();
+    }
+
 
     @Getter
     @Setter
@@ -89,6 +110,18 @@ public class AccountSettingApiController {
         public ZoneResult(T zones, T allZone) {
             this.zone=zones;
             this.allZone=allZone;
+        }
+    }
+
+    @Getter
+    @Setter
+    static class JobResult<T>{
+        private T jobs;
+        private T allJobs;
+
+        public JobResult(T jobs,T allJobs){
+            this.jobs=jobs;
+            this.allJobs=allJobs;
         }
     }
 }

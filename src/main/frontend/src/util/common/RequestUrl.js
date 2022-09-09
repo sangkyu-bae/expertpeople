@@ -4,6 +4,7 @@ const requests={
     fetchGetAccountInfo:"api/account",
     fetchUpdateProfile:"api/setting/profile",
     fetchUpdatePassword:"api/setting/password",
+    fetchGetMyJob:'api/setting/job'
 }
 
 export default requests;
