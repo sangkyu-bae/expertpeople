@@ -1,34 +1,58 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css"
 import tagifySetting from "./TagifySetting";
 import axiosCo from "../../util/common/axiosCommon";
 
+const baseTagifySettings = {
+    blacklist: ["xxx", "yyy", "zzz"],
+    maxTags: 3,
+    //backspace: "edit",
+    placeholder: "type something",
+    dropdown: {
+        enabled: 0 // a;ways show suggestions dropdown
+    }
+}
 function CenterAttention(props) {
+
+    const [isChange,setIsChange]=useState(false);
+    const [isSelect,setIsSelect]=useState(false);
+
+    const [settings,setSettings]=useState({
+        ...baseTagifySettings,
+        whitelist:[],
+        enforceWhitelist:"test",
+    })
+     const {whitelist}=settings;
+
+    const insertTag=()=>{
+
+    }
+
 
     useEffect(()=>{
         axiosCo.getMyJobs()
-            .then(e=>console.log(e))
-            .catch(e=>console.log(e));
+            .then(e=>{
+                setSettings({
+                    ...settings,
+                    whitelist: e.data.allJobs,
+
+                })
+            })
+            .catch(e=>console.log(e.data))
     },[])
 
-    const tagifySettings ={
-        blacklist: ["xxx", "yyy", "zzz"],
-            maxTags: 6,
-            backspace: "edit",
-            addTagOnBlur: false,
-            placeholder: "type something",
-            dropdown: {
-            enabled: 0 // a;ways show suggestions dropdown
-        }
-    }
+
     const onChange = useCallback((e) => {
         console.log("CHANGED:"
-            , e.detail.tagify.value // Array where each tag includes tagify's (needed) extra properties
+            , e.detail.tagify.value[0].value // Array where each tag includes tagify's (needed) extra properties
             , e.detail.tagify.getCleanValue() // Same as above, without the extra properties
             , e.detail.value // a string representing the tags
         )
+        if(!isChange) console.log("ss")
+
     }, [])
+
     return (
         <div className="topic-wrap">
             <div className="topic-head">
@@ -39,9 +63,15 @@ function CenterAttention(props) {
                 태그를 입력하고 콤마(,) 또는 엔터를 입력하세요
             </div>
             <div>
-                <Tags
-                    onChange={onChange}
-                ></Tags>
+                {
+                    whitelist.length>0&&
+                    <Tags
+                        onChange={onChange}
+                        settings={settings}
+                        onDropdownSelect={() => setIsChange(true)}
+                    ></Tags>
+                }
+
             </div>
         </div>
     );
