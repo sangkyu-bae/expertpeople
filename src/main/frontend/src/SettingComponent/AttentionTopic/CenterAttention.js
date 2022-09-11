@@ -17,6 +17,9 @@ function CenterAttention(props) {
 
     const [isChange,setIsChange]=useState(false);
     const [isSelect,setIsSelect]=useState(false);
+    const [jobs,setJobs]=useState("");
+    const [initJobs,setIniJobs]=useState([]);
+    const [isDelete,setIsDelete]=useState(false);
 
     const [settings,setSettings]=useState({
         ...baseTagifySettings,
@@ -26,17 +29,37 @@ function CenterAttention(props) {
      const {whitelist}=settings;
 
     const insertTag=()=>{
-
+        console.log("타?")
+        console.log(jobs);
+        axiosCo.addMyJobsTags(jobs)
+            .then(e=>{
+                setJobs("");
+                setIsSelect(false);
+                setIsChange(false);
+            }).catch(e=>{
+                console.log(e);
+            })
     }
 
+    useEffect(()=>{
+        console.log(jobs)
+    },[jobs])
+    const removeTag=()=>{
+        axiosCo.removeMyJobsTags(jobs)
+            .then(e=>{
+                setJobs("");
+                setIsDelete(false);
+                setIsChange(false);
+            }).catch(e=>console.log(e))
+    }
 
     useEffect(()=>{
         axiosCo.getMyJobs()
             .then(e=>{
+                setIniJobs(e.data.job);
                 setSettings({
                     ...settings,
                     whitelist: e.data.allJobs,
-
                 })
             })
             .catch(e=>console.log(e.data))
@@ -45,13 +68,22 @@ function CenterAttention(props) {
 
     const onChange = useCallback((e) => {
         console.log("CHANGED:"
-            , e.detail.tagify.value[0].value // Array where each tag includes tagify's (needed) extra properties
-            , e.detail.tagify.getCleanValue() // Same as above, without the extra properties
+            ,e
+            // , e.detail.tagify.value// Array where each tag includes tagify's (needed) extra properties
+            // , e.detail.tagify.getCleanValue() // Same as above, without the extra properties
             , e.detail.value // a string representing the tags
         )
-        if(!isChange) console.log("ss")
-
+        setIsChange(true);
+        setJobs(e.detail.tagify.value[0].value);
     }, [])
+
+    useEffect(()=>{
+        if(isChange&&isSelect) insertTag()
+        if(isChange&&isDelete) removeTag()
+    },[isChange,isSelect,isDelete])
+    const changeIsSelect=()=> setIsSelect(true);
+    const changeIsDelete=()=> setIsDelete(true);
+
 
     return (
         <div className="topic-wrap">
@@ -68,7 +100,9 @@ function CenterAttention(props) {
                     <Tags
                         onChange={onChange}
                         settings={settings}
-                        onDropdownSelect={() => setIsChange(true)}
+                        value={initJobs}
+                        onDropdownSelect={() =>changeIsSelect()}
+                        onDropdownUpdated={() => changeIsDelete()}
                     ></Tags>
                 }
 

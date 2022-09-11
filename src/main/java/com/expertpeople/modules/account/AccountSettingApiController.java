@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.io.JsonEOFException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.modelmapper.internal.util.Lists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -84,9 +82,11 @@ public class AccountSettingApiController {
     @GetMapping("/setting/job")
     public ResponseEntity<?> getJobTag(@CurrentAccount Account account) throws JsonProcessingException{
         Set<Job>jobs=accountService.getJob(account);
+
+        List<String> job=jobs.stream().map(Job::toString).collect(Collectors.toList());
         List<String> allJobs=jobRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
 
-        return ResponseEntity.ok().body(new JobResult<>(jobs,allJobs));
+        return ResponseEntity.ok().body(new JobResult<>(job,allJobs));
     }
 
     @PostMapping("/setting/add/jobs")
@@ -99,6 +99,17 @@ public class AccountSettingApiController {
 
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping("/setting/delete/jobs")
+    public ResponseEntity<?>removeJobsTag(@CurrentAccount Account account,@RequestBody JobForm jobForm)throws JsonProcessingException{
+        Job job=jobRepository.findByJobAndCarrer(jobForm.getJobName(),jobForm.getCarrer());
+        if(job==null){
+            return ResponseEntity.badRequest().build();
+        }
+        accountService.removeJobs(account,job);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 
     @Getter
@@ -116,11 +127,11 @@ public class AccountSettingApiController {
     @Getter
     @Setter
     static class JobResult<T>{
-        private T jobs;
+        private T job;
         private T allJobs;
 
-        public JobResult(T jobs,T allJobs){
-            this.jobs=jobs;
+        public JobResult(T job,T allJobs){
+            this.job=job;
             this.allJobs=allJobs;
         }
     }

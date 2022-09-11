@@ -124,4 +124,9 @@ public class AccountService  {
         Optional<Account> byId=accountRepository.findById(account.getId());
         byId.ifPresent(a->a.getJobs().add(job));
     }
+
+    public void removeJobs(Account account, Job job) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        byId.ifPresent(a->a.getJobs().remove(job));
+    }
 }

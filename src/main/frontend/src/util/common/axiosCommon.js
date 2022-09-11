@@ -36,8 +36,20 @@ const axiosCo={
     },getMyJobs:async()=>{
         const res=await accessAPI.get(requests.fetchGetMyJob)
         return res;
+    },addMyJobsTags:async(jobs)=>{
+        const res=await accessAPI.post(requests.fetchAddMyJobsTags,{
+            jobsName:jobs
+        })
+        return res;
+    },removeMyJobsTags:async(jobs)=>{
+        const res=await accessAPI.delete(requests.fetchRemoveMyJobsTags, {
+                data: {
+                    jobsName: jobs
+                }
+            }
+        )
+        return res;
     }
-
 }
 
 export default axiosCo;

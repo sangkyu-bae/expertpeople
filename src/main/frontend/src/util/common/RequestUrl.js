@@ -4,7 +4,9 @@ const requests={
     fetchGetAccountInfo:"api/account",
     fetchUpdateProfile:"api/setting/profile",
     fetchUpdatePassword:"api/setting/password",
-    fetchGetMyJob:'api/setting/job'
+    fetchGetMyJob:'api/setting/job',
+    fetchAddMyJobsTags:'api/setting/add/jobs',
+    fetchRemoveMyJobsTags:'api/setting/delete/jobs',
 }
 
 export default requests;
