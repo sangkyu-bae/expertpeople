@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Link} from "react-router-dom";
-import {faBell,faAddressCard} from "@fortawesome/free-solid-svg-icons";
+import {faBell,faAddressCard,faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function FalseLogin(props) {
@@ -22,6 +22,14 @@ function FalseLogin(props) {
             <ul className="nav-item flex">
                 <li className="nav-items">
                     <FontAwesomeIcon className="bell" icon={faBell}></FontAwesomeIcon>
+                </li>
+                <li className="nav-items border">
+                    <Link to="/new-work">
+                            <div className="work-wrap">
+                                <FontAwesomeIcon className="bell work" icon={faPlus}></FontAwesomeIcon>
+                                <span>일감 개설</span>
+                            </div>
+                    </Link>
                 </li>
                 <li className="nav-items" onClick={()=>clickMyMenuBar()}>
                     <FontAwesomeIcon className="bell" icon={faAddressCard}></FontAwesomeIcon>
