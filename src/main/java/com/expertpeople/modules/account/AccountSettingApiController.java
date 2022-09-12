@@ -62,7 +62,9 @@ public class AccountSettingApiController {
     }
     @GetMapping("/setting/zone")
     public ResponseEntity<?> getZoneTag(@CurrentAccount Account account) throws JsonProcessingException{
-        Set<Zone> zones =accountService.getZone(account);
+        Set<Zone> zone =accountService.getZone(account);
+
+        List<String>zones=zone.stream().map(Zone::toString).collect(Collectors.toList());
         List<String> allZone=zoneRepository.findAll().stream().map(Zone::toString).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(new ZoneResult<>(zones,allZone));
@@ -76,6 +78,17 @@ public class AccountSettingApiController {
             return ResponseEntity.badRequest().build();
         }
         accountService.addZone(account,zone);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/setting/zone/delete")
+    public ResponseEntity<?>removeZoneTag(@CurrentAccount Account account,@RequestBody ZoneForm zoneForm)throws JsonProcessingException{
+        Zone zone=zoneRepository.findByCityAndProvince(zoneForm.getCityName(),zoneForm.getProvinceName());
+        if(zone==null){
+            return ResponseEntity.badRequest().build();
+        }
+        accountService.removeZone(account,zone);
 
         return ResponseEntity.ok().build();
     }

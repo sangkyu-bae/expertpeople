@@ -34,12 +34,14 @@ function LeftMyProfile(props) {
                             </span>
                         </li>
                     </Link>
+                    <Link to="/setting/location">
+                        <li className={`items ${props.check=='location' && "click"}`}>
+                            <span>
+                                활동 지역
+                            </span>
+                        </li>
+                    </Link>
 
-                    <li className="items">
-                        <span>
-                            활동 지역
-                        </span>
-                    </li>
                     <li className="items last">
                         <span>
                             계정

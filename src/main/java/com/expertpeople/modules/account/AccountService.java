@@ -129,4 +129,9 @@ public class AccountService  {
         Optional<Account> byId=accountRepository.findById(account.getId());
         byId.ifPresent(a->a.getJobs().remove(job));
     }
+
+    public void removeZone(Account account, Zone zone) {
+        Optional<Account> byId=accountRepository.findById(account.getId());
+        byId.ifPresent(a->a.getZone().remove(zone));
+    }
 }

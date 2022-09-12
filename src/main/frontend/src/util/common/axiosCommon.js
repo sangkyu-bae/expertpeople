@@ -16,9 +16,6 @@ const axiosCo={
             }
         })
         return res;
-    },test:async ()=>{
-        const res=await accessAPI.post(requests.fetchGetTest)
-        return res;
     },updateProfile:async (Profile)=>{
         const res=await accessAPI.post(requests.fetchUpdateProfile,{
                 bio:Profile.bio,
@@ -42,12 +39,27 @@ const axiosCo={
         })
         return res;
     },removeMyJobsTags:async(jobs)=>{
-        const res=await accessAPI.delete(requests.fetchRemoveMyJobsTags, {
-                data: {
-                    jobsName: jobs
+        const res=await accessAPI.delete(requests.fetchRemoveMyJobsTags,{
+                data:{
+                    jobsName:jobs
                 }
             }
         )
+        return res;
+    },getMyLocation:async()=>{
+        const res=await accessAPI.get(requests.fetchGetMyLocation)
+        return res;
+    },addMyLocationTag:async (location)=>{
+        const res=await accessAPI.post(requests.fetchAddMyLocation,{
+            zoneName:location
+        })
+        return res;
+    },removeMyLocationTag:async (location)=>{
+        const res=await accessAPI.delete(requests.fetchRemoveMyLocation,{
+            data:{
+                zoneName:location
+            }
+        })
         return res;
     }
 }

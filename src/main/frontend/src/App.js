@@ -9,6 +9,7 @@ import Profile from "./SettingComponent/ProfileComponet/Profile";
 import MyProfile from "./SettingComponent/MyProfile/MyProfile";
 import PasswordUpdate from "./SettingComponent/ProfilePassWord/PasswordUpdate";
 import AttentionTopic from "./SettingComponent/AttentionTopic/AttentionTopic";
+import MyLocation from "./SettingComponent/MyLocation/MyLocation";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/setting/profile" element={<MyProfile></MyProfile>}/>
               <Route path="/setting/password" element={<PasswordUpdate></PasswordUpdate>}/>
               <Route path="/setting/attention-topic" element={<AttentionTopic></AttentionTopic>}></Route>
+              <Route path="/setting/location"  element={<MyLocation></MyLocation>}></Route>
             </Routes>
         <Footer></Footer>
       </BrowserRouter>
