@@ -16,3 +16,16 @@
  .new-study-btn{
      width: 100%;
  }
+.ck.ck-editor__editable:not(.ck-editor__nested-editable){
+    min-height: 400px;
+    margin-bottom: 20px;
+}
+.nw-co {
+    height: 100%;
+}
+.work-info{
+    margin-bottom: 1.2em;
+}
+.new-work{
+    margin-bottom: 2em;
+}

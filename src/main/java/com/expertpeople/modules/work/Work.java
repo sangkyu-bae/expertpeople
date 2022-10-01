@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,7 @@ public class Work {
     private Long id;
 
     @ManyToMany
-    private Set<Account>managers;
+    private Set<Account>managers=new HashSet<>();
 
     @ManyToMany
     private Set<Account>members;

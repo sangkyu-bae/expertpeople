@@ -61,6 +61,14 @@ const axiosCo={
             }
         })
         return res;
+    },addWork:async (work)=>{
+        const res=await accessAPI.post(requests.fetchAddWork,{
+            title:work.workTitle,
+            shortDescription:work.shortInfo,
+            fullDescription:work.workInfo,
+            path:work.url
+        })
+        return res
     }
 }
 

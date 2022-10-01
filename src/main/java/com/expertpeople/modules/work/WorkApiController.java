@@ -8,23 +8,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class WorkApiController {
 
     private final WorkFormValidator workFormValidator;
-
     private final WorkService workService;
     @InitBinder("workForm")
     public void initBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(workFormValidator);
     }
+    @PostMapping("/work/add")
     public ResponseEntity<?> createWork(@CurrentAccount Account account, @RequestBody @Valid  WorkForm workForm, Errors errors)throws Exception{
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors);

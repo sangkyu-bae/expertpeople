@@ -9,7 +9,8 @@ const requests={
     fetchRemoveMyJobsTags:'api/setting/delete/jobs',
     fetchGetMyLocation:'api/setting/zone',
     fetchAddMyLocation:'api/setting/zone/add',
-    fetchRemoveMyLocation:'api/setting/zone/delete'
+    fetchRemoveMyLocation:'api/setting/zone/delete',
+    fetchAddWork:'api/work/add'
 }
 
 export default requests;
