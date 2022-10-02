@@ -4,7 +4,9 @@ import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.work.validator.WorkFormValidator;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
@@ -33,5 +35,28 @@ public class WorkApiController {
         return ResponseEntity.ok().body(work.getPath());
     }
 
-    @GetMapping("/work/")
+    @GetMapping("/work/{path}")
+    public ResponseEntity<?> getWork(@CurrentAccount Account account, @PathVariable String path){
+        Work work=workService.getWork(path);
+        boolean isManager=work.isManager(account);
+        boolean isMember=work.isMember(account);
+        boolean isJoinable=work.isJoinable(account);
+
+        return ResponseEntity.ok().body(new WorkResult<>(work,isManager,isMember,isJoinable));
+    }
+
+    @Getter
+    @Setter
+    static class WorkResult<T>{
+        private T work;
+        private T isManager;
+        private T isMember;
+        private T isJoinable;
+        public WorkResult(T work,T isManager,T isMember,T isJoinable){
+            this.work=work;
+            this.isManager=isManager;
+            this.isMember=isMember;
+            this.isJoinable=isJoinable;
+        }
+    }
 }

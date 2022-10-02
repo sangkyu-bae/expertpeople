@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,6 +23,16 @@ public class WorkService {
         Work work=modelMapper.map(workForm,Work.class);
         workRepository.save(work);
         work.addManager(account);
+        return work;
+    }
+
+    public Work getWork(String path) {
+        Work work=this.workRepository.findByPath(path);
+
+        if(work==null){
+            throw new NullPointerException("존재하지 않은 경로 입니다.");
+        }
+
         return work;
     }
 }

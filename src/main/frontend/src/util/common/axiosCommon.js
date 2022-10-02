@@ -70,11 +70,7 @@ const axiosCo={
         })
         return res
     },getWork:async (path)=>{
-        const res=await accessAPI.get(requests.fetchAddWork,{
-            params:{
-                path:path
-            }
-        })
+        const res=await accessAPI.get(`${requests.fetchGetWork}/${path}`)
         return res;
     }
 }

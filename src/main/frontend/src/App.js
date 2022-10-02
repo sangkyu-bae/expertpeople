@@ -27,7 +27,7 @@ function App() {
               <Route path="/setting/attention-topic" element={<AttentionTopic></AttentionTopic>}></Route>
               <Route path="/setting/location"  element={<MyLocation></MyLocation>}></Route>
               <Route path="/new-work" element={<NewWork></NewWork>}></Route>
-                <Route path="/work/:workpath" element={<Work></Work>}></Route>
+                <Route path="/work/:path" element={<Work></Work>}></Route>
             </Routes>
         <Footer></Footer>
       </BrowserRouter>

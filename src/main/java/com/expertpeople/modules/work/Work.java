@@ -61,4 +61,15 @@ public class Work {
     public void addManager(Account account) {
         this.managers.add(account);
     }
+
+    public boolean isManager(Account account){
+        return this.managers.contains(account);
+    }
+    public boolean isMember(Account account) {
+        return this.members.contains(account);
+    }
+    public boolean isJoinable(Account account){
+        return this.isPublished()&&this.recruiting &&!this.close
+                &&!this.members.contains(account)&&!this.managers.contains(account);
+    }
 }

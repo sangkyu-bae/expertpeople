@@ -10,7 +10,6 @@
 .work-info{
     display: flex;
     margin-top: 2em;
-    margin-left: -2%;
     border-bottom: 1px solid gray;
 }
 .work-info-nav{
