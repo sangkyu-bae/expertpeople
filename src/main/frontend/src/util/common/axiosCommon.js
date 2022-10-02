@@ -69,6 +69,13 @@ const axiosCo={
             path:work.url
         })
         return res
+    },getWork:async (path)=>{
+        const res=await accessAPI.get(requests.fetchAddWork,{
+            params:{
+                path:path
+            }
+        })
+        return res;
     }
 }
 

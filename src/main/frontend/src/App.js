@@ -11,6 +11,7 @@ import PasswordUpdate from "./SettingComponent/ProfilePassWord/PasswordUpdate";
 import AttentionTopic from "./SettingComponent/AttentionTopic/AttentionTopic";
 import MyLocation from "./SettingComponent/MyLocation/MyLocation";
 import NewWork from "./WorkComponent/NewWork/NewWork";
+import Work from "./WorkComponent/WorkInfo/Work";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/setting/attention-topic" element={<AttentionTopic></AttentionTopic>}></Route>
               <Route path="/setting/location"  element={<MyLocation></MyLocation>}></Route>
               <Route path="/new-work" element={<NewWork></NewWork>}></Route>
+                <Route path="/work/:workpath" element={<Work></Work>}></Route>
             </Routes>
         <Footer></Footer>
       </BrowserRouter>

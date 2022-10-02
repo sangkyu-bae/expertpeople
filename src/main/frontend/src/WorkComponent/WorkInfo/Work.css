@@ -1,0 +1,28 @@
+.work-head{
+    color: #00AAFF;
+    font-size: 3em;
+}
+.work-head-small{
+    font-size: 1.5em;
+    color: gray;
+    line-height: 2em;
+}
+.work-info{
+    display: flex;
+    margin-top: 2em;
+    margin-left: -2%;
+    border-bottom: 1px solid gray;
+}
+.work-info-nav{
+    flex: 0.06;
+    text-align: center;
+    font-weight: bold;
+    line-height: 259%;
+}
+html, body{
+    height: 100%;
+}
+.work-click{
+    border: 1px solid gray;
+    border-bottom: none;
+}

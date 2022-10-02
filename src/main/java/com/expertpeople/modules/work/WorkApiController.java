@@ -33,4 +33,5 @@ public class WorkApiController {
         return ResponseEntity.ok().body(work.getPath());
     }
 
+    @GetMapping("/work/")
 }

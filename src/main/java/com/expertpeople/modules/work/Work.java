@@ -23,7 +23,7 @@ public class Work {
     private Set<Account>managers=new HashSet<>();
 
     @ManyToMany
-    private Set<Account>members;
+    private Set<Account>members=new HashSet<>();
 
     @Column(unique = true)
     private String path;
