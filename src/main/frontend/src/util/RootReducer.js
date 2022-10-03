@@ -5,8 +5,10 @@ import {persistReducer} from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 
 import thunk from 'redux-thunk';
+import workReducer from "./Redux/workReducer";
 const RootReducer =combineReducers({
     userReducer:userReducer,
+    workReducer:workReducer
 });
 
 const persistConfig={

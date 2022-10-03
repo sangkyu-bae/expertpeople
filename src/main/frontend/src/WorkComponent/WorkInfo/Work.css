@@ -17,6 +17,7 @@
     text-align: center;
     font-weight: bold;
     line-height: 259%;
+    color: #00AAFF;
 }
 html, body{
     height: 100%;
@@ -24,4 +25,17 @@ html, body{
 .work-click{
     border: 1px solid gray;
     border-bottom: none;
+    color: black;
+}
+.work-head{
+    flex: 0.8;
+}
+.togle{
+    flex: 0.05;
+    text-align: center;
+    line-height: 3em;
+    background-color: #00AAFF;
+    color: white;
+    border-radius: 0.5em;
+    margin-left: 1.5em;
 }
