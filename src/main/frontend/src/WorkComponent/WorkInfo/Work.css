@@ -39,3 +39,10 @@ html, body{
     border-radius: 0.5em;
     margin-left: 1.5em;
 }
+.work-contents{
+    margin-top: 2em;
+}
+.work-info a{
+   flex: 0.06;
+
+}

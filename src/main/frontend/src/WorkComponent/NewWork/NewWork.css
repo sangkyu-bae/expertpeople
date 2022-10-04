@@ -23,9 +23,17 @@
 .nw-co {
     height: 100%;
 }
-.work-info{
+.work-infos{
     margin-bottom: 1.2em;
 }
 .new-work{
     margin-bottom: 2em;
+}
+html,body{
+    height:116%;
+}
+.work-container{
+    height: 130%;
+    width: 80%;
+    margin: 0 auto;
 }

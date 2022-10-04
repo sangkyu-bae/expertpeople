@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import axiosCo from "../../../util/common/axiosCommon";
-import {setWorkInfoReDux} from "../../../util/Redux/workReducer";
+import axiosCo from "../../util/common/axiosCommon";
+import {setWorkInfoReDux} from "../../util/Redux/workReducer";
 
 function WorkHead(props) {
     const dispatch=useDispatch();

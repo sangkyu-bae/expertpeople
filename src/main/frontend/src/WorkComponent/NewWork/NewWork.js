@@ -55,7 +55,7 @@ function NewWork(props) {
             })
     }
     return (
-        <div className="container ">
+        <div className="work-container ">
             <div className="container-wrap nw-co">
                 <div className="content-wrap">
                     {
@@ -85,7 +85,7 @@ function NewWork(props) {
                                 <input value={shortInfo} onChange={onChange} name="shortInfo" type="text" placeholder="일감을 짧게 소개해 주세요"/>
                             </div>
                             <div className="work-content">
-                                <h2 className="work-info">상세 소개</h2>
+                                <h2 className="work-infos">상세 소개</h2>
                                 <CKEditor
                                     editor={ ClassicEditor }
                                     data=""
@@ -109,7 +109,7 @@ function NewWork(props) {
                                     } }
                                 />
                             </div>
-                            <button className='password-btn new-study-btn'>스터디 만들기</button>
+                            <button className='password-btn new-study-btn'>일감 생성</button>
                         </div>
                     </form>
                 </div>

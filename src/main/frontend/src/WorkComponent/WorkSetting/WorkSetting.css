@@ -1,0 +1,10 @@
+.work-left-nav{
+    flex: 0.2;
+}
+.work-setting-content{
+    flex: 0.8;
+    margin-top: 3em;
+}
+.work-setting-input-box{
+    margin-top: 3em;
+}

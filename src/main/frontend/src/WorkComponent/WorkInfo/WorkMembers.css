@@ -1,0 +1,29 @@
+.member-box-container{
+    margin-top: 2em;
+}
+.member-box{
+    display: flex;
+    height: 4em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid gray;
+}
+.member-box-img{
+    height: 100%;
+    flex: 0.08;
+}
+.member-box img{
+    height: 100%;
+}
+
+.member-name{
+    font-weight: bold;
+}
+.member-manager{
+    margin-left: 0.7em;
+    background-color: #00AAFF;
+    padding: 0.1em;
+    color: white;
+}
+.member-bio{
+    margin-top: 0.5em;
+}
