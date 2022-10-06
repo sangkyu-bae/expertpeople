@@ -8,3 +8,9 @@
 .work-setting-input-box{
     margin-top: 3em;
 }
+.work-setting-wrap{
+    height: 135%;
+}
+.work-setting-wrap .my-item{
+    height: 32%;
+}

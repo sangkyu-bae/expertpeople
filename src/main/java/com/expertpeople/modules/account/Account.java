@@ -1,6 +1,7 @@
 package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.zone.Zone;
 import lombok.*;
 
@@ -81,5 +82,9 @@ public class Account {
     public void completeSginUp() {
         this.emailVerified=true;
         this.joinAt=LocalDateTime.now();
+    }
+
+    public boolean isManagerOf(Work work) {
+        return work.getManagers().contains(this);
     }
 }

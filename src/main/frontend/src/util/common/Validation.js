@@ -13,6 +13,11 @@ const formValidation={
         else if(inputs.shortInfo.length<3||inputs.shortInfo.length>100) isCheck=false;
         else if(inputs.workInfo.length<3||inputs.workInfo.length>600) isCheck=false;
         return isCheck;
+    },
+    updateDescription(inputs) {
+        if(inputs.fullDescription.length<3)isCheck=false;
+        if(inputs.shortDescription.length<3||inputs.shortDescription.length>100)isCheck=false;
+        return isCheck;
     }
 }
 
