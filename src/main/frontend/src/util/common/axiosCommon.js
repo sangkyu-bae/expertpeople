@@ -73,11 +73,13 @@ const axiosCo={
         const res=await accessAPI.get(`${requests.fetchGetWork}/${path}`)
         return res;
     }, updateDescription:async (descriptions,path) =>{
-        console.log(path);
         const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/description`,    {
             fullDescription:descriptions.fullDescription,
             shortDescription:descriptions.shortDescription
         })
+        return res;
+    }, getWorkToJob:async (path)=>{
+        const res=await  accessAPI.get(`${requests.fetchWorkSetting}/${path}/jobs`)
         return res;
     }
 }

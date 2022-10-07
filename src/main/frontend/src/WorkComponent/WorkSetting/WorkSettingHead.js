@@ -71,7 +71,7 @@ function WorkSettingHead(props) {
                 </div>
             }
             <div className='work-left-nav'>
-                <SettingNav check={props.settingNavCheck}></SettingNav>
+                <SettingNav check={props.settingNavCheck} path={path}></SettingNav>
             </div>
             <div className='work-setting-content'>
                 <WorkHead></WorkHead>

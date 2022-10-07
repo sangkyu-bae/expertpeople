@@ -18,7 +18,7 @@ function WorkNav(props) {
                 <li className="work-info-nav">모임</li>
                 {
                     isManager&&
-                        <Link to={`/work/${path}/setting`}>
+                        <Link to={`/work/${path}/setting/info`}>
                             <li className={`work-info-nav ${props.check=='setting'&& "work-click"}`}>설정</li>
                         </Link>
                 }

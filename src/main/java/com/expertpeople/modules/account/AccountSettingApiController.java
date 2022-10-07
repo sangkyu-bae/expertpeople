@@ -4,6 +4,7 @@ import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.Vo.JobResult;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
@@ -134,18 +135,6 @@ public class AccountSettingApiController {
         public ZoneResult(T zones, T allZone) {
             this.zone=zones;
             this.allZone=allZone;
-        }
-    }
-
-    @Getter
-    @Setter
-    static class JobResult<T>{
-        private T job;
-        private T allJobs;
-
-        public JobResult(T job,T allJobs){
-            this.job=job;
-            this.allJobs=allJobs;
         }
     }
 }

@@ -2,34 +2,22 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 function SettingNav(props) {
+    const path=props.path.path;
     return (
         <div className="left">
             <div className="itme-wrap">
                 <ul className="my-item">
-                    <Link to='/setting/profile'>
+                    <Link to={`/work/${path}/setting/info`}>
                         <li className={`items first ${props.check=='info' && "click"}`} >
                             <span >
                                 내용수정
                             </span>
                         </li>
                     </Link>
-                    <Link to='/setting/password'>
-                        <li className={`items ${props.check=='passwrod' && "click"}`} >
+                    <Link to={`/work/${path}/setting/job`}>
+                        <li className={`items ${props.check=='job' && "click"}`} >
                             <span>
-                                패스워드
-                            </span>
-                        </li>
-                    </Link>
-
-                    <li className="items">
-                        <span>
-                            알림
-                        </span>
-                    </li>
-                    <Link to="/setting/attention-topic">
-                        <li className={`items ${props.check=='attention' && "click"}`}>
-                            <span>
-                                관심 일감
+                               필요직업
                             </span>
                         </li>
                     </Link>
@@ -40,10 +28,9 @@ function SettingNav(props) {
                             </span>
                         </li>
                     </Link>
-
                     <li className="items last">
                         <span>
-                            계정
+                            일감
                         </span>
                     </li>
                 </ul>

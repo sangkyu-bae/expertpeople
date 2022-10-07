@@ -1,6 +1,7 @@
 package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
+import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +44,20 @@ public class WorkService {
 
     public Work getWorkToUpdate(Account account, String path) {
         Work work=this.getWork(path);
+        checkManager(account,work);
+        return work;
+    }
+
+
+    public Set<Job> getJob(String path,Account account) {
+        Work work=this.getWork(path);
+        checkManager(account, work);
+        return work.getJobs();
+    }
+
+    private static void checkManager(Account account, Work work) {
         if(!account.isManagerOf(work)){
             throw new AccessDeniedException("해당 기능을 사용할 권한이 없습니다.");
         }
-        return work;
     }
 }

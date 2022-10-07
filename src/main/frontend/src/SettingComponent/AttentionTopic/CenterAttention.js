@@ -39,6 +39,7 @@ function CenterAttention(props) {
     useEffect(()=>{
         axiosCo.getMyJobs()
             .then(e=>{
+                console.log(e.data);
                 setIniJobs(e.data.job);
                 setSettings({
                     ...settings,

@@ -12,7 +12,7 @@ const requests={
     fetchRemoveMyLocation:'api/setting/zone/delete',
     fetchAddWork:'api/work/add',
     fetchGetWork:'api/work',
-    fetchWorkSetting:"api/work/setting"
+    fetchWorkSetting:"api/work/setting",
 }
 
 export default requests;

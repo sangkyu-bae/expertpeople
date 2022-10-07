@@ -12,5 +12,8 @@
     height: 135%;
 }
 .work-setting-wrap .my-item{
-    height: 32%;
+    height: 20%;
+}
+.work-setting-wrap .my-item li{
+    height: 20%;
 }

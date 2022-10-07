@@ -16,6 +16,7 @@
     flex: 0.2;
     line-height: 3.8em;
     font-size: 1.3em;
+    position: relative;
 }
 .head-wrap {
     height: 100%;
@@ -90,10 +91,12 @@ footer{
     cursor: pointer;
 }
 .drop-wrap{
-    margin-top: -0.5em;
     height: 8em;
     width: 7.5em;
     display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
 }
 .head_info{
     height: 50%;
