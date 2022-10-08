@@ -12,4 +12,10 @@ public interface WorkRepository extends JpaRepository<Work,Long> {
     boolean existsByPath(String path);
    @EntityGraph(attributePaths = {"jobs","zones","managers","members"})
     Work findByPath(String path);
+
+   @EntityGraph(attributePaths = {"jobs","managers"})
+    Work findWorkWithJobsByPath(String path);
+
+   @EntityGraph(attributePaths = {"zones","managers"})
+    Work findWorkWithZonesByPath(String path);
 }

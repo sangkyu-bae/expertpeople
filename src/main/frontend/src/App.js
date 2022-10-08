@@ -15,6 +15,8 @@ import Work from "./WorkComponent/WorkInfo/Work";
 import WorkMembers from "./WorkComponent/WorkInfo/WorkMembers";
 import WorkSetting from "./WorkComponent/WorkSetting/WorkSetting";
 import SettingJob from "./WorkComponent/WorkSetting/Job/SettingJob";
+import SettingLocation from "./WorkComponent/WorkSetting/Location/SettingLocation";
+import WorkInfo from "./WorkComponent/WorkInfoSetting/WorkInfo";
 
 function App() {
     return (
@@ -34,6 +36,8 @@ function App() {
                     <Route path="/work/:path/members" element={<WorkMembers></WorkMembers>}></Route>
                     <Route path="/work/:path/setting/info" element={<WorkSetting></WorkSetting>}></Route>
                     <Route path="/work/:path/setting/job" element={<SettingJob></SettingJob>}></Route>
+                    <Route path="/work/:path/setting/location" element={<SettingLocation></SettingLocation>}></Route>
+                    <Route path="/work/:path/setting" element={<WorkInfo></WorkInfo>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>

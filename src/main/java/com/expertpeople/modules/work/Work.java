@@ -42,7 +42,7 @@ public class Work {
     private Set<Job> jobs=new HashSet<>();
 
     @ManyToMany
-    private Set<Zone> zones;
+    private Set<Zone> zones=new HashSet<>();
 
     private LocalDateTime publishedDateTime;
 
@@ -72,4 +72,6 @@ public class Work {
         return this.isPublished()&&this.recruiting &&!this.close
                 &&!this.members.contains(account)&&!this.managers.contains(account);
     }
+
+
 }

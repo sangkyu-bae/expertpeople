@@ -15,7 +15,7 @@ function WorkHead(props) {
     const getWork=()=>{
         axiosCo.getWork(path)
             .then(e=>{
-                console.log(e.data)
+                //console.log(e.data)
                 dispatch(setWorkInfoReDux(e.data));
             })
             .catch(e=>{

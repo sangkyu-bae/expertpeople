@@ -21,18 +21,20 @@ function SettingNav(props) {
                             </span>
                         </li>
                     </Link>
-                    <Link to="/setting/location">
+                    <Link to={`/work/${path}/setting/location`}>
                         <li className={`items ${props.check=='location' && "click"}`}>
                             <span>
-                                활동 지역
+                                일터지역
                             </span>
                         </li>
                     </Link>
-                    <li className="items last">
-                        <span>
-                            일감
-                        </span>
-                    </li>
+                    <Link to={`/work/${path}/setting`}>
+                        <li className="items last">
+                            <span>
+                                일감
+                            </span>
+                        </li>
+                    </Link>
                 </ul>
             </div>
         </div>

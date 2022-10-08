@@ -81,6 +81,36 @@ const axiosCo={
     }, getWorkToJob:async (path)=>{
         const res=await  accessAPI.get(`${requests.fetchWorkSetting}/${path}/jobs`)
         return res;
+    },addWorkToJob:async (jobsName,path)=>{
+        const res=await accessAPI.post(`${requests.fetchWorkSetting}/${path}/jobs/add`,{
+            jobsName:jobsName
+        })
+        return res;
+    },removeWorkToJob:async (jobsName,path)=>{
+        const res=await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/jobs/remove`,{
+            data:{
+                jobsName:jobsName
+            }
+        })
+        return res;
+    },
+    getWorkToZone:async (path)=>{
+        const res=await accessAPI.get(`${requests.fetchWorkSetting}/${path}/zone`)
+        return res;
+    },
+    removeWorkToZone:async (zoneName, path)=> {
+        const res=await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/zone/remove`,{
+            data:{
+                zoneName:zoneName
+            }
+        })
+        return res;
+    },
+    addWorkToZone:async (zoneName, path)=> {
+        const res=await accessAPI.post(`${requests.fetchWorkSetting}/${path}/zone/add`,{
+            zoneName:zoneName
+        })
+        return res;
     }
 }
 

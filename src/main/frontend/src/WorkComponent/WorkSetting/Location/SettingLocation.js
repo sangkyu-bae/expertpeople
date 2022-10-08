@@ -1,36 +1,33 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import SettingNav from "../../WorkCommonComponet/SettingNav";
+import React, {useEffect, useState} from 'react';
 import WorkHead from "../../WorkCommonComponet/WorkHead";
 import WorkNav from "../../WorkCommonComponet/WorkNav";
-import {useParams} from "react-router-dom";
+import SettingNav from "../../WorkCommonComponet/SettingNav";
 import Tags from "@yaireo/tagify/dist/react.tagify";
-import './SettingJob.css'
-import tagifySetting from "../../../SettingComponent/AttentionTopic/TagifySetting";
+import {useParams} from "react-router-dom";
 import axiosCo from "../../../util/common/axiosCommon";
+import tagifySetting from "../../../SettingComponent/AttentionTopic/TagifySetting";
 
-
-function SettingJob(props) {
+function SettingLocation(props) {
+    const path=useParams();
     const insertTag=e=>{
-        axiosCo.addWorkToJob(e.detail.data.value,path.path)
+        axiosCo.addWorkToZone(e.detail.data.value,path.path)
             .then(e=>{
                 console.log(e);
             }).catch(e=>{
             console.log(e);
         })
     }
-
     const removeTag=e=>{
-        axiosCo.removeWorkToJob(e.detail.data.value,path.path)
+        axiosCo.removeWorkToZone(e.detail.data.value,path.path)
             .then(e=>{
                 console.log(e)
             }).catch(e=>console.log(e))
     }
-    const path = useParams();
     const tagifyCallbacks = {
         add: insertTag,
         remove: removeTag,
     };
-    const [initJobs,setIniJobs]=useState([]);
+    const [initZones,setIniZones]=useState([]);
     const [settings,setSettings]=useState({
         ...tagifySetting.baseTagifySettings,
         whitelist:[],
@@ -39,40 +36,42 @@ function SettingJob(props) {
     })
     const {whitelist}=settings;
     useEffect(()=>{
-        getJobs();
+        getZones();
     },[])
-    const getJobs=()=>{
-        axiosCo.getWorkToJob(path.path)
+    const getZones=()=>{
+        axiosCo.getWorkToZone(path.path)
             .then(e=>{
-                setIniJobs(e.data.job);
+                console.log(e.data);
+                setIniZones(e.data.zone);
                 setSettings({
                     ...settings,
-                    whitelist: e.data.allJobs,
+                    whitelist: e.data.allZone,
                 })
             })
             .catch(e=>console.log(e.data))
     }
+
     return (
         <div className="container work-setting-wrap">
             <div className="container-wrap nw-co">
                 <WorkHead></WorkHead>
                 <WorkNav check='setting'></WorkNav>
                 <div className='flex'>
-                    <SettingNav check='job' path={path}></SettingNav>
+                    <SettingNav check='location' path={path}></SettingNav>
                     <div className='work-setting-content'>
                         <div className="topic-wrap">
                             <div className="topic-head">
-                                <h2>필요 직업</h2>
+                                <h2>일터지역</h2>
                             </div>
-                            <div className="topic-content">
-                                일에 필요한 직업을 입력해주세요. 태그를 입력하고 콤마(,)또는 엔터를 입력하세요.
+                            <div className="topic-content locations">
+                               생성된 일감의 지역을 선택해 주세요. 태그를 입력하고 콤마(,)또는 엔터를 입력하세요.
                             </div>
                             <div>
                                 {
                                     whitelist.length>0&&
                                     <Tags
                                         settings={settings}
-                                        value={initJobs}
+                                        value={initZones}
                                     ></Tags>
                                 }
                             </div>
@@ -84,4 +83,4 @@ function SettingJob(props) {
     );
 }
 
-export default SettingJob;
+export default SettingLocation;
