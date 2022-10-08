@@ -111,4 +111,8 @@ public class WorkSettingApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/publish")
+    public ResponseEntity<?> updateWorkPublish(@CurrentAccount Account account,@PathVariable String path){
+        return null;
+    }
 }

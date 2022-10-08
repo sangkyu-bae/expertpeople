@@ -1,0 +1,31 @@
+.job-open-btn{
+    width: 20%;
+    height: 3em;
+    border: 1px solid #00AAFF;
+    background-color: white;
+    color: #00AAFF;
+}
+.job-open-btn:hover{
+    border: 1px solid white;
+    background-color: #00AAFF;
+    color: white;
+    cursor: pointer;
+}
+.open-comment{
+    margin-bottom: 1em;
+}
+.work-info-box{
+    padding-bottom: 3em;
+    border-bottom: 1px solid gray;
+}
+.mg-top{
+    margin-top:2em;
+}
+.mg-top .topic-content{
+    background-color: #FAEBC3;
+    color: #964B00;
+}
+.yell{
+    color: #964B00 ;
+    border: 1px solid #FAEBC3;
+}

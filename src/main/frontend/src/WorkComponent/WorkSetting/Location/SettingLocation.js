@@ -56,7 +56,7 @@ function SettingLocation(props) {
             <div className="container-wrap nw-co">
                 <WorkHead></WorkHead>
                 <WorkNav check='setting'></WorkNav>
-                <div className='flex'>
+                <div className='flex container-flex'>
                     <SettingNav check='location' path={path}></SettingNav>
                     <div className='work-setting-content'>
                         <div className="topic-wrap">

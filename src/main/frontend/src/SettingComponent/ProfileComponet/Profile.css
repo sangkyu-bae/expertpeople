@@ -5,6 +5,7 @@
 }
 .flex{
     height: 100%;
+    /*height: 85%;*/
 }
 .left{
     flex: 0.2;
@@ -85,4 +86,8 @@
     width: 100%;
     height: 100%;
     object-fit: scale-down;
+}
+
+.container-flex{
+    height: 85%;
 }
