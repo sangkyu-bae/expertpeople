@@ -1,5 +1,5 @@
 let isCheck=true;
-const regexp=(regString)=>{
+export const regexp=(regString)=>{
     const reg=/[ㄱ-ㅎ가-힣a-z0-9_-]/g
     const isReg= reg.test(regString);
     return isReg;

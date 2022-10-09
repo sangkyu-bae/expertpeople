@@ -111,6 +111,24 @@ const axiosCo={
             zoneName:zoneName
         })
         return res;
+    },
+    updatePublish:async (path)=> {
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/publish`)
+        return res;
+    },
+    openRecruit: async (path)=> {
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/start`)
+        return res;
+    },
+    stopRecruit: async (path)=> {
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/stop`)
+        return res;
+    },
+    updateWorkUrl:async (path, newPath)=> {
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/url`,{
+            newPath:newPath
+        })
+        return res;
     }
 }
 

@@ -113,6 +113,65 @@ public class WorkSettingApiController {
 
     @PutMapping("/publish")
     public ResponseEntity<?> updateWorkPublish(@CurrentAccount Account account,@PathVariable String path){
-        return null;
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        workService.publish(work);
+        return ResponseEntity.ok().body("구인 현장 을 공개 하였습니다.");
+    }
+
+    @PutMapping("/close")
+    public ResponseEntity<?> updateWorkClose(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        workService.close(work);
+        return ResponseEntity.ok().body("일감을 종료 하였습니다.");
+    }
+
+    @PutMapping("/recruit/start")
+    public ResponseEntity<?> startRecruit(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        if(!work.canUpdateRecruit()){
+            return ResponseEntity.badRequest().body("1시간 이내 요청은 받을 수 없습니다.");
+        }
+
+        workService.startRecruit(work);
+        return ResponseEntity.ok().body("구인을 시작했습니다.");
+    }
+
+    @PutMapping("/recruit/stop")
+    public ResponseEntity<?> stopRecruit(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        if(!work.canUpdateRecruit()){
+            return ResponseEntity.badRequest().body("1시간 이내 요청은 받을 수 없습니다.");
+        }
+
+        workService.stopRecruit(work);
+        return ResponseEntity.ok().body("구인을 종료합니다.");
+    }
+    @PutMapping("/url")
+    public ResponseEntity<?> updateWorkUrl(@CurrentAccount Account account,@PathVariable String path,String newPath){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        if(!workService.isValidPath(newPath)){
+            return ResponseEntity.badRequest().body("해당하는 구인 경로는 사용할 수 없습니다.");
+        }
+        workService.updateWorkUrl(work,newPath);
+
+        return ResponseEntity.ok().body("일감 경로를 변경 하였습니다.");
+    }
+
+    @PutMapping("/title")
+    public ResponseEntity<?> updateTitle(@CurrentAccount Account account,@PathVariable String path,String title){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        if(!workService.isValidTitle(title)){
+            return ResponseEntity.badRequest().body("제목이 50자 이상입니다. 다시 입력하세요");
+        }
+        workService.updateWorkTitle(work,title);
+
+        return ResponseEntity.ok().body("일감 타이틀을 변경했습니다.");
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<?>removeWork(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateStatus(account,path);
+        workService.removeWork(work);
+        return ResponseEntity.ok().body("일감을 삭제했습니다.");
     }
 }

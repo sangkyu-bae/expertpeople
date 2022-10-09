@@ -21,11 +21,31 @@
 .mg-top{
     margin-top:2em;
 }
-.mg-top .topic-content{
+.ale .topic-content{
     background-color: #FAEBC3;
     color: #964B00;
 }
 .yell{
     color: #964B00 ;
     border: 1px solid #FAEBC3;
+}
+.yell:hover{
+    background-color: #FAEBC3;
+
+}
+.work-info-box .topic-m{
+    background-color: #FAEBC3;
+    color: #964B00;
+    margin-bottom: 1em;
+}
+.work-setting-wrap .my-item {
+    /* height: 20%; */
+    height: 17%;
+}
+.work-setting-wrap {
+    height: 184%;
+}
+.al{
+    background-color: #FAEBC3;
+    color: #964B00;
 }

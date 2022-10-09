@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class WorkForm {
-
+    public static final String VALID_PATH_PATTERN="^[ㄱ-ㅎ가-힣a-z0-9_-]{2,20}$";
     @NotBlank
     @Length(max = 50)
     private String title;

@@ -74,4 +74,50 @@ public class Work {
     }
 
 
+    public void publish() {
+        if(!this.close&&!this.published){
+            this.published=true;
+            this.publishedDateTime=LocalDateTime.now();
+        }else{
+            throw new RuntimeException("이미 공개중인 일감 이거나, 종료된 일감입니다.");
+        }
+    }
+
+    public void close() {
+        if(!this.close&&this.published){
+            this.close=true;
+            this.closeDateTime=LocalDateTime.now();
+        }else{
+            throw new RuntimeException("이미 종료된 일감이거나, 공개되지 않은 일감입니다.");
+        }
+    }
+
+    public void startRecruit() {
+        if(this.canUpdateRecruit()&&!this.recruiting){
+            this.recruiting=true;
+            this.recruitingUpdateTime=LocalDateTime.now();
+        }else{
+            throw new RuntimeException("종료된 일감 이거나, 공개되지 않은 일감 이거나, 이미 구인이 시작된 일감입니다.");
+        }
+    }
+
+    public boolean canUpdateRecruit() {
+        if(this.recruitingUpdateTime==null){
+            return !this.close&&this.published;
+        }
+        return !this.close&&this.published&&this.recruitingUpdateTime.isBefore(LocalDateTime.now().minusHours(1));
+    }
+
+    public void stopRecruit() {
+        if(this.canUpdateRecruit()&&this.recruiting){
+            this.recruiting=false;
+            this.recruitingUpdateTime=LocalDateTime.now();
+        }else{
+            throw new RuntimeException("종료된 일감 이거나, 공개되지 않은 일감이거나,구인이 시작되지 않은 일감입니다.");
+        }
+    }
+
+    public boolean isRemovable() {
+        return this.published&&this.close;
+    }
 }

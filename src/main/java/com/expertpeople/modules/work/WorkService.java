@@ -2,11 +2,9 @@ package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.zone.Zone;
-import com.expertpeople.modules.zone.form.ZoneForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -33,11 +31,7 @@ public class WorkService {
 
     public Work getWork(String path) {
         Work work=this.workRepository.findByPath(path);
-
-        if(work==null){
-            throw new IllegalArgumentException("존재하지 않은 경로 입니다.");
-        }
-
+        checkExistWork(work);
         return work;
     }
 
@@ -66,9 +60,7 @@ public class WorkService {
 
     private Work getWorkWithJob(String path){
         Work work=workRepository.findWorkWithJobsByPath(path);
-        if(work==null){
-            throw new IllegalArgumentException("존재하지 않은 경로 입니다.");
-        }
+        checkExistWork(work);
         return work;
     }
     public void addJobs(Account account, Job job,String path) {
@@ -85,10 +77,14 @@ public class WorkService {
 
     private Work getWorkWithZone(String path){
         Work work=workRepository.findWorkWithZonesByPath(path);
-        if(work==null){
+        checkExistWork(work);
+        return work;
+    }
+
+    private static void checkExistWork(Work work) {
+        if(work ==null){
             throw new IllegalArgumentException("존재하지 않은 경로 입니다.");
         }
-        return work;
     }
 
     public Set<Zone> getZone(Account account, String path) {
@@ -107,5 +103,55 @@ public class WorkService {
         Work work=this.getWorkWithZone(path);
         checkManager(account,work);
         work.getZones().remove(zone);
+    }
+
+    public Work getWorkToUpdateStatus(Account account,String path) {
+        Work work=workRepository.findWorkWithManagersByPath(path);
+        checkManager(account,work);
+        checkExistWork(work);
+        return work;
+    }
+
+    public void publish(Work work) {
+        work.publish();
+    }
+
+    public boolean isValidPath(String newPath) {
+        if(!newPath.matches(WorkForm.VALID_PATH_PATTERN)){
+            return false;
+        }
+        return !workRepository.existsByPath(newPath);
+    }
+
+    public void updateWorkUrl(Work work,String newPath) {
+        work.setPath(newPath);
+    }
+
+    public void close(Work work) {
+        work.close();
+    }
+
+    public void startRecruit(Work work) {
+        work.startRecruit();
+    }
+
+    public void stopRecruit(Work work) {
+        work.stopRecruit();
+    }
+
+    public void updateWorkTitle(Work work,String title) {
+        work.setTitle(title);
+    }
+
+    public boolean isValidTitle(String title) {
+        return title.length()<=50;
+    }
+
+    public void removeWork(Work work) {
+        if(work.isRemovable()){
+            workRepository.delete(work);
+        }else{
+            throw new IllegalArgumentException("일감을 삭제할 수 없습니다");
+        }
     }
 }
