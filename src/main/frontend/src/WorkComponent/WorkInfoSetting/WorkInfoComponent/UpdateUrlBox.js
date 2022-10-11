@@ -20,7 +20,7 @@ function UpdateUrlBox(props) {
     const updateWorkUrl=()=>{
         axiosCo.updateWorkUrl(props.path.path,newPath)
             .then(e=>{
-                navigate(`work/${newPath}/setting`);
+                navigate(`/work/${newPath}/setting`);
             })
             .catch(e=>{
                 console.log(e);
@@ -43,7 +43,7 @@ function UpdateUrlBox(props) {
                 구인 경로를 수정하면 이전에 사용하던 경로를 구인정보에 접근할 수 없으니 주의하세요.
             </div>
             <form onSubmit={onSubmit}>
-                <input value={newPath} onChange={onChange} name="newPath" type="text"placeholder="예) work-path"/>
+                <input value={newPath} onChange={onChange} name="newPath" type="text"placeholder={props.path.path}/>
                 <button className='job-open-btn yell'>경로 수정</button>
             </form>
 

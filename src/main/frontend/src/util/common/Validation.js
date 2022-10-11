@@ -18,6 +18,10 @@ const formValidation={
         if(inputs.fullDescription.length<3)isCheck=false;
         if(inputs.shortDescription.length<3||inputs.shortDescription.length>100)isCheck=false;
         return isCheck;
+    },
+    updateNewTitle(newTitle){
+        if(newTitle.length<3||newTitle.length>50) isCheck=false;
+        return isCheck;
     }
 }
 

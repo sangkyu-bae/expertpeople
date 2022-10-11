@@ -125,9 +125,11 @@ const axiosCo={
         return res;
     },
     updateWorkUrl:async (path, newPath)=> {
-        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/url`,{
-            newPath:newPath
-        })
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/url/${newPath}`)
+        return res;
+    },
+    updateWorkTitle:async (path,newTitle)=>{
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/title/${newTitle}`)
         return res;
     }
 }

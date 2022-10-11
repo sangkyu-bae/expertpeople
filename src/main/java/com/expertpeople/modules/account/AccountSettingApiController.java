@@ -124,18 +124,4 @@ public class AccountSettingApiController {
 
         return ResponseEntity.ok().build();
     }
-
-
-
-//    @Getter
-//    @Setter
-//    static class ZoneResult<T>{
-//        private T zone;
-//        private T allZone;
-//
-//        public ZoneResult(T zones, T allZone) {
-//            this.zone=zones;
-//            this.allZone=allZone;
-//        }
-//    }
 }

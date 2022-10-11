@@ -146,8 +146,8 @@ public class WorkSettingApiController {
         workService.stopRecruit(work);
         return ResponseEntity.ok().body("구인을 종료합니다.");
     }
-    @PutMapping("/url")
-    public ResponseEntity<?> updateWorkUrl(@CurrentAccount Account account,@PathVariable String path,String newPath){
+    @PutMapping("/url/{newPath}")
+    public ResponseEntity<?> updateWorkUrl(@CurrentAccount Account account,@PathVariable String path,@PathVariable String newPath){
         Work work=workService.getWorkToUpdateStatus(account,path);
         if(!workService.isValidPath(newPath)){
             return ResponseEntity.badRequest().body("해당하는 구인 경로는 사용할 수 없습니다.");
@@ -157,13 +157,13 @@ public class WorkSettingApiController {
         return ResponseEntity.ok().body("일감 경로를 변경 하였습니다.");
     }
 
-    @PutMapping("/title")
-    public ResponseEntity<?> updateTitle(@CurrentAccount Account account,@PathVariable String path,String title){
+    @PutMapping("/title/{newTitle}")
+    public ResponseEntity<?> updateTitle(@CurrentAccount Account account,@PathVariable String path,@PathVariable String newTitle){
         Work work=workService.getWorkToUpdateStatus(account,path);
-        if(!workService.isValidTitle(title)){
+        if(!workService.isValidTitle(newTitle)){
             return ResponseEntity.badRequest().body("제목이 50자 이상입니다. 다시 입력하세요");
         }
-        workService.updateWorkTitle(work,title);
+        workService.updateWorkTitle(work,newTitle);
 
         return ResponseEntity.ok().body("일감 타이틀을 변경했습니다.");
     }
