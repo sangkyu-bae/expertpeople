@@ -118,6 +118,6 @@ public class Work {
     }
 
     public boolean isRemovable() {
-        return this.published&&this.close;
+        return !this.published;
     }
 }

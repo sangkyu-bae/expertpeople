@@ -40,12 +40,30 @@
 }
 .work-setting-wrap .my-item {
     /* height: 20%; */
-    height: 17%;
+    /*height: 17%;*/
+    height: 12.5%;
 }
 .work-setting-wrap {
-    height: 184%;
+    height: 242%;
 }
 .al{
     background-color: #FAEBC3;
     color: #964B00;
+}
+.re{
+    background-color:#F4525F ;
+}
+.red-btn{
+    width: 20%;
+    height: 3em;
+    border: 1px solid #F4525F;
+    background-color: white;
+    color: black;
+}
+
+.event{
+    border: 1px solid white;
+    background-color:#F4525F;
+    color: white;
+    cursor: pointer;
 }

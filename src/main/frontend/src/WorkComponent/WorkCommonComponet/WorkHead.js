@@ -32,6 +32,9 @@ function WorkHead(props) {
                 <div className='togle'>DRAFT</div>
                 <div className='togle'>OFF</div>
             </div>
+            <div>
+
+            </div>
 
             <small className="work-head-small">{work.shortDescription}</small>
         </div>

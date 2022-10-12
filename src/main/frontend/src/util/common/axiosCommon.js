@@ -131,6 +131,10 @@ const axiosCo={
     updateWorkTitle:async (path,newTitle)=>{
         const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/title/${newTitle}`)
         return res;
+    },
+    removeWork:async (path)=> {
+        const res =await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/remove`)
+        return res;
     }
 }
 

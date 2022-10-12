@@ -154,4 +154,23 @@ public class WorkService {
             throw new IllegalArgumentException("일감을 삭제할 수 없습니다");
         }
     }
+
+    public Work getWorkToUpdateMember(Account account, String path) {
+        Work work=workRepository.findWorkWithMembersByPath(path);
+        checkMember(account,work);
+        checkExistWork(work);
+        return work;
+    }
+
+    private void checkMember(Account account, Work work) {
+
+    }
+
+    public void addMember(Account account, Work work) {
+        work.getMembers().add(account);
+    }
+
+    public void removeMember(Account account, Work work) {
+        work.getMembers().remove(account);
+    }
 }

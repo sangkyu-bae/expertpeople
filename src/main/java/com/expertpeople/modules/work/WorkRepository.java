@@ -20,4 +20,6 @@ public interface WorkRepository extends JpaRepository<Work,Long> {
     Work findWorkWithZonesByPath(String path);
     @EntityGraph(attributePaths = {"managers"})
     Work findWorkWithManagersByPath(String path);
+    @EntityGraph(attributePaths = {"members"})
+    Work findWorkWithMembersByPath(String path);
 }

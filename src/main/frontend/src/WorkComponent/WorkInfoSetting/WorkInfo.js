@@ -8,6 +8,7 @@ import OpenBox from "./WorkInfoComponent/OpenBox";
 import JobOpenningBox from "./WorkInfoComponent/JobOpenningBox";
 import UpdateUrlBox from "./WorkInfoComponent/UpdateUrlBox";
 import UpdateTitleBox from "./WorkInfoComponent/UpdateTitleBox";
+import RemoveWorkBox from "./WorkInfoComponent/RemoveWorkBox";
 
 function WorkInfo(props) {
     const path=useParams()
@@ -34,8 +35,8 @@ function WorkInfo(props) {
                         <div className='work-info-box mg-top ale'>
                            <UpdateTitleBox path={path}></UpdateTitleBox>
                         </div>
-                        <div>
-
+                        <div  className='work-info-box mg-top'>
+                            <RemoveWorkBox path={path}></RemoveWorkBox>
                         </div>
                     </div>
                 </div>

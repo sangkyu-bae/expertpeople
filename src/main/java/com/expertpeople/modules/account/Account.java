@@ -87,4 +87,7 @@ public class Account {
     public boolean isManagerOf(Work work) {
         return work.getManagers().contains(this);
     }
+    public boolean isMemberOf(Work work){
+        return work.getMembers().contains(this);
+    }
 }

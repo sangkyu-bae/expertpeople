@@ -18,8 +18,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -142,7 +142,6 @@ public class WorkSettingApiController {
         if(!work.canUpdateRecruit()){
             return ResponseEntity.badRequest().body("1시간 이내 요청은 받을 수 없습니다.");
         }
-
         workService.stopRecruit(work);
         return ResponseEntity.ok().body("구인을 종료합니다.");
     }
@@ -173,5 +172,18 @@ public class WorkSettingApiController {
         Work work=workService.getWorkToUpdateStatus(account,path);
         workService.removeWork(work);
         return ResponseEntity.ok().body("일감을 삭제했습니다.");
+    }
+    @PutMapping("/add/member")
+    public ResponseEntity<?>addMember(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateMember(account,path);
+        workService.addMember(account,work);
+        return ResponseEntity.ok().body("멤버가 추가 되었습니다.");
+    }
+
+    @PutMapping("/remove/member")
+    public ResponseEntity<?>removeMember(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWorkToUpdateMember(account,path);
+        workService.removeMember(account,work);
+        return ResponseEntity.ok().body("멤버가 탈퇴 하였습니다.");
     }
 }

@@ -46,7 +46,6 @@ function UpdateUrlBox(props) {
                 <input value={newPath} onChange={onChange} name="newPath" type="text"placeholder={props.path.path}/>
                 <button className='job-open-btn yell'>경로 수정</button>
             </form>
-
         </>
 
     );
