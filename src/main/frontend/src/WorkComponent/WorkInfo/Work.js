@@ -20,15 +20,26 @@ function Work(props) {
         })
     }
     const work=useSelector(state=>state.workReducer.work);
-
+    const isManager=useSelector(state=>state.workReducer.isManager);
+    console.log(work);
     return (
         <div className="container ">
             <div className="container-wrap nw-co">
+
                 {
                     isError&&<NewWorkAlert text={errorMessage}></NewWorkAlert>
                 }
+
                 {
-                    !isError&&
+                    !work.published&&!isManager&&!isError&&
+                    <>
+                        <WorkHead errors={errors}></WorkHead>
+                        <NewWorkAlert text="공개된 일감이 아닙니다."></NewWorkAlert>
+                    </>
+
+                }
+                {
+                    !isError&&(work.published||isManager)&&
                     <>
                         <WorkHead errors={errors}></WorkHead>
                         <WorkNav check='info'></WorkNav>

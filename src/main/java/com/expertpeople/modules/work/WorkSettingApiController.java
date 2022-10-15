@@ -30,6 +30,7 @@ public class WorkSettingApiController {
     private final WorkService workService;
     private final JobRepository jobRepository;
     private final ZoneRepository zoneRepository;
+    private final WorkRepository workRepository;
 
     @PutMapping("/description")
     public ResponseEntity<?> updateWorkInfo(@CurrentAccount Account account, @PathVariable String path,
@@ -175,7 +176,7 @@ public class WorkSettingApiController {
     }
     @PutMapping("/add/member")
     public ResponseEntity<?>addMember(@CurrentAccount Account account,@PathVariable String path){
-        Work work=workService.getWorkToUpdateMember(account,path);
+        Work work=workRepository.findWorkWithMembersByPath(path);
         workService.addMember(account,work);
         return ResponseEntity.ok().body("멤버가 추가 되었습니다.");
     }
@@ -186,4 +187,5 @@ public class WorkSettingApiController {
         workService.removeMember(account,work);
         return ResponseEntity.ok().body("멤버가 탈퇴 하였습니다.");
     }
+
 }

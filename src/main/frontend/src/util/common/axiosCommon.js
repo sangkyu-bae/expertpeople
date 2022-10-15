@@ -135,6 +135,10 @@ const axiosCo={
     removeWork:async (path)=> {
         const res =await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/remove`)
         return res;
+    },
+    joinMember :async (path)=>{
+        const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/add/member`)
+        return res;
     }
 }
 

@@ -62,6 +62,7 @@
 }
 
 .event{
+    margin-top: 1em;
     border: 1px solid white;
     background-color:#F4525F;
     color: white;

@@ -46,3 +46,25 @@ html, body{
    flex: 0.06;
 
 }
+.join-work-btn{
+    flex: 0.1;
+    background-color: #00AAFF;
+    color: white;
+    border: none;
+    border-radius: 0.5em 0em 0 0.5em;
+    font-size: 1.1em;
+}
+.join-work-btn:hover{
+    cursor: pointer;
+    background-color: white;
+    color:#00AAFF;
+    border: 1px solid #00AAFF;
+    border-right: none;
+}
+.join-count{
+    flex: 0.03;
+    text-align: center;
+    font-size: 2em;
+    line-height: 1.33em;
+    border: 1px solid #00AAFF;
+}

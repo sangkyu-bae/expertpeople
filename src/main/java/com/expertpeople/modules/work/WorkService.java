@@ -167,7 +167,7 @@ public class WorkService {
     }
 
     public void addMember(Account account, Work work) {
-        work.getMembers().add(account);
+        work.addMamber(account);
     }
 
     public void removeMember(Account account, Work work) {

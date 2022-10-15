@@ -120,4 +120,12 @@ public class Work {
     public boolean isRemovable() {
         return !this.published;
     }
+
+    public void addMamber(Account account) {
+        if(!this.getMembers().contains(account)){
+            this.getMembers().add(account);
+        }else{
+            throw new IllegalArgumentException("이미 가입된 멤버입니다.");
+        }
+    }
 }

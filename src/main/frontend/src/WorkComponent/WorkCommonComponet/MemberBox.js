@@ -3,14 +3,11 @@ import {faAddressCard} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function MemberBox(props) {
-    useEffect(()=>{
-        console.log("타?");
-    },[])
     return (
         <div className='member-box'>
             <div className='member-box-img'>
             {
-                props.member.profileImage!='' ?
+                props.member.profileImage!=null ?
                     <img src={props.member.profileImage}></img>:
                     <FontAwesomeIcon className="img" icon={faAddressCard}></FontAwesomeIcon>
             }

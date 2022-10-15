@@ -3,6 +3,7 @@ import '../LoginComponent/Login.css';
 import  './JoinUp.css'
 import axios from "axios";
 import Error from "./AccountCommonComponent/Error";
+import {useNavigate} from "react-router-dom";
 function JoinUp(props) {
      const [inputs,setInputs]=useState({
          name:'',
@@ -33,7 +34,7 @@ function JoinUp(props) {
     const [isServerPassword,setIsServerPassword]=useState(false);
     const [isSeverNickname,setIsServerNickname]=useState(false);
     const [isServerName,setIsServerName]=useState(false);
-
+    const nav=useNavigate();
     const onSubmit=e=>{
         e.preventDefault();
         const regEmail= /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -46,8 +47,9 @@ function JoinUp(props) {
 
         if(isEmail&&isPasswrod&&isName&&isNickname){
             axios.post("/api/join-up",inputs)
-                .then(e=> console.log(e))
+                .then(e=> nav("/"))
                 .catch(e=>{
+                    console.log(e);
                     if(e.request.response.indexOf("email")>0){
                         setIsServerEmail(true);
                     }
