@@ -1,12 +1,11 @@
 package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.JoinUpForm;
-import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
+import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.zone.Zone;
-import com.expertpeople.modules.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Transactional
 @Slf4j

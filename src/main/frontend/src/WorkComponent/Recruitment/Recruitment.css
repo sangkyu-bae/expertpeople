@@ -1,0 +1,42 @@
+.new-recruitment-head{
+    text-align: center;
+    font-size: 2em;
+
+}
+.re-name{
+    color: #00AAFF;
+}
+.mg-bt{
+    margin-bottom: 1em;
+}
+.new-recruitment-content select{
+    margin: 1.2em 0;
+    width: 100%;
+    height: 3em;
+}
+.new-recruitment-box{
+    flex: 0.25;
+}
+.new-recruitment-box input{
+    width: 90%;
+    padding-right: 5%;
+}
+.re-head{
+    font-weight: bold;
+}
+.re-name-head input{
+    width: 99.5%;
+}
+.work-setting-wrap {
+    height: 130%;
+}
+.new-recruitment-boxs .flex{
+    height: 10%;
+}
+.new-recruitment-boxs button{
+    width: 100%;
+    height: 3em;
+    border: none;
+    background-color: #00AAFF;
+    color: white;
+}

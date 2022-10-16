@@ -139,6 +139,26 @@ const axiosCo={
     joinMember :async (path)=>{
         const res=await accessAPI.put(`${requests.fetchWorkSetting}/${path}/add/member`)
         return res;
+    },
+    getJobs: async ()=>{
+        const res=await accessAPI.get(`${requests.fetchRecruitment}/jobs`)
+        return res;
+
+    },
+    addRecruitment:async (inputs,path)=> {
+        const res=await accessAPI.post(`${requests.fetchRecruitment}/${path}/add/recruitment`,{
+
+            title:inputs.title,
+            description:inputs.description,
+            endEnrollmentDateTime:new Date(inputs.endEnrollmentDateTime),
+            startDateTime:new Date(inputs.startDateTime),
+            endDateTime:new Date(inputs.endDateTime),
+            jobsName:inputs.jobName,
+            limitOfEnrollments:inputs.limitOfEnrollments,
+            eventType:inputs.eventType
+        })
+        return res;
+
     }
 }
 

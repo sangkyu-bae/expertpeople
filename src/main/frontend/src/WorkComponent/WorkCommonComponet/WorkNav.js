@@ -15,12 +15,16 @@ function WorkNav(props) {
                     <li className={`work-info-nav ${props.check=='members'&& "work-click"}`}>구성원</li>
                 </Link>
 
-                <li className="work-info-nav">모임</li>
+                <Link to={`/work/${path}/recruitment`}>
+                    <li className={`work-info-nav ${props.check=='recruit'&& "work-click"}`}>구인인력</li>
+                </Link>
                 {
                     isManager&&
-                        <Link to={`/work/${path}/setting/info`}>
-                            <li className={`work-info-nav ${props.check=='setting'&& "work-click"}`}>설정</li>
-                        </Link>
+                        <>
+                            <Link to={`/work/${path}/setting/info`}>
+                                <li className={`work-info-nav ${props.check=='setting'&& "work-click"}`}>설정</li>
+                            </Link>
+                        </>
                 }
 
             </ul>

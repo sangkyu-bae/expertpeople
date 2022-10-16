@@ -9,21 +9,15 @@ import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.zone.Vo.ZoneResult;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
-import com.expertpeople.modules.zone.ZoneService;
 import com.expertpeople.modules.zone.form.ZoneForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.io.JsonEOFException;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.internal.util.Lists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 

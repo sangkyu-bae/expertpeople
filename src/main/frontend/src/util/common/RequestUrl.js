@@ -13,6 +13,7 @@ const requests={
     fetchAddWork:'api/work/add',
     fetchGetWork:'api/work',
     fetchWorkSetting:"api/work/setting",
+    fetchRecruitment:"api/recruitment"
 }
 
 export default requests;

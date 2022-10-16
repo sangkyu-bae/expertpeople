@@ -17,6 +17,8 @@ import WorkSetting from "./WorkComponent/WorkSetting/WorkSetting";
 import SettingJob from "./WorkComponent/WorkSetting/Job/SettingJob";
 import SettingLocation from "./WorkComponent/WorkSetting/Location/SettingLocation";
 import WorkInfo from "./WorkComponent/WorkInfoSetting/WorkInfo";
+import WorkRecuitment from "./WorkComponent/Recruitment/WorkRecuitment";
+import NewRecruitment from "./WorkComponent/Recruitment/NewRecruitment";
 
 function App() {
     return (
@@ -38,6 +40,8 @@ function App() {
                     <Route path="/work/:path/setting/job" element={<SettingJob></SettingJob>}></Route>
                     <Route path="/work/:path/setting/location" element={<SettingLocation></SettingLocation>}></Route>
                     <Route path="/work/:path/setting" element={<WorkInfo></WorkInfo>}></Route>
+                    <Route path="/work/:path/recruitment" element={<WorkRecuitment></WorkRecuitment>}></Route>
+                    <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>
