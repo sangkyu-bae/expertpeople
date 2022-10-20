@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/recruitment")
-@Transactional(readOnly = true)
 public class RecruitmentApiController {
 
     private final JobRepository jobRepository;
@@ -32,7 +32,7 @@ public class RecruitmentApiController {
     private final RecruitmentService recruitmentService;
     private final ModelMapper modelMapper;
     private final RecruitmentValidator recruitmentValidator;
-
+    private final RecruitmentRepository recruitmentRepository;
     @InitBinder("recruitForm")
     public void initBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(recruitmentValidator);
@@ -57,14 +57,24 @@ public class RecruitmentApiController {
         Work work=workService.getWorkToUpdateStatus(account,path);
         Recruitment recruitment=recruitmentService.createRecruitment(account,work,recruitForm,job);
 
-        return ResponseEntity.ok().body(recruitment);
+        return ResponseEntity.ok().body(recruitment.getId());
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?>test(@CurrentAccount Account account,@PathVariable String path){
-//        Work work=workService.getWorkToUpdate()
-        return null;
+    @GetMapping("/{path}/recruitment/{id}")
+    public ResponseEntity<?> getRecruitment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+        Recruitment recruitment= recruitmentRepository.findById(id).orElseThrow();
+        boolean isManager=recruitment.isManager(account);
+        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isManager));
     }
 
 
+    static class RecruitResult<T>{
+        private T recruitment;
+        private T isManager;
+
+        public RecruitResult(T recruitment,T isManager){
+            this.isManager=isManager;
+            this.recruitment=recruitment;
+        }
+    }
 }

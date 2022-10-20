@@ -9,12 +9,10 @@ function WorkHead(props) {
     const {path}=useParams();
     const [isSuccess,setIsSuccess]=useState(false);
     useEffect(()=>{
-         getWork()
-    },[])
-    useEffect(()=>{
         getWork()
     },[isSuccess])
     const getWork=()=>{
+        console.log("?");
         axiosCo.getWork(path)
             .then(e=>{
                 //console.log(e.data)

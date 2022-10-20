@@ -40,7 +40,7 @@ function App() {
                     <Route path="/work/:path/setting/job" element={<SettingJob></SettingJob>}></Route>
                     <Route path="/work/:path/setting/location" element={<SettingLocation></SettingLocation>}></Route>
                     <Route path="/work/:path/setting" element={<WorkInfo></WorkInfo>}></Route>
-                    <Route path="/work/:path/recruitment" element={<WorkRecuitment></WorkRecuitment>}></Route>
+                    <Route path="/work/:path/recruitment/:id" element={<WorkRecuitment></WorkRecuitment>}></Route>
                     <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
                 </Routes>
             <Footer></Footer>

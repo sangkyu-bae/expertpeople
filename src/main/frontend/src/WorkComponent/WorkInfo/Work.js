@@ -21,7 +21,7 @@ function Work(props) {
     }
     const work=useSelector(state=>state.workReducer.work);
     const isManager=useSelector(state=>state.workReducer.isManager);
-    console.log(work);
+    //console.log(work);
     return (
         <div className="container ">
             <div className="container-wrap nw-co">

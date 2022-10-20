@@ -58,7 +58,7 @@ public class Recruitment {
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    public void addCreateAccount(Account account) {
-        this.setCreateBy(account);
+    public boolean isManager(Account account) {
+        return this.createBy.equals(account);
     }
 }

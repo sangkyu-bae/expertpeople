@@ -159,6 +159,10 @@ const axiosCo={
         })
         return res;
 
+    },
+    getRecruitment:async (path, id)=> {
+        const res=await accessAPI.get(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
+        return res;
     }
 }
 

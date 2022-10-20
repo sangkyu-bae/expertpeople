@@ -1,0 +1,47 @@
+.recruitment-head {
+    font-size: 2em;
+}
+.left-flex{
+    flex: 0.8;
+}
+.right-flex{
+    flex: 0.2;
+}
+.recruit-gray{
+    color: gray;
+    font-weight: bold;
+    line-height: 2em;
+}
+.get-recruit-box{
+    margin-bottom: 1.5em;
+}
+.mrg-bt-2{
+    line-height: 1.5em;
+}
+.get-recruit-box button{
+    width: 51%;
+    margin-bottom: 1.2em;
+    background-color: white;
+    border-radius: 0.3em;
+    padding: 4%;
+}
+.btn-blue{
+    border:1px solid #00AAFF;
+    color: #00AAFF;
+}
+.btn-red{
+    border: 1px solid #DB4455;
+    color: #DB4455;
+}
+
+.get-recruit-box button:hover{
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+.btn-blue:hover{
+    background-color: #00AAFF;
+}
+.btn-red:hover{
+    background-color: #DB4455;
+}
