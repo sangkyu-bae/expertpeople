@@ -173,4 +173,9 @@ public class WorkService {
     public void removeMember(Account account, Work work) {
         work.getMembers().remove(account);
     }
+
+    public boolean existWork(String path) {
+        boolean isWork=workRepository.existsByPath(path);
+        return isWork;
+    }
 }

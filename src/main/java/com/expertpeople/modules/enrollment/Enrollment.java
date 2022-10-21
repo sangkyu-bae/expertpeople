@@ -2,16 +2,14 @@ package com.expertpeople.modules.enrollment;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.recruitmentGroup.Recruitment;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of="id")
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class Enrollment {
 
     @Id @GeneratedValue

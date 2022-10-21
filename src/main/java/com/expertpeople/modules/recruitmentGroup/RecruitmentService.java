@@ -1,5 +1,7 @@
 package com.expertpeople.modules.recruitmentGroup;
 
+import com.expertpeople.modules.enrollment.Enrollment;
+import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.account.Account;
@@ -19,6 +21,7 @@ public class RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
     private final ModelMapper modelMapper;
+    private final EnrollmentRepository enrollmentRepository;
 
     public Recruitment createRecruitment(Account account, Work work, RecruitForm recruitForm, Job job) {
         Recruitment recruitment=modelMapper.map(recruitForm,Recruitment.class);
@@ -33,4 +36,16 @@ public class RecruitmentService {
         return recruitment;
     }
 
+    public void addEnrollment(Account account, Long id) {
+        Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
+        if(!enrollmentRepository.existsByRecruitmentAndAccount(recruitment,account)){
+            Enrollment enrollment=Enrollment.builder().
+                    account(account).
+                    enrolledAt(LocalDateTime.now()).
+                    accepted(recruitment.isAbleToAccptWaitingEnrollment()).
+                    build();
+            recruitment.addEnrollment(enrollment);
+            enrollmentRepository.save(enrollment);
+        }
+    }
 }

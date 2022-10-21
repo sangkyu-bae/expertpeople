@@ -61,4 +61,24 @@ public class Recruitment {
     public boolean isManager(Account account) {
         return this.createBy.equals(account);
     }
+
+    public boolean isAbleToAccptWaitingEnrollment() {
+        return this.eventType==EventType.FCFS&&this.limitOfEnrollments>this.getNumberOfAcceptedEnrollments();
+    }
+
+    private long getNumberOfAcceptedEnrollments() {
+        return this.erollments.stream().filter(Enrollment::isAccepted).count();
+    }
+
+    public void addEnrollment(Enrollment enrollment) {
+        this.erollments.add(enrollment);
+        enrollment.setRecruitment(this);
+    }
+
+    public boolean isEnrollment(Account account) {
+        for(Enrollment e:this.erollments){
+            if(e.getAccount().equals(account)&&e.isAttended()) return true;
+        }
+        return false;
+    }
 }

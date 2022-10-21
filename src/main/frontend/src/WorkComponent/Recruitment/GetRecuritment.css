@@ -45,3 +45,26 @@
 .btn-red:hover{
     background-color: #DB4455;
 }
+.flexs{
+    display: flex;
+}
+.flexs button{
+    width: 50%;
+    background-color: white;
+    padding: 0.7em;
+    border-radius: 0.3em;
+}
+.blue-btns{
+    border: 1px solid #00AAFF;
+    color: #00AAFF;
+}
+.flexs button:hover{
+    /*border: none;*/
+    /*cursor: pointer;*/
+    /*color: white;*/
+}
+.blue-btns:hover{
+    cursor: pointer;
+    background-color: #00AAFF;
+    color: white;
+}
