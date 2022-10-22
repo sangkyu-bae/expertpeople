@@ -36,7 +36,7 @@ public class RecruitmentService {
         return recruitment;
     }
 
-    public void addEnrollment(Account account, Long id) {
+    public Recruitment addEnrollment(Account account, Long id) {
         Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         if(!enrollmentRepository.existsByRecruitmentAndAccount(recruitment,account)){
             Enrollment enrollment=Enrollment.builder().
@@ -46,6 +46,10 @@ public class RecruitmentService {
                     build();
             recruitment.addEnrollment(enrollment);
             enrollmentRepository.save(enrollment);
+        }else{
+            throw new IllegalArgumentException("이미 참가신청된 사용자 입니다.");
         }
+
+        return recruitment;
     }
 }

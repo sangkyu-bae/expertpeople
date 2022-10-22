@@ -163,6 +163,11 @@ const axiosCo={
     getRecruitment:async (path, id)=> {
         const res=await accessAPI.get(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
         return res;
+    },
+    addEnrollment:async (path, id)=> {
+        const res=await accessAPI.put(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
+        return res;
+
     }
 }
 

@@ -1,5 +1,6 @@
 package com.expertpeople.modules.recruitmentGroup;
 
+import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
@@ -76,9 +77,9 @@ public class RecruitmentApiController {
         if(!isWork){
             throw new IllegalArgumentException("존재하지 않은 일감의 경로입니다.");
         }
-
-        recruitmentService.addEnrollment(account,id);
-        return ResponseEntity.ok().build();
+        Recruitment recruitment= recruitmentService.addEnrollment(account,id);
+        boolean isEnrollment=true;
+        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isEnrollment));
     }
     @Getter
     @Setter
@@ -89,6 +90,10 @@ public class RecruitmentApiController {
         public RecruitResult(T recruitment,T isManager,T isEnrollment){
             this.recruitment=recruitment;
             this.isManager=isManager;
+            this.isEnrollment=isEnrollment;
+        }
+        public RecruitResult(T recruitment,T isEnrollment){
+            this.recruitment=recruitment;
             this.isEnrollment=isEnrollment;
         }
     }

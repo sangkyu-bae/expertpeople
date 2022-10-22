@@ -1,15 +1,31 @@
 import React from 'react';
+import axiosCo from "../../../util/common/axiosCommon";
+import {useParams} from "react-router-dom";
 
-function RecuritmentHead(props) {
+function RecuritmentHead({title,workTitle,isEnrollment,addRecruitInfoEnrollment}) {
+    const path=useParams();
+    console.log(path.path)
+    const addEnrollment=()=>{
+        axiosCo.addEnrollment(path.path,path.id)
+            .then(e=>{
+                console.log(e.data);
+                addRecruitInfoEnrollment(e.data.recruitment,e.data.isEnrollment);
+            })
+            .catch(e=>console.log(e));
+    }
 
     return (
         <div className='flexs'>
             <div className="recruitment-head mg-bt left-flex">
-                <h2><span className='re-name'>{props.title}</span> <span>/{props.title}</span></h2>
+                <h2><span className='re-name'>{workTitle}</span> <span>/{title}</span></h2>
             </div>
-            <div className='right-flex'>
-                <button className='blue-btns'>참가신청</button>
-            </div>
+            {
+                !isEnrollment &&
+                <div className='right-flex'>
+                    <button className='blue-btns' onClick={addEnrollment}>참가신청</button>
+                </div>
+            }
+
         </div>
     );
 }
