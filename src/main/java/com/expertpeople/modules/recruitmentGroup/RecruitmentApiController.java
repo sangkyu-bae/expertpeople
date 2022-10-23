@@ -1,6 +1,5 @@
 package com.expertpeople.modules.recruitmentGroup;
 
-import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
@@ -10,6 +9,7 @@ import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.recruitmentGroup.validator.RecruitmentValidator;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkService;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,11 +21,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @RequestMapping("/api/recruitment")
 public class RecruitmentApiController {
 
@@ -62,13 +64,32 @@ public class RecruitmentApiController {
         return ResponseEntity.ok().body(recruitment.getId());
     }
 
+    @GetMapping("/{path}")
+    public ResponseEntity<?> getRecruitInfo(@CurrentAccount Account account,@PathVariable String path){
+        Work work=workService.getWork(path);
+
+        List<Recruitment>recruitments=recruitmentRepository.findByWorkOrderByStartDateTime(work);
+        List<Recruitment>newRecruitments=new ArrayList<>();
+        List<Recruitment>oldRecruitmentList=new ArrayList<>();
+
+        recruitments.forEach(e->{
+            if(e.getStartDateTime().isBefore(LocalDateTime.now()))oldRecruitmentList.add(e);
+            else newRecruitments.add(e);
+        });
+
+        return ResponseEntity.ok().body(new RecruitTime<>(newRecruitments,oldRecruitmentList));
+    }
+
+
     @GetMapping("/{path}/recruitment/{id}")
     public ResponseEntity<?> getRecruitment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+        //Optional<Recruitment> optionalRecruitment=recruitmentRepository.findRecruitmentWithWorkById(id);
         Optional<Recruitment>optionalRecruitment=recruitmentRepository.findById(id);
-        Recruitment recruitment=optionalRecruitment.orElseThrow();
+       Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         boolean isManager=recruitment.isManager(account);
-        boolean isEnrollment=recruitment.isEnrollment(account);
-        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isManager,isEnrollment));
+       // boolean isEnrollment=recruitment.isEnrollment(account);
+        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isManager));
+        //return ResponseEntity.ok().body("");
     }
 
     @PutMapping("/{path}/recruitment/{id}")
@@ -79,22 +100,36 @@ public class RecruitmentApiController {
         }
         Recruitment recruitment= recruitmentService.addEnrollment(account,id);
         boolean isEnrollment=true;
-        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isEnrollment));
+        //return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isEnrollment));
+        return null;
     }
     @Getter
     @Setter
+    @Data
     static class RecruitResult<T>{
         private T recruitment;
         private T isManager;
-        private T isEnrollment;
-        public RecruitResult(T recruitment,T isManager,T isEnrollment){
+        public RecruitResult(T recruitment,T isManager){
             this.recruitment=recruitment;
             this.isManager=isManager;
-            this.isEnrollment=isEnrollment;
         }
-        public RecruitResult(T recruitment,T isEnrollment){
-            this.recruitment=recruitment;
-            this.isEnrollment=isEnrollment;
+//        public RecruitResult(T recruitment,T isEnrollment){
+//            this.recruitment=recruitment;
+//            this.isEnrollment=isEnrollment;
+//        }
+    }
+
+    @Getter
+    @Setter
+    static class RecruitTime<T>{
+        private T newRecruitments;
+        private T oldRecruitments;
+
+        public RecruitTime(T newRecruitments,T oldRecruitments){
+            this.newRecruitments=newRecruitments;
+            this.oldRecruitments=oldRecruitments;
         }
     }
+
+
 }

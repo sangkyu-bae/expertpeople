@@ -50,7 +50,7 @@ function WorkHead(props) {
                     </>
                 }
                 {
-                    work.published&&!isMember&&
+                    work.published&&!isMember&&!isManager&&
                     <>
                             <button className="join-work-btn" onClick={joinMember}>현장가입</button>
                             <div className="join-count">0</div>

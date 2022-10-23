@@ -168,6 +168,11 @@ const axiosCo={
         const res=await accessAPI.put(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
         return res;
 
+    },
+    getWorkInRecruitments:async (path)=> {
+        const res=await accessAPI.get(`${requests.fetchRecruitment}/${path}`)
+        return res;
+
     }
 }
 

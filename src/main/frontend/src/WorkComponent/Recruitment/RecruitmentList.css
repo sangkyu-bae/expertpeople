@@ -1,0 +1,26 @@
+.work-flex{
+    display: flex;
+    padding: 1em;
+}
+.work-info-left{
+    flex: 0.15;
+}
+.work-info-right{
+    flex: 0.85;
+}
+.info-box{
+    width: 86%;
+    height: 33%;
+    border: 2px solid ;
+}
+.info-item{
+    height: 50%;
+    padding: 1em;
+}
+.firs{
+    border-bottom: 1px solid black ;
+}
+.content-info-item{
+    flex: 0.5;
+    height: 15em;
+}

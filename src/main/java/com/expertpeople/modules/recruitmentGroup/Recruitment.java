@@ -5,6 +5,7 @@ import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.work.Work;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

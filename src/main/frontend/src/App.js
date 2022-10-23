@@ -19,6 +19,7 @@ import SettingLocation from "./WorkComponent/WorkSetting/Location/SettingLocatio
 import WorkInfo from "./WorkComponent/WorkInfoSetting/WorkInfo";
 import WorkRecuitment from "./WorkComponent/Recruitment/WorkRecuitment";
 import NewRecruitment from "./WorkComponent/Recruitment/NewRecruitment";
+import RecruitmentList from "./WorkComponent/Recruitment/RecruitmentList";
 
 function App() {
     return (
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/work/:path/setting" element={<WorkInfo></WorkInfo>}></Route>
                     <Route path="/work/:path/recruitment/:id" element={<WorkRecuitment></WorkRecuitment>}></Route>
                     <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
+                    <Route path="/work/:path/recruitment" element={<RecruitmentList></RecruitmentList>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>
