@@ -36,7 +36,7 @@ function RecruitmentContnet({recruitment,isManager}) {
                 </div>
                 <div className='get-recruit-box'>
                     <span className='recruit-gray'>담당자</span><br/>
-                    <span>{recruitment.createBy.name}</span>
+                    <span>{recruitment.createName}</span>
                 </div>
                 {
                     isManager&&

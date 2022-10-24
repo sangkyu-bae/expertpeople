@@ -1,15 +1,16 @@
 package com.expertpeople.modules.recruitmentGroup;
 
+import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.recruitmentGroup.validator.RecruitmentValidator;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkService;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -65,31 +66,34 @@ public class RecruitmentApiController {
     }
 
     @GetMapping("/{path}")
-    public ResponseEntity<?> getRecruitInfo(@CurrentAccount Account account,@PathVariable String path){
+    public ResponseEntity<RecruitTime> getRecruitInfo(@CurrentAccount Account account,@PathVariable String path){
         Work work=workService.getWork(path);
 
         List<Recruitment>recruitments=recruitmentRepository.findByWorkOrderByStartDateTime(work);
-        List<Recruitment>newRecruitments=new ArrayList<>();
-        List<Recruitment>oldRecruitmentList=new ArrayList<>();
 
-        recruitments.forEach(e->{
-            if(e.getStartDateTime().isBefore(LocalDateTime.now()))oldRecruitmentList.add(e);
-            else newRecruitments.add(e);
-        });
+        List<RecruitmentVo>newRecruitments=new ArrayList<>();
+        List<RecruitmentVo>oldRecruitmentList=new ArrayList<>();
 
-        return ResponseEntity.ok().body(new RecruitTime<>(newRecruitments,oldRecruitmentList));
+        if(!recruitments.isEmpty()){
+            List<RecruitmentVo>recruitmentVos=recruitmentService.convertRecruitList(recruitments);
+            recruitmentVos.forEach(e->{
+                if(e.getStartDateTime().isBefore(LocalDateTime.now()))oldRecruitmentList.add(e);
+                else newRecruitments.add(e);
+            });
+        }
+
+        return ResponseEntity.ok().body(new RecruitTime(newRecruitments,oldRecruitmentList));
     }
 
 
     @GetMapping("/{path}/recruitment/{id}")
     public ResponseEntity<?> getRecruitment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
-        //Optional<Recruitment> optionalRecruitment=recruitmentRepository.findRecruitmentWithWorkById(id);
-        Optional<Recruitment>optionalRecruitment=recruitmentRepository.findById(id);
-       Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
+        Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         boolean isManager=recruitment.isManager(account);
-       // boolean isEnrollment=recruitment.isEnrollment(account);
-        return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isManager));
-        //return ResponseEntity.ok().body("");
+        List<Enrollment> enrollments=recruitment.getErollments();
+        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment,enrollments);
+
+        return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager));
     }
 
     @PutMapping("/{path}/recruitment/{id}")
@@ -99,13 +103,12 @@ public class RecruitmentApiController {
             throw new IllegalArgumentException("존재하지 않은 일감의 경로입니다.");
         }
         Recruitment recruitment= recruitmentService.addEnrollment(account,id);
-        boolean isEnrollment=true;
-        //return ResponseEntity.ok().body(new RecruitResult<>(recruitment,isEnrollment));
-        return null;
+        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment,recruitment.getErollments());
+
+        return ResponseEntity.ok().body(recruitmentVo);
     }
     @Getter
     @Setter
-    @Data
     static class RecruitResult<T>{
         private T recruitment;
         private T isManager;
@@ -113,10 +116,6 @@ public class RecruitmentApiController {
             this.recruitment=recruitment;
             this.isManager=isManager;
         }
-//        public RecruitResult(T recruitment,T isEnrollment){
-//            this.recruitment=recruitment;
-//            this.isEnrollment=isEnrollment;
-//        }
     }
 
     @Getter

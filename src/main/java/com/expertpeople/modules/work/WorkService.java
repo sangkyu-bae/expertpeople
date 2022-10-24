@@ -2,6 +2,7 @@ package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.work.Vo.WorkVo;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.zone.Zone;
@@ -12,7 +13,11 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -177,5 +182,21 @@ public class WorkService {
     public boolean existWork(String path) {
         boolean isWork=workRepository.existsByPath(path);
         return isWork;
+    }
+
+    public WorkVo convertWorkVo(Work work) {
+        WorkVo workVo=modelMapper.map(work,WorkVo.class);
+        Set<WorkVo.Accounts> managers=new HashSet<>();
+        Set<WorkVo.Accounts> members=new HashSet<>();
+        for (Account account:work.getManagers()){
+            managers.add(new WorkVo.Accounts(account));
+        }
+        for(Account account:work.getMembers()){
+            members.add(new WorkVo.Accounts(account));
+        }
+        workVo.setManagers(managers);
+        workVo.setMembers(members);
+
+        return workVo;
     }
 }

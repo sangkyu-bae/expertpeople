@@ -17,7 +17,7 @@ function RecruitmentList(props) {
     }
 
     useEffect(()=>{
-        getRecruitments()
+       getRecruitments()
     },[])
     return (
         <div className="container ">

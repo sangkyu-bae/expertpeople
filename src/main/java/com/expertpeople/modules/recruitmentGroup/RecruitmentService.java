@@ -3,6 +3,7 @@ package com.expertpeople.modules.recruitmentGroup;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.work.Work;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +54,24 @@ public class RecruitmentService {
         }
 
         return recruitment;
+    }
+
+    public RecruitmentVo convertRecruit(Recruitment recruitment, List<Enrollment> enrollments) {
+        RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
+
+        List<RecruitmentVo.Enrollments> enrollmentsList=enrollments.stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
+        recruitmentVo.setErollments(enrollmentsList);
+
+        return recruitmentVo;
+    }
+
+    public List<RecruitmentVo> convertRecruitList(List<Recruitment> recruitments) {
+        List<RecruitmentVo> recruitmentVos=new ArrayList<>();
+        for(Recruitment recruitment:recruitments){
+            RecruitmentVo recruitmentVo=this.convertRecruit(recruitment,recruitment.getErollments());
+            recruitmentVos.add(recruitmentVo);
+        }
+
+        return recruitmentVos;
     }
 }

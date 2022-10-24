@@ -51,7 +51,7 @@ function WorkRecruitment(props) {
                     recruitment&&
                     <>
                         <RecuritmentHead
-                            workTitle={recruitment.work.title}
+                            workTitle={recruitment.workTitle}
                             title={recruitment.title}
                             isEnrollment={isEnrollment}
                             addRecruitInfoEnrollment={addRecruitInfoEnrollment}

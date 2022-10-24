@@ -12,7 +12,6 @@ function WorkHead(props) {
         getWork()
     },[isSuccess])
     const getWork=()=>{
-        console.log("?");
         axiosCo.getWork(path)
             .then(e=>{
                 //console.log(e.data)

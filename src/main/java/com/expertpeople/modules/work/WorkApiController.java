@@ -2,6 +2,7 @@ package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
+import com.expertpeople.modules.work.Vo.WorkVo;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.work.validator.WorkFormValidator;
 import lombok.Getter;
@@ -42,7 +43,9 @@ public class WorkApiController {
         boolean isMember=work.isMember(account);
         boolean isJoinable=work.isJoinable(account);
 
-        return ResponseEntity.ok().body(new WorkResult<>(work,isManager,isMember,isJoinable));
+        WorkVo workVo=workService.convertWorkVo(work);
+        return ResponseEntity.ok().body(new WorkResult<>(workVo,isManager,isMember,isJoinable));
+        //return ResponseEntity.ok().body(new WorkResult<>(work,isManager,isMember,isJoinable));
     }
 
     @Getter

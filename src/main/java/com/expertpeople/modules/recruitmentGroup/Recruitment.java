@@ -54,6 +54,7 @@ public class Recruitment {
     private Integer limitOfEnrollments;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "recruitment")
+    //@JsonBackReference
     private List<Enrollment> erollments;
 
     @Enumerated(EnumType.STRING)
