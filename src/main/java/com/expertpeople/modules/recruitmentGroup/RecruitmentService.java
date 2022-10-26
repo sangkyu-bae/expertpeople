@@ -6,6 +6,7 @@ import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.account.Account;
+import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
 import com.expertpeople.modules.work.Work;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -56,10 +57,19 @@ public class RecruitmentService {
         return recruitment;
     }
 
-    public RecruitmentVo convertRecruit(Recruitment recruitment, List<Enrollment> enrollments) {
+//    public RecruitmentVo convertRecruit(Recruitment recruitment, List<Enrollment> enrollments) {
+//        RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
+//        if(!enrollments.isEmpty()){
+//            List<RecruitmentVo.Enrollments> enrollmentsList=enrollments.stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
+//            recruitmentVo.setErollments(enrollmentsList);
+//        }else{
+//            System.out.println("dd");
+//        }
+//        return recruitmentVo;
+//    }
+    public RecruitmentVo convertRecruit(Recruitment recruitment) {
         RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
-
-        List<RecruitmentVo.Enrollments> enrollmentsList=enrollments.stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
+        List<RecruitmentVo.Enrollments> enrollmentsList=recruitment.getErollments().stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
         recruitmentVo.setErollments(enrollmentsList);
 
         return recruitmentVo;
@@ -68,10 +78,22 @@ public class RecruitmentService {
     public List<RecruitmentVo> convertRecruitList(List<Recruitment> recruitments) {
         List<RecruitmentVo> recruitmentVos=new ArrayList<>();
         for(Recruitment recruitment:recruitments){
-            RecruitmentVo recruitmentVo=this.convertRecruit(recruitment,recruitment.getErollments());
+            RecruitmentVo recruitmentVo=this.convertRecruit(recruitment);
             recruitmentVos.add(recruitmentVo);
         }
 
         return recruitmentVos;
+    }
+
+    public Recruitment getUpdateRecruit(Long id, Account account) {
+        Recruitment recruitment=recruitmentRepository.findByCreateByAndId(account,id);
+        if(recruitment==null){
+            throw new IllegalArgumentException("존재하지 않은 경로의 일감이거나, 일감 관리자가 아닙니다.");
+        }
+        return recruitment;
+    }
+
+    public void updateRecruit(RecruitUpdateForm recruitUpdateForm,Recruitment recruitment) {
+        modelMapper.map(recruitUpdateForm,recruitment);
     }
 }

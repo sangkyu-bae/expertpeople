@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Getter@Setter
 public class RecruitmentVo {
-
+    private Long id;
     private String createName;
 
     private String title;
@@ -31,9 +31,12 @@ public class RecruitmentVo {
 
     private EventType eventType;
 
+    private int numberOfRemainSpot;
+
     private List<Enrollments> erollments;
 
     public RecruitmentVo(Recruitment recruitment){
+        this.id=recruitment.getId();
         this.createName=recruitment.getCreateBy().getName();
         this.title=recruitment.getTitle();
         this.description=recruitment.getDescription();
@@ -44,6 +47,7 @@ public class RecruitmentVo {
         this.limitOfEnrollments=recruitment.getLimitOfEnrollments();
         this.eventType=recruitment.getEventType();
         this.workTitle=recruitment.getWork().getTitle();
+        this.numberOfRemainSpot=recruitment.numberOfRemainSpot();
     }
     @Getter@Setter
     public static class Enrollments{

@@ -8,6 +8,7 @@ import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
+import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
 import com.expertpeople.modules.recruitmentGroup.validator.RecruitmentValidator;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkService;
@@ -77,7 +78,7 @@ public class RecruitmentApiController {
         if(!recruitments.isEmpty()){
             List<RecruitmentVo>recruitmentVos=recruitmentService.convertRecruitList(recruitments);
             recruitmentVos.forEach(e->{
-                if(e.getStartDateTime().isBefore(LocalDateTime.now()))oldRecruitmentList.add(e);
+                if(e.getEndEnrollmentDateTime().isBefore(LocalDateTime.now()))oldRecruitmentList.add(e);
                 else newRecruitments.add(e);
             });
         }
@@ -91,19 +92,25 @@ public class RecruitmentApiController {
         Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         boolean isManager=recruitment.isManager(account);
         List<Enrollment> enrollments=recruitment.getErollments();
-        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment,enrollments);
+        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager));
+    }
+    @PutMapping("/update/{path}/recruitment/{id}/")
+    public ResponseEntity<?> updateRecruitment(@CurrentAccount Account account, @RequestBody RecruitUpdateForm recruitUpdateForm
+            , @PathVariable String path, @PathVariable Long id){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.updateRecruit(recruitUpdateForm,recruitment);
+
+        return null;
     }
 
     @PutMapping("/{path}/recruitment/{id}")
     public ResponseEntity<?> newEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
-        boolean isWork=workService.existWork(path);
-        if(!isWork){
-            throw new IllegalArgumentException("존재하지 않은 일감의 경로입니다.");
-        }
+        workService.isCheckWork(path);
         Recruitment recruitment= recruitmentService.addEnrollment(account,id);
-        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment,recruitment.getErollments());
+        RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(recruitmentVo);
     }

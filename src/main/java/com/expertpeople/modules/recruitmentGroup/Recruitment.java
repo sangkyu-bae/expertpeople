@@ -83,4 +83,14 @@ public class Recruitment {
         }
         return false;
     }
+
+    public int numberOfRemainSpot(){
+        int acceptCount=0;
+        for (Enrollment enrollment:this.erollments){
+            if(enrollment.isAccepted()){
+                acceptCount++;
+            }
+        }
+        return this.limitOfEnrollments-acceptCount;
+    }
 }

@@ -1,5 +1,6 @@
 package com.expertpeople.modules.recruitmentGroup;
 
+import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.work.Work;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,7 @@ import java.util.Optional;
 public interface RecruitmentRepository extends JpaRepository<Recruitment,Long> {
     @EntityGraph(attributePaths = {"work","createBy","erollments","job"})
     Optional<Recruitment> findRecruitmentWithWorkById(Long id);
+    @EntityGraph(attributePaths = "erollments")
     List<Recruitment> findByWorkOrderByStartDateTime(Work work);
+    Recruitment findByCreateByAndId(Account account, Long id);
 }

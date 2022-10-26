@@ -179,10 +179,6 @@ public class WorkService {
         work.getMembers().remove(account);
     }
 
-    public boolean existWork(String path) {
-        boolean isWork=workRepository.existsByPath(path);
-        return isWork;
-    }
 
     public WorkVo convertWorkVo(Work work) {
         WorkVo workVo=modelMapper.map(work,WorkVo.class);
@@ -198,5 +194,12 @@ public class WorkService {
         workVo.setMembers(members);
 
         return workVo;
+    }
+
+    public void isCheckWork(String path) {
+        boolean isWork=workRepository.existsByPath(path);
+        if(!isWork){
+            throw new IllegalArgumentException("존재하지 않은 일감의 경로입니다.");
+        }
     }
 }
