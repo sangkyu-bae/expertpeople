@@ -173,6 +173,10 @@ const axiosCo={
         const res=await accessAPI.get(`${requests.fetchRecruitment}/${path}`)
         return res;
 
+    },
+    updateRecruit:async (path, id)=> {
+        const res=await accessAPI.put(`${requests.fetchRecruitment}/update/${path}/recruitment/${id}`)
+        return res;
     }
 }
 

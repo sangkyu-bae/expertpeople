@@ -9,6 +9,7 @@ import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
+import com.expertpeople.modules.recruitmentGroup.validator.RecruitUpdateValidator;
 import com.expertpeople.modules.recruitmentGroup.validator.RecruitmentValidator;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkService;
@@ -39,9 +40,15 @@ public class RecruitmentApiController {
     private final ModelMapper modelMapper;
     private final RecruitmentValidator recruitmentValidator;
     private final RecruitmentRepository recruitmentRepository;
+    private final RecruitUpdateValidator recruitUpdateValidator;
     @InitBinder("recruitForm")
     public void initBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(recruitmentValidator);
+    }
+
+    @InitBinder("recruitUpdateForm")
+    public void initBinderRecruitUpdate(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(recruitUpdateValidator);
     }
     @GetMapping("/jobs")
     public ResponseEntity<?> getJob(@CurrentAccount Account account){
@@ -89,16 +96,19 @@ public class RecruitmentApiController {
 
     @GetMapping("/{path}/recruitment/{id}")
     public ResponseEntity<?> getRecruitment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+        workService.isCheckWork(path);
         Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         boolean isManager=recruitment.isManager(account);
-        List<Enrollment> enrollments=recruitment.getErollments();
         RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager));
     }
     @PutMapping("/update/{path}/recruitment/{id}/")
-    public ResponseEntity<?> updateRecruitment(@CurrentAccount Account account, @RequestBody RecruitUpdateForm recruitUpdateForm
-            , @PathVariable String path, @PathVariable Long id){
+    public ResponseEntity<?> updateRecruitment(@CurrentAccount Account account, @Valid @RequestBody RecruitUpdateForm recruitUpdateForm
+            , @PathVariable String path, @PathVariable Long id,Errors errors){
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().body(errors);
+        }
         workService.isCheckWork(path);
         Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
         recruitmentService.updateRecruit(recruitUpdateForm,recruitment);
@@ -113,6 +123,14 @@ public class RecruitmentApiController {
         RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(recruitmentVo);
+    }
+
+    @DeleteMapping("/{path}/recruitment/{id}")
+    public ResponseEntity<?> removeRecruit(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.removeRecruitment(recruitment);
+        return ResponseEntity.ok().build();
     }
     @Getter
     @Setter

@@ -57,16 +57,6 @@ public class RecruitmentService {
         return recruitment;
     }
 
-//    public RecruitmentVo convertRecruit(Recruitment recruitment, List<Enrollment> enrollments) {
-//        RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
-//        if(!enrollments.isEmpty()){
-//            List<RecruitmentVo.Enrollments> enrollmentsList=enrollments.stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
-//            recruitmentVo.setErollments(enrollmentsList);
-//        }else{
-//            System.out.println("dd");
-//        }
-//        return recruitmentVo;
-//    }
     public RecruitmentVo convertRecruit(Recruitment recruitment) {
         RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
         List<RecruitmentVo.Enrollments> enrollmentsList=recruitment.getErollments().stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
@@ -94,6 +84,12 @@ public class RecruitmentService {
     }
 
     public void updateRecruit(RecruitUpdateForm recruitUpdateForm,Recruitment recruitment) {
+        recruitment.setEventType(recruitUpdateForm.getEventType());
         modelMapper.map(recruitUpdateForm,recruitment);
+        recruitment.acceptEnrollmentList();
+    }
+
+    public void removeRecruitment(Recruitment recruitment) {
+        recruitmentRepository.delete(recruitment);
     }
 }

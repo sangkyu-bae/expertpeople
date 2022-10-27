@@ -1,6 +1,8 @@
 import React from 'react';
+import {Link, useParams} from "react-router-dom";
 
 function RecruitmentContnet({recruitment,isManager}) {
+    const path=useParams();
     return (
         <div className='flex'>
             <div className='left-flex'>
@@ -42,7 +44,9 @@ function RecruitmentContnet({recruitment,isManager}) {
                     isManager&&
                     <div className='get-recruit-box'>
                         <span className='recruit-gray'>구인 관리</span><br/>
-                        <button className='btn-blue'>구인 수정</button>
+                        <Link to={`/work/${path.path}/update-recruitment/${path.id}`}>
+                            <button className='btn-blue' >구인 수정</button>
+                        </Link>
                         <button className='btn-red'>구인 취소</button>
                     </div>
                 }

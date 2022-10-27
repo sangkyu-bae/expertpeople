@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './Recruitment.css';
 import axiosCo from "../../util/common/axiosCommon";
 import RecuritmentGropBox from "./RecruitmentComponent/RecuritmentGropBox";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {useSelector} from "react-redux";
@@ -33,9 +33,13 @@ function NewRecruitment(props) {
     }
 
     const work=useSelector(state=>state.workReducer.work);
+    const nav=useNavigate()
     const addRecruit=()=>{
         axiosCo.addRecruitment(inputs,path.path)
-            .then(e=>console.log(e.data))
+            .then(e=>{
+                console.log(e.data);
+                nav(`/work/${path.path}/recruitment/${path.id}`);
+            })
             .catch(e=>console.log(e));
     }
     const{title,endEnrollmentDateTime,startDateTime,endDateTime,limitOfEnrollments}=inputs;
