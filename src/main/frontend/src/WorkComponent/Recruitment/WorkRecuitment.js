@@ -16,17 +16,21 @@ function WorkRecruitment(props) {
         enrollments:[]
     }]);
     const {isManager,recruitment,isEnrollment,enrollments}=recruitInfo;
-    const addRecruitInfoEnrollment=(enrollment,isEnrollment)=>{
+    const addRecruitInfoEnrollment=(data)=>{
         setRecruitInfo({
             ...recruitInfo,
-           isEnrollment:isEnrollment,
-            recruitment:enrollment
+           isEnrollment:true,
+            enrollments:data.erollments
         })
     }
     useEffect(()=>{
         getRecruit();
     },[])
 
+    useEffect(()=>{
+        console.log(recruitment)
+        console.log(isEnrollment)
+    },[enrollments])
     const dateForm='YYYY-MM-DD';
 
     const getRecruit=()=>{
@@ -56,7 +60,7 @@ function WorkRecruitment(props) {
                             isEnrollment={isEnrollment}
                             addRecruitInfoEnrollment={addRecruitInfoEnrollment}
                         ></RecuritmentHead>
-                        <RecruitmentContnet recruitment={recruitment} isManager={isManager}></RecruitmentContnet>
+                        <RecruitmentContnet recruitment={recruitment} isManager={isManager} enrollments={enrollments}></RecruitmentContnet>
                     </>
                 }
             </div>

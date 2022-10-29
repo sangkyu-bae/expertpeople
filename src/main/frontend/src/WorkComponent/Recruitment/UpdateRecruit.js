@@ -4,13 +4,14 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axiosCo from "../../util/common/axiosCommon";
 import {useNavigate, useParams} from "react-router-dom";
 import formValidation from "../../util/common/Validation";
+import RecuritAlertBox from "./common/RecuritAlertBox";
 
 function UpdateRecruit(props) {
     const path=useParams();
     const nav=useNavigate();
     const [inputs,setInputs]=useState({
         title:"",
-        eventType:"",
+        eventType:"FCFS",
         limitOfEnrollments:"",
         endEnrollmentDateTime:"",
         startDateTime:"",
@@ -31,6 +32,7 @@ function UpdateRecruit(props) {
         isServerError:false,
         isFormCheckError:false
     })
+    const {isServerError,isManagerError,isFormCheckError}=error;
     useEffect(()=>{
         getRecruit();
     },[])
@@ -65,7 +67,11 @@ function UpdateRecruit(props) {
             })
             return false;
         }
-        axiosCo.updateRecruit(path.path,path.id)
+        updateRecruit();
+    }
+
+    const updateRecruit=()=>{
+        axiosCo.updateRecruit(path.path,path.id,inputs)
             .then(e=>{
                 nav(`/work/${path.path}/recruitment/${path.id}`)
             })
@@ -77,9 +83,13 @@ function UpdateRecruit(props) {
                 })
             })
     }
+
     return (
         <div className="container work-setting-wrap new-re-wrap">
             <div className="container-wrap nw-co new-recruitment-boxs">
+                {
+                    isServerError||isManagerError||isFormCheckError &&<RecuritAlertBox text={'잘못된 값을 사용하고 있습니다. 확인 하세요.'}></RecuritAlertBox>
+                }
                 {
                     recruitInfo&&
                     <>
@@ -137,7 +147,6 @@ function UpdateRecruit(props) {
                                             ...inputs,
                                             description: data
                                         })
-                                        console.log( { event, editor, data } );
                                     } }
                                 />
                             </div>

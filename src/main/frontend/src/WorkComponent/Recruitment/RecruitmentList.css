@@ -52,3 +52,6 @@
 .info-box :hover{
     cursor: pointer;
 }
+.re-box{
+    width: 100%;
+}

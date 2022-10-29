@@ -1,11 +1,14 @@
 package com.expertpeople.modules.recruitmentGroup.validator;
 
 import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.time.LocalDateTime;
-
+@Component
+@RequiredArgsConstructor
 public class RecruitUpdateValidator implements Validator {
     private static LocalDateTime nowTime=LocalDateTime.now();
 

@@ -1,6 +1,5 @@
 package com.expertpeople.modules.recruitmentGroup;
 
-import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @RequestMapping("/api/recruitment")
 public class RecruitmentApiController {
 
@@ -69,7 +66,6 @@ public class RecruitmentApiController {
         }
         Work work=workService.getWorkToUpdateStatus(account,path);
         Recruitment recruitment=recruitmentService.createRecruitment(account,work,recruitForm,job);
-
         return ResponseEntity.ok().body(recruitment.getId());
     }
 
@@ -103,7 +99,7 @@ public class RecruitmentApiController {
 
         return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager));
     }
-    @PutMapping("/update/{path}/recruitment/{id}/")
+    @PutMapping("/update/{path}/{id}")
     public ResponseEntity<?> updateRecruitment(@CurrentAccount Account account, @Valid @RequestBody RecruitUpdateForm recruitUpdateForm
             , @PathVariable String path, @PathVariable Long id,Errors errors){
         if(errors.hasErrors()){
@@ -130,6 +126,42 @@ public class RecruitmentApiController {
         workService.isCheckWork(path);
         Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
         recruitmentService.removeRecruitment(recruitment);
+        return ResponseEntity.ok().build();
+    }
+    
+    @PutMapping("/{path}/accept/recruitment/{id}/{enrollmentId}")
+    public ResponseEntity<?>acceptEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id,@PathVariable Long enrollmentId){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.acceptEnrollment(recruitment,enrollmentId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{path}/reject/recruitment/{id}/{enrollmentId}")
+    public ResponseEntity<?>rejectEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id, @PathVariable Long enrollmentId){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.rejectEnrollment(recruitment,enrollmentId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{path}/attend/enrollment/{id}/{enrollmentId}")
+    public ResponseEntity<?> attendAcceptEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id, @PathVariable Long enrollmentId){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.attendAcceptEnrollment(recruitment,enrollmentId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{path}/cancel/attend/{id}/{enrollmentId}")
+    public ResponseEntity<?> CancelAttendEnrollment(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id, @PathVariable Long enrollmentId){
+        workService.isCheckWork(path);
+        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.cancelAttend(recruitment,enrollmentId);
+
         return ResponseEntity.ok().build();
     }
     @Getter

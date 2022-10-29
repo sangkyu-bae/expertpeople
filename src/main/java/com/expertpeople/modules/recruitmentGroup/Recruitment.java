@@ -4,10 +4,7 @@ import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.work.Work;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,8 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Getter @Setter @EqualsAndHashCode(of="id")
-@NoArgsConstructor
+@Getter @Setter
+@EqualsAndHashCode(of="id")
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class Recruitment {
     @Id @GeneratedValue
     private Long id;
@@ -52,7 +50,6 @@ public class Recruitment {
     private Integer limitOfEnrollments;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "recruitment")
-    //@JsonBackReference
     private List<Enrollment> erollments;
 
     @Enumerated(EnumType.STRING)
@@ -96,7 +93,9 @@ public class Recruitment {
         int remainAcceptCount= numberOfRemainSpot();
         if(isCheckRemainEnrollment(remainAcceptCount)){
             List<Enrollment> waitingList= getWaitingList();
-            waitingList.subList(0,remainAcceptCount).forEach(e->e.setAccepted(true));
+            if(!waitingList.isEmpty()){
+                waitingList.subList(0,remainAcceptCount).forEach(e->e.setAccepted(true));
+            }
         }
     }
 
@@ -106,5 +105,45 @@ public class Recruitment {
 
     private List<Enrollment> getWaitingList() {
         return this.erollments.stream().filter(enrollment -> !enrollment.isAttended()).collect(Collectors.toList());
+    }
+
+    public void acceptEnrollment(Enrollment enrollment) {
+        checkContainEnrollment(enrollment);
+        if(isCheckRemainAndComfirmative()){
+            enrollment.setAccepted(true);
+        }
+    }
+
+    private void checkContainEnrollment(Enrollment enrollment) {
+        if(this.erollments.contains(enrollment)){
+            throw new IllegalArgumentException("일감 참가 대기중인 신청자가 아닙니다.");
+        }
+    }
+
+    private boolean isCheckRemainAndComfirmative() {
+        return numberOfRemainSpot() > 0 && this.eventType == EventType.COMFIRMATIVE;
+    }
+
+    public void rejectEnrollment(Enrollment enrollment) {
+        checkContainEnrollment(enrollment);
+        if(this.eventType == EventType.COMFIRMATIVE){
+            enrollment.setAccepted(false);
+        }
+    }
+
+    public void acceptAttend(Enrollment enrollment) {
+        if(!enrollment.isAttended()&&isCheckAttend(enrollment)){
+            enrollment.setAttended(true);
+        }
+    }
+
+    private boolean isCheckAttend(Enrollment enrollment) {
+        return this.erollments.contains(enrollment)&&enrollment.isAccepted();
+    }
+
+    public void cancelAttend(Enrollment enrollment) {
+        if(enrollment.isAttended()&&isCheckAttend(enrollment)){
+            enrollment.setAttended(false);
+        }
     }
 }

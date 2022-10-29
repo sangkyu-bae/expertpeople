@@ -92,4 +92,24 @@ public class RecruitmentService {
     public void removeRecruitment(Recruitment recruitment) {
         recruitmentRepository.delete(recruitment);
     }
+
+    public void acceptEnrollment(Recruitment recruitment, Long enrollmentId) {
+        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+        recruitment.acceptEnrollment(enrollment);
+    }
+
+    public void rejectEnrollment(Recruitment recruitment, Long enrollmentId) {
+        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+        recruitment.rejectEnrollment(enrollment);
+    }
+
+    public void attendAcceptEnrollment(Recruitment recruitment, Long enrollmentId) {
+        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+        recruitment.acceptAttend(enrollment);
+    }
+
+    public void cancelAttend(Recruitment recruitment, Long enrollmentId) {
+        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+        recruitment.cancelAttend(enrollment);
+    }
 }

@@ -3,15 +3,19 @@ import {Link, useParams} from "react-router-dom";
 
 function RecruitmentContnet({recruitment,isManager}) {
     const path=useParams();
+    console.log(recruitment)
     return (
         <div className='flex'>
             <div className='left-flex'>
-                <div className='get-recruit-box'>
+                <div className='get-recruit-box' >
                     <span className='recruit-gray'>상세 채용 설명</span><br/>
-                    <span>{recruitment.description}</span>
+                    <span dangerouslySetInnerHTML={ {__html: recruitment.description}}></span>
                 </div>
                 <div className='get-recruit-box'>
-                    <span className='recruit-gray'>구직 신청 ({recruitment.erollments.length})</span>
+                    <span className='recruit-gray' >구직 신청 ({
+                        recruitment.erollments&&
+                        recruitment.erollments.length
+                    })</span>
                 </div>
             </div>
             <div className='right-flex'>

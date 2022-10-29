@@ -33,9 +33,9 @@ const formValidation={
 
         if (inputs.title.length>50||inputs.title.length<2) isCheck=false;
         if (inputs.description.length<5) isCheck=false;
-        if(moment(nowDate).isBefore(endEnrollmentDateTime)) isCheck=false;
-        if(moment(nowDate).isBefore(startDateTime)) isCheck=false;
-        if(moment(startDateTime).isBefore(endDateTime)) isCheck=false;
+        if(moment(nowDate).isAfter(endEnrollmentDateTime)) isCheck=false;
+        if(moment(nowDate).isAfter(startDateTime)) isCheck=false;
+        if(moment(startDateTime).isAfter(endDateTime)) isCheck=false;
         if(inputs.limitOfEnrollments<2) isCheck=false;
 
         return isCheck;

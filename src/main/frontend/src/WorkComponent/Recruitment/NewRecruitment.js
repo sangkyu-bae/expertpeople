@@ -38,7 +38,7 @@ function NewRecruitment(props) {
         axiosCo.addRecruitment(inputs,path.path)
             .then(e=>{
                 console.log(e.data);
-                nav(`/work/${path.path}/recruitment/${path.id}`);
+                nav(`/work/${path.path}/recruitment/${e.data}`);
             })
             .catch(e=>console.log(e));
     }
