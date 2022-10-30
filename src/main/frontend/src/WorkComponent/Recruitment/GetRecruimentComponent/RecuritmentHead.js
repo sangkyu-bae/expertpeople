@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 
 function RecuritmentHead({title,workTitle,isEnrollment,addRecruitInfoEnrollment}) {
     const path=useParams();
+    console.log(isEnrollment)
     const addEnrollment=()=>{
         axiosCo.addEnrollment(path.path,path.id)
             .then(e=>{

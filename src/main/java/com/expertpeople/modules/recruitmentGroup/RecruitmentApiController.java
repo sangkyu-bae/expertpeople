@@ -95,9 +95,10 @@ public class RecruitmentApiController {
         workService.isCheckWork(path);
         Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
         boolean isManager=recruitment.isManager(account);
+        boolean isMember= recruitment.isMember(account);
         RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
-        return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager));
+        return ResponseEntity.ok().body(new RecruitResult<>(recruitmentVo,isManager,isMember));
     }
     @PutMapping("/update/{path}/{id}")
     public ResponseEntity<?> updateRecruitment(@CurrentAccount Account account, @Valid @RequestBody RecruitUpdateForm recruitUpdateForm
@@ -169,9 +170,11 @@ public class RecruitmentApiController {
     static class RecruitResult<T>{
         private T recruitment;
         private T isManager;
-        public RecruitResult(T recruitment,T isManager){
+        private T isMember;
+        public RecruitResult(T recruitment,T isManager,T isMember){
             this.recruitment=recruitment;
             this.isManager=isManager;
+            this.isMember=isMember;
         }
     }
 

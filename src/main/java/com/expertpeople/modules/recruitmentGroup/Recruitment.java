@@ -146,4 +146,13 @@ public class Recruitment {
             enrollment.setAttended(false);
         }
     }
+
+    public boolean isMember(Account account) {
+        for(Enrollment enrollment:this.erollments){
+            if(enrollment.getAccount().equals(account)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

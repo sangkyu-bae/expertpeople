@@ -27,12 +27,7 @@ function WorkRecruitment(props) {
         getRecruit();
     },[])
 
-    useEffect(()=>{
-        console.log(recruitment)
-        console.log(isEnrollment)
-    },[enrollments])
     const dateForm='YYYY-MM-DD';
-
     const getRecruit=()=>{
         axiosCo.getRecruitment(path.path,path.id)
             .then(e=>{
@@ -41,8 +36,9 @@ function WorkRecruitment(props) {
                 e.data.recruitment.endEnrollmentDateTime=moment().format(dateForm)
                 setRecruitInfo({
                     isManager:e.data.isManager,
-                    isEnrollment:e.data.isEnrollment,
-                    recruitment:e.data.recruitment
+                    isEnrollment:e.data.isMember,
+                    recruitment:e.data.recruitment,
+                    enrollments:e.data.recruitment.erollments
                 });
             })
             .catch(e=>console.log(e));

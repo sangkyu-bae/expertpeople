@@ -68,3 +68,29 @@
     background-color: #00AAFF;
     color: white;
 }
+table{
+    width: 80%;
+    text-align: left;
+}
+th-first,th-first{
+    width: 100%;
+}
+.th-first{
+    width: 5%;
+}
+.th-second{
+    width: 20%;
+}
+.th-third{
+    width: 25%;
+}
+th{
+    color: gray;
+}
+thead{
+    height: 2em;
+}
+tr{
+    height: 1.5em;
+
+}
