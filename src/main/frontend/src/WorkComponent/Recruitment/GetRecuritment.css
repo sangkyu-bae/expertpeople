@@ -94,3 +94,10 @@ tr{
     height: 1.5em;
 
 }
+.color-blue{
+    color: #00AAFF;
+}
+.color-blue:hover{
+    font-weight: bold;
+    cursor: pointer;
+}

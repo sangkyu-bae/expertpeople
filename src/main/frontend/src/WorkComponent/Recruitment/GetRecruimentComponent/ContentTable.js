@@ -10,8 +10,8 @@ function ContentTable({enrollments}) {
             e.enrolledAt=moment(e.enrolledAt).format(dateForm)
         })
         setEnrollmentList(enrollments)
-
     },[])
+    let id=1;
     return (
         <table>
             <thead>
@@ -27,9 +27,8 @@ function ContentTable({enrollments}) {
             <tbody>
             {
                 enrollmentList.length>0&&
-                enrollmentList.map((enrollment)=>
-                   <EnrollmentBox key={enrollment.id} enrollment={enrollment}></EnrollmentBox>
-
+                enrollmentList.map((enrollment,index)=>
+                   <EnrollmentBox key={enrollment.id}  id={index+1}enrollment={enrollment}></EnrollmentBox>
                 )
             }
 

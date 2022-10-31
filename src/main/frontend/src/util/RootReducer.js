@@ -6,9 +6,11 @@ import storage from 'redux-persist/lib/storage';
 
 import thunk from 'redux-thunk';
 import workReducer from "./Redux/workReducer";
+import enrollmentReducer from "./Redux/enrollmentRedcuer";
 const RootReducer =combineReducers({
     userReducer:userReducer,
-    workReducer:workReducer
+    workReducer:workReducer,
+    enrollmentReducer:enrollmentReducer
 });
 
 const persistConfig={

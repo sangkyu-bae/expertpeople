@@ -174,7 +174,6 @@ const axiosCo = {
 
     },
     updateRecruit: async (path, id,inputs) => {
-        console.log(inputs)
         const res = await accessAPI.put(`${requests.fetchRecruitment}/update/${path}/${id}`,{
             title:inputs.title,
             description:inputs.description,
@@ -185,7 +184,23 @@ const axiosCo = {
             eventType:inputs.eventType
         })
         return res;
-    }
+    },
+    acceptEnrollment:async (path, recruitId, enrollmentId)=> {
+        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/attend/recruitment/${recruitId}/${enrollmentId}`)
+        return res;
+    },
+    rejectEnrollment:async (path, recruitId, enrollmentId)=> {
+        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/reject/recruitment/${recruitId}/${enrollmentId}`)
+        return res;
+    },
+    attendAcceptEnrollment:async (path, recruitId, enrollmentId)=> {
+        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/attend/enrollment/${recruitId}/${enrollmentId}`)
+        return res;
+    },
+    cancelAttendEnrollment:async (path, recruitId, enrollmentId)=> {
+        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/cancel/attend/${recruitId}/${enrollmentId}`)
+        return res;
+    },
 }
 
 export default axiosCo;

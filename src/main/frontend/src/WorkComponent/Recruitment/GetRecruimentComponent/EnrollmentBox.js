@@ -1,32 +1,55 @@
 import React, {useEffect} from 'react';
 import moment from "moment/moment";
+import axiosCo from "../../../util/common/axiosCommon";
+import {useParams} from "react-router-dom";
 
-function EnrollmentBox({enrollment}) {
+function EnrollmentBox({enrollment, id}) {
+    const path=useParams();
+    const rejectEnrollment=()=>{
+        axiosCo.rejectEnrollment(path.path,path.id,enrollment.id)
+            .then(e=>console.log(e.data))
+            .catch(e=>console.log(e));
+    }
+    const acceptEnrollment=()=>{
+        axiosCo.acceptEnrollment(path.path,path.id,enrollment.id)
+            .then(e=>console.log(e.data))
+            .catch(e=>console.log(e));
+    }
+    const attendAcceptEnrollment=()=>{
+        axiosCo.attendAcceptEnrollment(path.path,path.id,enrollment.id)
+            .then(e=>console.log(e.data))
+            .catch(e=>console.log(e));
+    }
+    const cancelAttendEnrollment=()=>{
+        axiosCo.cancelAttendEnrollment(path.path,path.id,enrollment.id)
+            .then(e=>console.log(e.data))
+            .catch(e=>console.log(e));
+    }
 
 
-    useEffect(()=>{
-        enrollment.enrolledAt=moment().format(enrollment.enrolledAt)
-    },[])
     return (
         <tr key={enrollment.id}>
-            <td>1</td>
-            <td>{enrollment.name}</td>
+            <td>{id}</td>
+            <td><span className='color-blue'>{enrollment.name}</span></td>
             <td>{enrollment.enrolledAt}</td>
             {
-                enrollment.accepted?
+                enrollment.accepted ?
                     <>
                         <td>확정</td>
-                        <td>취소</td>
-                    </>:
+                        <td ><span className='color-blue' onClick={rejectEnrollment}>취소</span></td>
+                    </> :
                     <>
                         <td>대기중</td>
-                        <td>신청수락</td>
+                        <td><span className='color-blue' onClick={acceptEnrollment}>신청수락</span></td>
                     </>
             }
 
             {
-                !enrollment.attended&&
-                <td>출근 완료</td>
+                enrollment.attended ?
+                    <td><span className='color-blue' onClick={cancelAttendEnrollment}>출근 취소</span></td> :
+                    enrollment.accepted ?
+                        <td><span className='color-blue' onClick={attendAcceptEnrollment}>출근 완료</span></td> :
+                        <></>
             }
 
         </tr>
