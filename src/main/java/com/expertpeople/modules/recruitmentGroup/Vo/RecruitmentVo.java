@@ -62,7 +62,7 @@ public class RecruitmentVo {
 
         public Enrollments(Enrollment e){
             this.name=e.getAccount().getName();
-            this.id=e.getAccount().getId();
+            this.id=e.getId();
             this.accepted=e.isAccepted();
             this.attended=e.isAttended();
             this.enrolledAt=e.getEnrolledAt();

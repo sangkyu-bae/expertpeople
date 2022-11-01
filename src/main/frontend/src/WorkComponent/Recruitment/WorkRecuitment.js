@@ -13,27 +13,16 @@ function WorkRecruitment(props) {
     const path=useParams();
 
     const dispatch=useDispatch();
-    const enrollment=useSelector(state => state.enrollmentReducer.enrollments);
-    const isEnrollments=useSelector(state=>state.enrollmentReducer.isEnrollment)
     const [recruitInfo,setRecruitInfo]=useState([{
         isManager:false,
         isEnrollment:false,
         recruitment:{},
-        enrollments:[]
     }]);
     const {isManager,recruitment,isEnrollment,enrollments}=recruitInfo;
-    const addRecruitInfoEnrollment=(data)=>{
-        setRecruitInfo({
-            ...recruitInfo,
-           isEnrollment:true,
-            enrollments:data.erollments
-        })
-    }
     useEffect(()=>{
         getRecruit();
     },[])
-    // console.log(enrollment);
-    // console.log(isEnrollments)
+
     const dateForm='YYYY-MM-DD';
     const getRecruit=()=>{
         axiosCo.getRecruitment(path.path,path.id)
@@ -45,7 +34,6 @@ function WorkRecruitment(props) {
                     isManager:e.data.isManager,
                     isEnrollment:e.data.isMember,
                     recruitment:e.data.recruitment,
-                    enrollments:e.data.recruitment.erollments
                 });
                 dispatch(setEnrollmentInfoRedux(e.data.recruitment.erollments,e.data.isMember));
             })
@@ -62,9 +50,8 @@ function WorkRecruitment(props) {
                             workTitle={recruitment.workTitle}
                             title={recruitment.title}
                             isEnrollment={isEnrollment}
-                            addRecruitInfoEnrollment={addRecruitInfoEnrollment}
                         ></RecuritmentHead>
-                        <RecruitmentContnet recruitment={recruitment} isManager={isManager} enrollments={enrollments}></RecruitmentContnet>
+                        <RecruitmentContnet recruitment={recruitment} isManager={isManager}></RecruitmentContnet>
                     </>
                 }
             </div>

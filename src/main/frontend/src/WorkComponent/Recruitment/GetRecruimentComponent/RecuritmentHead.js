@@ -1,25 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import axiosCo from "../../../util/common/axiosCommon";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setAddEnrollmentInfo} from "../../../util/Redux/enrollmentRedcuer";
 
-function RecuritmentHead({title,workTitle,addRecruitInfoEnrollment}) {
+function RecuritmentHead({title,workTitle}) {
     const path=useParams();
     const isEnrollment=useSelector(state=>state.enrollmentReducer.isEnrollment);
-    const enrollments=useSelector(state=>state.enrollmentReducer.enrollments);
-    console.log(enrollments);
-    console.log(isEnrollment);
     const dispatch=useDispatch();
     const addEnrollment=()=>{
-        dispatch(setAddEnrollmentInfo(e.data,true))
-        // axiosCo.addEnrollment(path.path,path.id)
-        //     .then(e=>{
-        //         console.log(e.data);
-        //         addRecruitInfoEnrollment(e.data);
-        //         dispatch(setAddEnrollmentInfo(e.data,true))
-        //     })
-        //     .catch(e=>console.log(e));
+        axiosCo.addEnrollment(path.path,path.id)
+            .then(e=>{
+                dispatch(setAddEnrollmentInfo(e.data,true))
+            })
+            .catch(e=>console.log(e));
     }
     return (
         <div className='flexs'>

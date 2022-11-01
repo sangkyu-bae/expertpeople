@@ -1,6 +1,7 @@
 export const SET_ENROLLMENT_INFO = "SET_ENROLLMENT_INFO";
 export const SET_ADD_ENROLLMENT_INFO = "SET_ADD_ENROLLMENT_INFO";
-
+export const SET_REJECT_ENROLLMENT_INFO="SET_REJECT_ENROLLMENT_INFO";
+export const SET_ACCEPT_ENROLLMENT_INFO="SET_ACCEPT_ENROLLMENT_INFO";
 export const setEnrollmentInfoRedux = (enrollments,isEnrollment) => ({
     type: SET_ENROLLMENT_INFO,
     enrollments: enrollments,
@@ -17,6 +18,15 @@ export const setAddEnrollmentInfo = (enrollment,isEnrollment) => ({
         attended: enrollment.attended
     },
     isEnrollment:isEnrollment
+})
+
+export const setRemoveEnrollmentInfo=(enrollmentId)=>({
+    type:SET_REJECT_ENROLLMENT_INFO,
+    enrollmentId:enrollmentId
+})
+export const setAcceptEnrollmentInfo=(enrollmentId)=>({
+    type:SET_ACCEPT_ENROLLMENT_INFO,
+    enrollmentId:enrollmentId
 })
 
 const initialState = {
@@ -40,9 +50,41 @@ export default function enrollmentReducer(state = initialState, action) {
         }
         case SET_ADD_ENROLLMENT_INFO: {
             return {
-                ...state,
-                enrollments:action.enrollment,
+                enrollments:[
+                    ...state.enrollments,
+                    action.enrollment
+                ],
                 isEnrollment: action.isEnrollment
+            }
+        }
+        case SET_REJECT_ENROLLMENT_INFO:{
+            let enrollments=state.enrollments;
+            console.log(enrollments)
+            enrollments.forEach(enrollment=>{
+               if(enrollment.id==action.enrollmentId){
+                   enrollment.accepted=false;
+               }
+            })
+            console.log(enrollments)
+            return{
+                enrollments: [
+                    enrollments
+                ]
+            }
+        }
+        case SET_ACCEPT_ENROLLMENT_INFO:{
+            let enrollments=state.enrollments;
+            console.log(enrollments)
+            enrollments.forEach(enrollment=>{
+                if(enrollment.id==action.enrollmentId) {
+                    enrollment.accepted=true;
+                }
+            })
+            console.log(enrollments)
+            return{
+                enrollments: [
+                    enrollments
+                ]
             }
         }
         default:

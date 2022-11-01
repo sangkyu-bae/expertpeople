@@ -1,9 +1,11 @@
 import React from 'react';
 import {Link, useParams} from "react-router-dom";
 import ContentTable from "./ContentTable";
+import {useSelector} from "react-redux";
 
-function RecruitmentContnet({recruitment, isManager, enrollments}) {
+function RecruitmentContnet({recruitment, isManager }) {
     const path = useParams();
+    const enrollments=useSelector(state=>state.enrollmentReducer.enrollments);
     return (
         <div className='flex'>
             <div className='left-flex'>
@@ -18,7 +20,7 @@ function RecruitmentContnet({recruitment, isManager, enrollments}) {
                     })</span>
                     </div>
                     <div className='job-huntin-box'>
-                       <ContentTable enrollments={enrollments}></ContentTable>
+                       <ContentTable></ContentTable>
                     </div>
                 </div>
             </div>

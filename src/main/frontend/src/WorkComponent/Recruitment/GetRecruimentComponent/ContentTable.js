@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import EnrollmentBox from "./EnrollmentBox";
 import moment from "moment";
+import {useSelector} from "react-redux";
 
-function ContentTable({enrollments}) {
+function ContentTable() {
+    const enrollments=useSelector(state=>state.enrollmentReducer.enrollments);
     const [enrollmentList,setEnrollmentList]=useState([]);
     const dateForm='YYYY-MM-DD';
     useEffect(()=>{
@@ -10,7 +12,7 @@ function ContentTable({enrollments}) {
             e.enrolledAt=moment(e.enrolledAt).format(dateForm)
         })
         setEnrollmentList(enrollments)
-    },[])
+    },[enrollments])
     let id=1;
     return (
         <table>

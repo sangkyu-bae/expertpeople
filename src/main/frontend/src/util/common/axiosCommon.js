@@ -186,7 +186,7 @@ const axiosCo = {
         return res;
     },
     acceptEnrollment:async (path, recruitId, enrollmentId)=> {
-        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/attend/recruitment/${recruitId}/${enrollmentId}`)
+        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/accept/recruitment/${recruitId}/${enrollmentId}`)
         return res;
     },
     rejectEnrollment:async (path, recruitId, enrollmentId)=> {

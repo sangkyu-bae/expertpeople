@@ -2,17 +2,28 @@ import React, {useEffect} from 'react';
 import moment from "moment/moment";
 import axiosCo from "../../../util/common/axiosCommon";
 import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setAcceptEnrollmentInfo, setRemoveEnrollmentInfo} from "../../../util/Redux/enrollmentRedcuer";
 
 function EnrollmentBox({enrollment, id}) {
     const path=useParams();
+    const dispatch=useDispatch();
+    const enrollments=useSelector(state=>state.enrollmentReducer.enrollments);
+    // console.log(enrollments)
     const rejectEnrollment=()=>{
         axiosCo.rejectEnrollment(path.path,path.id,enrollment.id)
-            .then(e=>console.log(e.data))
+            .then(e=>{
+                console.log(e.data)
+                dispatch(setRemoveEnrollmentInfo(enrollment.id))
+            })
             .catch(e=>console.log(e));
     }
     const acceptEnrollment=()=>{
         axiosCo.acceptEnrollment(path.path,path.id,enrollment.id)
-            .then(e=>console.log(e.data))
+            .then(e=>{
+                console.log(e.data);
+                dispatch(setAcceptEnrollmentInfo(enrollment.id))
+            })
             .catch(e=>console.log(e));
     }
     const attendAcceptEnrollment=()=>{

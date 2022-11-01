@@ -115,7 +115,7 @@ public class Recruitment {
     }
 
     private void checkContainEnrollment(Enrollment enrollment) {
-        if(this.erollments.contains(enrollment)){
+        if(!this.erollments.contains(enrollment)){
             throw new IllegalArgumentException("일감 참가 대기중인 신청자가 아닙니다.");
         }
     }
