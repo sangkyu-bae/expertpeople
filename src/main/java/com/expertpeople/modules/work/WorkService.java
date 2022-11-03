@@ -2,6 +2,7 @@ package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.work.Event.WorkCreatedEvent;
 import com.expertpeople.modules.work.Vo.WorkVo;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
@@ -9,6 +10,7 @@ import com.expertpeople.modules.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class WorkService {
 
     private final ModelMapper modelMapper;
     private final WorkRepository workRepository;
+    private ApplicationEventPublisher eventPublisher;
     public Work createWork(Account account, WorkForm workForm) {
         Work work=modelMapper.map(workForm,Work.class);
         workRepository.save(work);
@@ -119,6 +122,7 @@ public class WorkService {
 
     public void publish(Work work) {
         work.publish();
+        this.eventPublisher.publishEvent(new WorkCreatedEvent(work));
     }
 
     public boolean isValidPath(String newPath) {
