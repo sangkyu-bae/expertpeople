@@ -12,6 +12,7 @@ function ContentTable() {
             e.enrolledAt=moment(e.enrolledAt).format(dateForm)
         })
         setEnrollmentList(enrollments)
+        // console.log(enrollments)
     },[enrollments])
     let id=1;
     return (

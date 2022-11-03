@@ -1,5 +1,6 @@
 package com.expertpeople.modules.recruitmentGroup;
 
+import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
@@ -114,54 +115,63 @@ public class RecruitmentApiController {
     }
 
     @PutMapping("/{path}/recruitment/{id}")
-    public ResponseEntity<?> newEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+    public ResponseEntity<?> newEnrollment(@CurrentAccount Account account,@PathVariable String path,
+                                           @PathVariable("id") Recruitment recruitment){
         workService.isCheckWork(path);
-        Recruitment recruitment= recruitmentService.addEnrollment(account,id);
+        //Recruitment recruitment= recruitmentService.addEnrollment(account,id);
         RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(recruitmentVo);
     }
 
     @DeleteMapping("/{path}/recruitment/{id}")
-    public ResponseEntity<?> removeRecruit(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id){
+    public ResponseEntity<?> removeRecruit(@CurrentAccount Account account,@PathVariable String path,
+                                           @PathVariable("id") Recruitment recruitment){
         workService.isCheckWork(path);
-        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+       // Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
         recruitmentService.removeRecruitment(recruitment);
         return ResponseEntity.ok().build();
     }
     
     @PutMapping("/{path}/accept/recruitment/{id}/{enrollmentId}")
-    public ResponseEntity<?>acceptEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id,@PathVariable Long enrollmentId){
+    public ResponseEntity<?>acceptEnrollment(@CurrentAccount Account account,@PathVariable String path,
+                                             @PathVariable("id") Recruitment recruitment,
+                                             @PathVariable ("enrollmentId")Enrollment enrollment){
         workService.isCheckWork(path);
-        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
-        recruitmentService.acceptEnrollment(recruitment,enrollmentId);
+        //Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.acceptEnrollment(recruitment,enrollment);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{path}/reject/recruitment/{id}/{enrollmentId}")
-    public ResponseEntity<?>rejectEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id, @PathVariable Long enrollmentId){
+    public ResponseEntity<?>rejectEnrollment(@CurrentAccount Account account,@PathVariable String path,
+                                             @PathVariable("id") Recruitment recruitment,
+                                             @PathVariable ("enrollmentId")Enrollment enrollment){
         workService.isCheckWork(path);
-        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
-        recruitmentService.rejectEnrollment(recruitment,enrollmentId);
+        //Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.rejectEnrollment(recruitment,enrollment);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{path}/attend/enrollment/{id}/{enrollmentId}")
-    public ResponseEntity<?> attendAcceptEnrollment(@CurrentAccount Account account,@PathVariable String path,@PathVariable Long id, @PathVariable Long enrollmentId){
+    public ResponseEntity<?> attendAcceptEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                                    @PathVariable("id") Recruitment recruitment,
+                                                    @PathVariable ("enrollmentId")Enrollment enrollment){
         workService.isCheckWork(path);
-        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
-        recruitmentService.attendAcceptEnrollment(recruitment,enrollmentId);
+        //Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
+        recruitmentService.attendAcceptEnrollment(recruitment,enrollment);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{path}/cancel/attend/{id}/{enrollmentId}")
-    public ResponseEntity<?> CancelAttendEnrollment(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id, @PathVariable Long enrollmentId){
+    public ResponseEntity<?> CancelAttendEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                                    @PathVariable("id") Recruitment recruitment,
+                                                    @PathVariable ("enrollmentId")Enrollment enrollment){
         workService.isCheckWork(path);
-        Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
-        recruitmentService.cancelAttend(recruitment,enrollmentId);
+        recruitmentService.cancelAttend(recruitment,enrollment);
 
         return ResponseEntity.ok().build();
     }

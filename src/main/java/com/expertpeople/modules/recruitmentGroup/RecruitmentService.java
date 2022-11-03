@@ -93,23 +93,23 @@ public class RecruitmentService {
         recruitmentRepository.delete(recruitment);
     }
 
-    public void acceptEnrollment(Recruitment recruitment, Long enrollmentId) {
-        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+    public void acceptEnrollment(Recruitment recruitment, Enrollment enrollment) {
+       // Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.acceptEnrollment(enrollment);
     }
 
-    public void rejectEnrollment(Recruitment recruitment, Long enrollmentId) {
-        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+    public void rejectEnrollment(Recruitment recruitment,Enrollment enrollment) {
+        //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.rejectEnrollment(enrollment);
     }
 
-    public void attendAcceptEnrollment(Recruitment recruitment, Long enrollmentId) {
-        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+    public void attendAcceptEnrollment(Recruitment recruitment,Enrollment enrollment) {
+        //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.acceptAttend(enrollment);
     }
 
-    public void cancelAttend(Recruitment recruitment, Long enrollmentId) {
-        Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
+    public void cancelAttend(Recruitment recruitment, Enrollment enrollment) {
+        //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.cancelAttend(enrollment);
     }
 }

@@ -2,6 +2,9 @@ export const SET_ENROLLMENT_INFO = "SET_ENROLLMENT_INFO";
 export const SET_ADD_ENROLLMENT_INFO = "SET_ADD_ENROLLMENT_INFO";
 export const SET_REJECT_ENROLLMENT_INFO="SET_REJECT_ENROLLMENT_INFO";
 export const SET_ACCEPT_ENROLLMENT_INFO="SET_ACCEPT_ENROLLMENT_INFO";
+export const SET_ACCEPT_ATTEND_ENROLLMENT_INFO="SET_ACCEPT_ATTEND_ENROLLMENT_INFO";
+export const SET_REJECT_ATTEND_ENROLLMENT_INFO="SET_REJECT_ATTEND_ENROLLMENT_INFO";
+
 export const setEnrollmentInfoRedux = (enrollments,isEnrollment) => ({
     type: SET_ENROLLMENT_INFO,
     enrollments: enrollments,
@@ -28,7 +31,14 @@ export const setAcceptEnrollmentInfo=(enrollmentId)=>({
     type:SET_ACCEPT_ENROLLMENT_INFO,
     enrollmentId:enrollmentId
 })
-
+export const setAcceptAttendEnrollmentInfo=(enrollmentId)=>({
+    type:SET_ACCEPT_ATTEND_ENROLLMENT_INFO,
+    enrollmentId:enrollmentId
+})
+export const setRejectEnrollmentInfo=(enrollmentId)=>({
+    type:SET_REJECT_ATTEND_ENROLLMENT_INFO,
+    enrollmentId:enrollmentId
+})
 const initialState = {
     enrollments: [{
         id: "",
@@ -58,35 +68,54 @@ export default function enrollmentReducer(state = initialState, action) {
             }
         }
         case SET_REJECT_ENROLLMENT_INFO:{
-            let enrollments=state.enrollments;
-            console.log(enrollments)
-            enrollments.forEach(enrollment=>{
-               if(enrollment.id==action.enrollmentId){
-                   enrollment.accepted=false;
-               }
+            var copyEnrollment=[...state.enrollments];
+            copyEnrollment.forEach(enrollment=>{
+                if(enrollment.id==action.enrollmentId) {
+                    enrollment.accepted=false;
+                }
             })
-            console.log(enrollments)
             return{
-                enrollments: [
-                    enrollments
-                ]
+                ...state,
+                enrollments:copyEnrollment
             }
         }
         case SET_ACCEPT_ENROLLMENT_INFO:{
-            let enrollments=state.enrollments;
-            console.log(enrollments)
-            enrollments.forEach(enrollment=>{
+            var copyEnrollment=[...state.enrollments];
+            copyEnrollment.forEach(enrollment=>{
                 if(enrollment.id==action.enrollmentId) {
                     enrollment.accepted=true;
                 }
             })
-            console.log(enrollments)
             return{
-                enrollments: [
-                    enrollments
-                ]
+                ...state,
+                enrollments: copyEnrollment
             }
         }
+        case SET_ACCEPT_ATTEND_ENROLLMENT_INFO:{
+            var copyEnrollment=[...state.enrollments];
+            copyEnrollment.forEach(enrollment=>{
+                if(enrollment.id==action.enrollmentId) {
+                    enrollment.attended=true;
+                }
+            })
+            return{
+                ...state,
+                enrollments: copyEnrollment
+            }
+        }
+        case SET_REJECT_ATTEND_ENROLLMENT_INFO:{
+            var copyEnrollment=[...state.enrollments];
+            copyEnrollment.forEach(enrollment=>{
+                if(enrollment.id==action.enrollmentId) {
+                    enrollment.attended=false;
+                }
+            })
+            return{
+                ...state,
+                enrollments: copyEnrollment
+            }
+        }
+
         default:
             return state
     }
