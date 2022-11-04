@@ -29,7 +29,7 @@ public class WorkService {
 
     private final ModelMapper modelMapper;
     private final WorkRepository workRepository;
-    private ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
     public Work createWork(Account account, WorkForm workForm) {
         Work work=modelMapper.map(workForm,Work.class);
         workRepository.save(work);

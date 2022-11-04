@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface WorkRepository extends JpaRepository<Work,Long> {
+public interface WorkRepository extends JpaRepository<Work,Long>{
 
     boolean existsByPath(String path);
    @EntityGraph(attributePaths = {"jobs","zones","managers","members"})

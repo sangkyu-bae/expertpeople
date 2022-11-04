@@ -139,6 +139,20 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <!--웹소켓 추가-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>javax-websocket-client-impl</artifactId>
+        </dependency>
+        <!--웹소켓 추가-->
     </dependencies>
 
     <build>
@@ -175,10 +189,10 @@
                         <groupId>com.querydsl</groupId>
                         <artifactId>querydsl-apt</artifactId>
                         <version>${querydsl.version}</version>
-                        <scope>provided</scope>
                     </dependency>
                 </dependencies>
             </plugin>
+
         </plugins>
     </build>
 

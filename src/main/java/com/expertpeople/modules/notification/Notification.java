@@ -1,16 +1,14 @@
 package com.expertpeople.modules.notification;
 
 import com.expertpeople.modules.account.Account;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter@Setter
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of="id") @NoArgsConstructor @AllArgsConstructor @Builder
 public class Notification {
     @Id @GeneratedValue
     private Long id;
