@@ -7,7 +7,8 @@ export const loginUser=(userData)=>({
         id:userData.id,
         name:userData.name,
         profileImage:userData.profileImage,
-        token:userData.token
+        token:userData.token,
+        userId:userData.userId
     },
     isLogin:true
 });
@@ -27,7 +28,8 @@ const initialState={
         id:'',
         name:'',
         profileImage:'',
-        token:''
+        token:'',
+        userId:''
     },
     isLogin:false
 }

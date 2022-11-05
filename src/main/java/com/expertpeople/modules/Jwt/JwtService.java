@@ -78,6 +78,7 @@ public class JwtService {
                 .name(account.getName())
                 .profileImage(account.getProfileImage())
                 .token(token)
+                .userId(account.getId())
                 .build();
         return jwtResponse;
     }

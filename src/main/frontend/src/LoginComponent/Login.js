@@ -46,7 +46,7 @@ function Login(props) {
         }
         const t=axiosCo.login(email,password);
         t.then(t=>{
-            console.log(t);
+            // console.log(t.data);
             localStorage.setItem("jwt",t.data.token);
             dispatch(loginUser(t.data));
             navigate("/");

@@ -30,6 +30,7 @@ public class WorkEventListener {
     private final NotificationRepository notificationRepository;
     @EventListener
     public void handleWorkCreatedEvent(WorkCreatedEvent workCreatedEvent){
+
         Work work=workRepository.findWorkWithJobAndZoneById(workCreatedEvent.getWork().getId());
         Iterable<Account> accounts =accountRepository.findAll(AccountPredicates.findByTagsAndZones(work.getJobs(),work.getZones()));
         accounts.forEach(account -> {

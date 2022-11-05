@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Main.css';
 import { Link, useNavigate } from 'react-router-dom';
 import commnMethod from "../util/common/CommnMethod";
@@ -19,6 +19,41 @@ function MainNav(props) {
         localStorage.removeItem("jwt");
         dispatch(logoutUser());
         navigate("/");
+    }
+    useEffect(()=>{
+        if(isLogin){
+            console.log(userName)
+            fetchSse(userName.userId);
+        }
+    },[isLogin])
+
+    const fetchSse=async (userId)=>{
+        console.log(localStorage.getItem("jwt"))
+        new EventSource('/api/notify/86')
+        new EventSource(
+            '/api/notify/86',
+            {
+                headers: {
+                    szlkdfj:'xckck',
+                    Authorization: 'safjadsfj',
+                },
+                withCredentials: true,
+            }
+        );
+        // try{
+        //     let eventSource=new EventSource(
+        //         `/api/notify/${userId}`,
+        //
+        //         {
+        //             // headers:{
+        //             //     Authorization:`Bearer ${localStorage.getItem("jwt")}`
+        //             // },
+        //            withCredentials: true
+        //         }
+        //     )
+        // }catch (error){
+        //     console.log(error)
+        // }
     }
     return (
         <nav className="navbar">

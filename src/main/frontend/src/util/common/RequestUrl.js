@@ -13,7 +13,9 @@ const requests={
     fetchAddWork:'api/work/add',
     fetchGetWork:'api/work',
     fetchWorkSetting:"api/work/setting",
-    fetchRecruitment:"api/recruitment"
+    fetchRecruitment:"api/recruitment",
+    sseNotify:"/api/notify"
 }
 
+export const requestURL=""
 export default requests;
