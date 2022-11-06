@@ -33,7 +33,7 @@ public class NotificationService {
         sseEmitter.onCompletion(()->emitterRepository.deleteById(userId));
         sseEmitter.onTimeout(()->emitterRepository.deleteById(userId));
 
-        this.sendToClient(sseEmitter, userId, "EventStream Created. [userId=" + userId + "]");
+        this.sendToClient(sseEmitter, userId, " EventStream Created. [userId=" + userId + "]");
 
         if(!lastEventId.isEmpty()){
             Map<String, SseEmitter> events = emitterRepository.findAllEmitterStartWithByMemberId(String.valueOf(id));
@@ -42,9 +42,10 @@ public class NotificationService {
                     .forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
         }
 
+
         return sseEmitter;
     }
-    private void sendToClient(SseEmitter emitter, String id, Object data) {
+    public void sendToClient(SseEmitter emitter, String id, Object data) {
         try {
             emitter.send(SseEmitter.event()
                     .id(id)
@@ -55,5 +56,18 @@ public class NotificationService {
             throw new RuntimeException("연결 오류!");
         }
     }
+
+    public void sendToNewNotification(SseEmitter emitter, String id, Object data) {
+        try {
+            emitter.send(SseEmitter.event()
+                    .id(id)
+                    .name("newWork")
+                    .data(data));
+        } catch (IOException exception) {
+            emitterRepository.deleteById(id);
+            throw new RuntimeException("연결 오류!");
+        }
+    }
+
 
 }

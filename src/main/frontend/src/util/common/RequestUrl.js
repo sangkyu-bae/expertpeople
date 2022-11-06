@@ -17,5 +17,5 @@ const requests={
     sseNotify:"/api/notify"
 }
 
-export const requestURL=""
+export const requestURL="http://localhost:8080/"
 export default requests;
