@@ -201,6 +201,10 @@ const axiosCo = {
         const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/cancel/attend/${recruitId}/${enrollmentId}`)
         return res;
     },
+    getNotification:async ()=>{
+        const res=await accessAPI.get(`${requests.fetchGetNotification}`);
+        return res;
+    }
 }
 
 export default axiosCo;

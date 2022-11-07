@@ -21,6 +21,7 @@ import WorkRecuitment from "./WorkComponent/Recruitment/WorkRecuitment";
 import NewRecruitment from "./WorkComponent/Recruitment/NewRecruitment";
 import RecruitmentList from "./WorkComponent/Recruitment/RecruitmentList";
 import UpdateRecruit from "./WorkComponent/Recruitment/UpdateRecruit";
+import Notification from "./NotificationComponent/Notification";
 
 function App() {
     return (
@@ -46,6 +47,7 @@ function App() {
                     <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
                     <Route path="/work/:path/recruitment" element={<RecruitmentList></RecruitmentList>}></Route>
                     <Route path="/work/:path/update-recruitment/:id" element={<UpdateRecruit></UpdateRecruit>}></Route>
+                    <Route path="/notification" element={<Notification></Notification>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>

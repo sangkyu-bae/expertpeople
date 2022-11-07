@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@yaireo/tagify": "^4.16.4",
     "axios": "^0.27.2",
+    "event-source-polyfill": "^1.0.31",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-cropper": "^2.1.8",

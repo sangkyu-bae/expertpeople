@@ -1,7 +1,9 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link} from "react-router-dom";
 import {faBell,faAddressCard,faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useSelector} from "react-redux";
+import {requestURL} from "../../util/common/RequestUrl";
 
 function FalseLogin(props) {
     const menu=useRef();
@@ -16,12 +18,46 @@ function FalseLogin(props) {
             setIsMenu(false);
         }
     }
-
+    const userName = useSelector(state => state.userReducer.user);
+    useEffect(() => {
+        fetchSse(userName.userId);
+    }, [])
+    const [isNotify,setIsNotify]=useState(false);
+    const fetchSse = async (userId) => {
+        try {
+            let eventSource
+            const token=`Bearer ${localStorage.getItem("jwt")}`
+            eventSource = new EventSource(`${requestURL}api/notify?jwt=${token}`)
+            eventSource.onopen = event => {
+                console.log(event)
+                console.log("connection opened");
+            };
+            eventSource.addEventListener('init', function (e) {
+                if(e.data>0) setIsNotify(true);
+            }, false);
+            eventSource.addEventListener('newWork', function (e) {
+                setIsNotify(true);
+            }, false);
+            eventSource.onmessage = async (event) => {
+                const res = await event.data;
+            };
+            eventSource.onerror = async (event) => {
+                console.log(eventSource)
+                if (!event.error.message.includes("No activity"))
+                    eventSource.close();
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <>
             <ul className="nav-item flex">
                 <li className="nav-items">
-                    <FontAwesomeIcon className="bell" icon={faBell}></FontAwesomeIcon>
+                    <Link to="/notification">
+                        <FontAwesomeIcon className="bell" icon={faBell}></FontAwesomeIcon>
+                    </Link>
+
                 </li>
                 <li className="nav-items border">
                     <Link to="/new-work">

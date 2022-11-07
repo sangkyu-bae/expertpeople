@@ -14,7 +14,8 @@ const requests={
     fetchGetWork:'api/work',
     fetchWorkSetting:"api/work/setting",
     fetchRecruitment:"api/recruitment",
-    sseNotify:"/api/notify"
+    fetchGetNotification:"api/notification",
+    sseNotify:"/api/notify",
 }
 
 export const requestURL="http://localhost:8080/"

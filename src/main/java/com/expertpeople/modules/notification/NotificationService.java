@@ -1,5 +1,7 @@
 package com.expertpeople.modules.notification;
 
+import com.expertpeople.infra.jwt.JwtTokenProvider;
+import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.notification.emitter.EmitterRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +23,25 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final AccountRepository accountRepository;
     private final EmitterRepository emitterRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    public SseEmitter subscribe(Account account, String lastEventId) {
 
-    public SseEmitter subscribe(Long id, String lastEventId) {
-        boolean isAccount=accountRepository.existsById(id);
-        if(!isAccount){
-            throw new IllegalArgumentException("존재하는 계정이 아닙니다.");
-        }
-        String userId=id+"_"+System.currentTimeMillis();
+        String userId=account.getId()+"_"+System.currentTimeMillis();
         SseEmitter sseEmitter=emitterRepository.save(userId,new SseEmitter(DEFAULT_TIMEOUT));
 
         sseEmitter.onCompletion(()->emitterRepository.deleteById(userId));
         sseEmitter.onTimeout(()->emitterRepository.deleteById(userId));
 
-        this.sendToClient(sseEmitter, userId, " EventStream Created. [userId=" + userId + "]");
+        Long notifyCount=notificationRepository.countByAccountAndChecked(account,false);
+        this.sendToClient(sseEmitter,userId,notifyCount);
+//        this.sendToClient(sseEmitter, userId, " EventStream Created. [userId=" + userId + "]");
 
-        if(!lastEventId.isEmpty()){
-            Map<String, SseEmitter> events = emitterRepository.findAllEmitterStartWithByMemberId(String.valueOf(id));
-            events.entrySet().stream()
-                    .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
-                    .forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
-        }
+//        if(!lastEventId.isEmpty()){
+//            Map<String, SseEmitter> events = emitterRepository.findAllEmitterStartWithByMemberId(String.valueOf(id));
+//            events.entrySet().stream()
+//                    .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
+//                    .forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
+//        }
 
 
         return sseEmitter;
@@ -49,13 +50,14 @@ public class NotificationService {
         try {
             emitter.send(SseEmitter.event()
                     .id(id)
-                    .name("sse")
+                    .name("init")
                     .data(data));
         } catch (IOException exception) {
             emitterRepository.deleteById(id);
             throw new RuntimeException("연결 오류!");
         }
     }
+
 
     public void sendToNewNotification(SseEmitter emitter, String id, Object data) {
         try {
@@ -70,4 +72,18 @@ public class NotificationService {
     }
 
 
+    public Account getAccountId(String jwt) {
+        String email="";
+        email= jwtTokenProvider.getUserEmail(jwt.substring(7));
+        if(email.equals("")){
+            throw new SecurityException("로그인된 토큰이 아닙니다.");
+        }
+        Account account=accountRepository.findByEmail(email);
+        if(account==null){
+            throw new IllegalArgumentException("존재하는 계정이 아닙니다.");
+        }
+
+
+        return account;
+    }
 }
