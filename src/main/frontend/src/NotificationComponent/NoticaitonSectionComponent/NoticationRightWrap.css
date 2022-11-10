@@ -1,0 +1,26 @@
+.notice-right-wrap h2{
+    border-bottom: 1px solid gray;
+    height: 3em;
+    text-align: center;
+    background-color:#ebecf0 ;
+    font-weight: bold;
+}
+.notice-right-wrap {
+    flex: 0.8;
+    line-height: 3em;
+}
+.notice-content-box{
+    border: 1px solid gray;
+    margin-bottom: 3em;
+}
+.noti-item{
+    height: 3em;
+    padding-left: 2em;
+
+}
+.noti-item:not(:last-of-type){
+    border-bottom: 1px solid gray;
+}
+.noti-item{
+    position: relative;
+}

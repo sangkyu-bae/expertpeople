@@ -47,7 +47,7 @@ function App() {
                     <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
                     <Route path="/work/:path/recruitment" element={<RecruitmentList></RecruitmentList>}></Route>
                     <Route path="/work/:path/update-recruitment/:id" element={<UpdateRecruit></UpdateRecruit>}></Route>
-                    <Route path="/notification" element={<Notification></Notification>}></Route>
+                    <Route path="/notification/new" element={<Notification></Notification>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>

@@ -11,5 +11,6 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     long countByAccountAndChecked(Account account, boolean checked);
     @EntityGraph(attributePaths = {"account"})
     List<Notification> findByAccountOrderByCreateDateTimeDesc(Account account);
-
+    @EntityGraph(attributePaths = {"account"})
+    List<Notification> findByAccountAndCheckedOrderByCreateDateTimeDesc(Account account, boolean checked);
 }

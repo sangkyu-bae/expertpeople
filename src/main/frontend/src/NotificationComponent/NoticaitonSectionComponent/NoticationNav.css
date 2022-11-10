@@ -1,0 +1,35 @@
+.notice-box{
+    height: 6em;
+    border: 1px solid gray;
+    margin-bottom: 2em;
+    line-height: 3em;
+    font-weight: bold;
+    font-size: 1em;
+}
+.notice-box li{
+    height: 50%;
+    padding-left: 1em;
+    position: relative;
+}
+.notice-box li:not(:last-of-type) {
+    border-bottom: 1px gray solid;
+}
+.notice-nav-wrap{
+    flex: 0.3;
+    margin-right:2em ;
+}
+.remove-btn{
+    height: 3em;
+    border: 1px solid #e9ec69;
+    background-color: white;
+    color: #e9ec69;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+.item-cnt{
+    position: absolute;
+    right: 1em;
+}
+.notice-nav-wrap small{
+    font-size: 0.9em;
+}

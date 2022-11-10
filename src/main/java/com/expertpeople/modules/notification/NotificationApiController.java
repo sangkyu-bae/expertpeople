@@ -36,35 +36,49 @@ public class NotificationApiController {
 
     @GetMapping("/notification")
     public ResponseEntity<?> getNotification(@CurrentAccount Account account){
-        List<Notification> notifications=notificationRepository.findByAccountOrderByCreateDateTimeDesc(account);
-        List<Notification> newNotifications=new ArrayList<>();
-        List<Notification> oldNotifications=new ArrayList<>();
+        List<Notification> newNotifications=notificationRepository.findByAccountAndCheckedOrderByCreateDateTimeDesc(account,false);
 
-        if(!notifications.isEmpty()){
-          notifications.forEach(notification -> {
-              if(!notification.isChecked()) newNotifications.add(notification);
-              if(notification.isChecked()) oldNotifications.add(notification);
-          });
-        }
         Long newCount=newNotifications.stream().count();
+        Long oldCount=notificationRepository.countByAccountAndChecked(account,true);
+
+        return ResponseEntity.ok().body(new ResponseNotify<>(newNotifications,newCount,oldCount));
+    }
+
+    @GetMapping("/notification/old")
+    public ResponseEntity<?> getOldNotification(@CurrentAccount Account account){
+        List<Notification>oldNotifications=notificationRepository.findByAccountAndCheckedOrderByCreateDateTimeDesc(account,true);
+        Long newCount=notificationRepository.countByAccountAndChecked(account,false);
         Long oldCount=oldNotifications.stream().count();
 
-        return ResponseEntity.ok().body(new ResponseNotify<>(newNotifications,oldNotifications,newCount,oldCount));
+        return ResponseEntity.ok().body(new ResponseNotify<>(oldNotifications,newCount,oldCount));
     }
 
     @Getter
     @Setter
     static class ResponseNotify<T>{
-        private T newNotifications;
-        private T oldNotifications;
+        private T notifications;
         private T newCount;
         private T oldCount;
 
-        public ResponseNotify(T newNotifications,T oldNotifications,T newCount,T oldCount){
-            this.newNotifications=newNotifications;
-            this.oldNotifications=oldNotifications;
+        public ResponseNotify(T newNotifications,T newCount,T oldCount){
+            this.notifications=newNotifications;
             this.oldCount=oldCount;
             this.newCount=newCount;
         }
     }
+//    @Getter
+//    @Setter
+//    static class ResponseNotify<T>{
+//        private T newNotifications;
+//        private T oldNotifications;
+//        private T newCount;
+//        private T oldCount;
+//
+//        public ResponseNotify(T newNotifications,T oldNotifications,T newCount,T oldCount){
+//            this.newNotifications=newNotifications;
+//            this.oldNotifications=oldNotifications;
+//            this.oldCount=oldCount;
+//            this.newCount=newCount;
+//        }
+//    }
 }

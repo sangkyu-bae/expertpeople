@@ -20,7 +20,7 @@ function FalseLogin(props) {
     }
     const userName = useSelector(state => state.userReducer.user);
     useEffect(() => {
-        fetchSse(userName.userId);
+        //fetchSse(userName.userId);
     }, [])
     const [isNotify,setIsNotify]=useState(false);
     const fetchSse = async (userId) => {
@@ -54,7 +54,7 @@ function FalseLogin(props) {
         <>
             <ul className="nav-item flex">
                 <li className="nav-items">
-                    <Link to="/notification">
+                    <Link to="/notification/new">
                         <FontAwesomeIcon className="bell" icon={faBell}></FontAwesomeIcon>
                     </Link>
 
