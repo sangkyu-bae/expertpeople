@@ -3,7 +3,7 @@ import axiosCo from "../util/common/axiosCommon";
 import NotificationLeftNav from "./NoticaitonSectionComponent/NoticationLeftNav";
 import NoReadNotification from "./NoticaitonSectionComponent/NoReadNotification";
 
-function Notification(props) {
+function OldNotification(props) {
     const [noticeInfo, setNoticeInfo] = useState({
         WORK_CREATED: [],
         WORK_UPDATED: [],
@@ -31,7 +31,7 @@ function Notification(props) {
     },[])
 
     const getNotify=()=>{
-        axiosCo.getNotification()
+        axiosCo.getOldNotification()
             .then(e=>{
                 splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount)
             })
@@ -47,7 +47,7 @@ function Notification(props) {
                     {
                         Object.keys(noticeInfo).length>0&&
                         <>
-                            <NotificationLeftNav check='new'
+                            <NotificationLeftNav check='old'
                                                  newCount={noticeInfo.newCount}
                                                  oldCount={noticeInfo.oldCount}
                                                  notifications={noticeInfo}/>
@@ -61,4 +61,4 @@ function Notification(props) {
     );
 }
 
-export default Notification;
+export default OldNotification;

@@ -3,6 +3,7 @@ package com.expertpeople.modules.work;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.work.Event.WorkCreatedEvent;
+import com.expertpeople.modules.work.Event.WorkUpdateEvent;
 import com.expertpeople.modules.work.Vo.WorkVo;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
@@ -45,6 +46,7 @@ public class WorkService {
 
     public void updateWorkDescription(WorkDescriptionForm workDescriptionForm, Work work) {
         modelMapper.map(workDescriptionForm,work);
+        eventPublisher.publishEvent(new WorkUpdateEvent(work,"일감 소개를 수정했습니다."));
     }
 
     public Work getWorkToUpdate(Account account, String path) {
@@ -138,18 +140,22 @@ public class WorkService {
 
     public void close(Work work) {
         work.close();
+        eventPublisher.publishEvent(new WorkUpdateEvent(work,"일감을 종료했습니다."));
     }
 
     public void startRecruit(Work work) {
         work.startRecruit();
+        eventPublisher.publishEvent(new WorkUpdateEvent(work,"구인을 시작 했습니다. "));
     }
 
     public void stopRecruit(Work work) {
         work.stopRecruit();
+        eventPublisher.publishEvent(new WorkUpdateEvent(work,"구인을 종료 했습니다. "));
     }
 
     public void updateWorkTitle(Work work,String title) {
         work.setTitle(title);
+        eventPublisher.publishEvent(new WorkUpdateEvent(work,"일감 제목이 변경되었습니다."));
     }
 
     public boolean isValidTitle(String title) {

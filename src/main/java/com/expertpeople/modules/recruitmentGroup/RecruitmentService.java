@@ -3,6 +3,8 @@ package com.expertpeople.modules.recruitmentGroup;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.recruitmentGroup.Event.RecruitmentCreatedEvent;
+import com.expertpeople.modules.recruitmentGroup.Event.RecruitmentUpdateEvent;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.account.Account;
@@ -10,6 +12,7 @@ import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
 import com.expertpeople.modules.work.Work;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,7 @@ public class RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
     private final ModelMapper modelMapper;
     private final EnrollmentRepository enrollmentRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public Recruitment createRecruitment(Account account, Work work, RecruitForm recruitForm, Job job) {
         Recruitment recruitment=modelMapper.map(recruitForm,Recruitment.class);
@@ -36,7 +40,7 @@ public class RecruitmentService {
         recruitment.setEventType(recruitForm.getEventType());
         recruitment.setCreateBy(account);
         recruitmentRepository.save(recruitment);
-
+        eventPublisher.publishEvent(new RecruitmentCreatedEvent(recruitment));
         return recruitment;
     }
 
@@ -87,10 +91,13 @@ public class RecruitmentService {
         recruitment.setEventType(recruitUpdateForm.getEventType());
         modelMapper.map(recruitUpdateForm,recruitment);
         recruitment.acceptEnrollmentList();
+        eventPublisher.publishEvent(new RecruitmentUpdateEvent(recruitment,"구인이 내용이 변경 되었습니다."));
+
     }
 
     public void removeRecruitment(Recruitment recruitment) {
         recruitmentRepository.delete(recruitment);
+        eventPublisher.publishEvent(new RecruitmentUpdateEvent(recruitment,"구인을 취소 하였습니다."));
     }
 
     public void acceptEnrollment(Recruitment recruitment, Enrollment enrollment) {
@@ -104,12 +111,10 @@ public class RecruitmentService {
     }
 
     public void attendAcceptEnrollment(Recruitment recruitment,Enrollment enrollment) {
-        //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.acceptAttend(enrollment);
     }
 
     public void cancelAttend(Recruitment recruitment, Enrollment enrollment) {
-        //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.cancelAttend(enrollment);
     }
 }

@@ -34,15 +34,6 @@ public class NotificationService {
 
         Long notifyCount=notificationRepository.countByAccountAndChecked(account,false);
         this.sendToClient(sseEmitter,userId,notifyCount);
-//        this.sendToClient(sseEmitter, userId, " EventStream Created. [userId=" + userId + "]");
-
-//        if(!lastEventId.isEmpty()){
-//            Map<String, SseEmitter> events = emitterRepository.findAllEmitterStartWithByMemberId(String.valueOf(id));
-//            events.entrySet().stream()
-//                    .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
-//                    .forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
-//        }
-
 
         return sseEmitter;
     }

@@ -204,6 +204,10 @@ const axiosCo = {
     getNotification:async ()=>{
         const res=await accessAPI.get(`${requests.fetchGetNotification}`);
         return res;
+    },
+    getOldNotification:async ()=>{
+        const res=await accessAPI.get(`${requests.fetchGetNotification}/old`);
+        return res;
     }
 }
 

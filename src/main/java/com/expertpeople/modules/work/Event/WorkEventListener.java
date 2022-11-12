@@ -17,10 +17,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @Async
@@ -46,7 +45,7 @@ public class WorkEventListener {
             }
 
             if(account.isWorkCreateByWeb()){
-                saveWorkCreatedNotification(work, account);
+                saveWorkCreatedNotification(work, account,work.getShortDescription(),NotificationType.WORK_CREATED);
 
                 ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
                 notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"관심 일감 생성 알림");
@@ -54,15 +53,35 @@ public class WorkEventListener {
         });
     }
 
-    private void saveWorkCreatedNotification(Work work, Account account) {
+    @EventListener
+    public void handleWorkUpdateWork(WorkUpdateEvent workUpdateEvent){
+        Work work=workRepository.findWorkWithManagersAndMembersById(workUpdateEvent.getWork().getId());
+        Set<Account>accounts=new HashSet<>();
+        accounts.addAll(work.getManagers());
+        accounts.addAll(work.getMembers());
+
+        accounts.forEach(account -> {
+            if(account.isWorkCreateByEmail()){
+
+            }
+
+            if(account.isWorkCreateByWeb()){
+                saveWorkCreatedNotification(work, account,workUpdateEvent.getMessage(),NotificationType.WORK_UPDATED);
+
+                ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
+                notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"일감에 새로운 소식이 있습니다. ");
+            }
+        });
+    }
+    private void saveWorkCreatedNotification(Work work, Account account,String message,NotificationType notificationType) {
         Notification notification=Notification.builder().
                 title(work.getTitle()).
                 link("/work/"+ work.getPath()).
                 checked(false).
                 createDateTime(LocalDateTime.now()).
-                message(work.getShortDescription()).
+                message(message).
                 account(account).
-                notificationType(NotificationType.WORK_CREATED).
+                notificationType(notificationType).
                 build();
         notificationRepository.save(notification);
     }
