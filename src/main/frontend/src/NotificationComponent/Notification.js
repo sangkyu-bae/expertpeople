@@ -11,6 +11,7 @@ function Notification(props) {
         newCount:0,
         oldCount:0
     })
+
     const splitByNotification=(notifications,newCount,oldCount)=>{
         let initNotificationData = {
             WORK_CREATED: [],
@@ -40,6 +41,17 @@ function Notification(props) {
             })
     }
 
+    const [fullInfo,setFullInfo]=useState({
+        isFull:true,
+        mode:"full"
+    });
+    const contentChange=(mode)=>{
+        setFullInfo({
+            isFull:false,
+            mode:mode
+        })
+    }
+
     return (
         <div className="container">
             <div className="container-wrap">
@@ -50,8 +62,10 @@ function Notification(props) {
                             <NotificationLeftNav check='new'
                                                  newCount={noticeInfo.newCount}
                                                  oldCount={noticeInfo.oldCount}
-                                                 notifications={noticeInfo}/>
-                            <NoReadNotification notifications={noticeInfo}/>
+                                                 notifications={noticeInfo}
+                                                 contentChange={contentChange}/>
+                            <NoReadNotification notifications={noticeInfo}
+                                                fullInfo={fullInfo}/>
                         </>
                     }
 

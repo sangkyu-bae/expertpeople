@@ -3,6 +3,8 @@ package com.expertpeople.modules.recruitmentGroup;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.recruitmentGroup.Event.EnrollmentAcceptedEvent;
+import com.expertpeople.modules.recruitmentGroup.Event.EnrollmentRejectEvent;
 import com.expertpeople.modules.recruitmentGroup.Event.RecruitmentCreatedEvent;
 import com.expertpeople.modules.recruitmentGroup.Event.RecruitmentUpdateEvent;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
@@ -44,8 +46,7 @@ public class RecruitmentService {
         return recruitment;
     }
 
-    public Recruitment addEnrollment(Account account, Long id) {
-        Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow();
+    public Recruitment addEnrollment(Account account, Recruitment recruitment) {
         if(!enrollmentRepository.existsByRecruitmentAndAccount(recruitment,account)){
             Enrollment enrollment=Enrollment.builder().
                     account(account).
@@ -65,7 +66,6 @@ public class RecruitmentService {
         RecruitmentVo recruitmentVo=new RecruitmentVo(recruitment);
         List<RecruitmentVo.Enrollments> enrollmentsList=recruitment.getErollments().stream().map(e->new RecruitmentVo.Enrollments(e)).collect(Collectors.toList());
         recruitmentVo.setErollments(enrollmentsList);
-
         return recruitmentVo;
     }
 
@@ -103,11 +103,13 @@ public class RecruitmentService {
     public void acceptEnrollment(Recruitment recruitment, Enrollment enrollment) {
        // Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.acceptEnrollment(enrollment);
+        eventPublisher.publishEvent(new EnrollmentAcceptedEvent(enrollment));
     }
 
     public void rejectEnrollment(Recruitment recruitment,Enrollment enrollment) {
         //Enrollment enrollment=enrollmentRepository.findById(enrollmentId).orElseThrow(()->new IllegalArgumentException("존재하지 않은 근로자 입니다."));
         recruitment.rejectEnrollment(enrollment);
+        eventPublisher.publishEvent(new EnrollmentRejectEvent(enrollment));
     }
 
     public void attendAcceptEnrollment(Recruitment recruitment,Enrollment enrollment) {

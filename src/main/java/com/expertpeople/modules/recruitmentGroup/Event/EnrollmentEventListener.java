@@ -3,6 +3,7 @@ package com.expertpeople.modules.recruitmentGroup.Event;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.notification.Notification;
+import com.expertpeople.modules.notification.NotificationRepository;
 import com.expertpeople.modules.notification.NotificationService;
 import com.expertpeople.modules.notification.NotificationType;
 import com.expertpeople.modules.notification.emitter.EmitterRepository;
@@ -28,6 +29,7 @@ public class EnrollmentEventListener {
     private final EmitterRepository emitterRepository;
 
     private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
 
     @EventListener
     public void handleEnrollmentEvent(EnrollmentEvent enrollmentEvent){
@@ -42,7 +44,7 @@ public class EnrollmentEventListener {
         if(account.isWorkCreateByWeb()){
             createNotification(enrollmentEvent,account,recruitment,work);
             ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
-            notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"구인 참가에 변경사항이 있습니다. ");
+            //notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"구인 참가에 변경사항이 있습니다. ");
         }
     }
 
@@ -56,5 +58,6 @@ public class EnrollmentEventListener {
                 .account(account)
                 .notificationType(NotificationType.RECRUIT_ENROLLMENT)
                 .build();
+        notificationRepository.save(notification);
     }
 }

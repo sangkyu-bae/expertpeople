@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './NoticationNav.css';
 import {Link} from "react-router-dom";
 
-function NotificationLeftNav({check, newCount, oldCount, notifications}) {
+function NotificationLeftNav({check, newCount, oldCount, notifications,contentChange}) {
 
     return (
 
@@ -21,14 +21,14 @@ function NotificationLeftNav({check, newCount, oldCount, notifications}) {
 
             </ul>
             <ul className='second-notice-boxs'>
-                <li className='second-notice-box'>
+                <li className='second-notice-box'  onClick={()=>contentChange('WORK_CREATED')}>
                     <span className='item-head'>새 일감 알림</span><span className='item-cnt'>{notifications.WORK_CREATED.length}</span>
                 </li>
-                <li className='second-notice-box'>
-                    <span className='item-head'>구인 참가 신청 알림</span><span className='item-cnt'>{notifications.WORK_UPDATED.length}</span>
+                <li className='second-notice-box' id='enrollment-notice' onClick={()=>contentChange('RECRUIT_ENROLLMENT')}>
+                    <span className='item-head'>구인 참가 신청 알림</span><span className='item-cnt'>{notifications.RECRUIT_ENROLLMENT.length}</span>
                 </li>
-                <li className='second-notice-box'>
-                    <span className='item-head'>관심있는 일감 알림</span><span className='item-cnt'>{notifications.RECRUIT_ENROLLMENT.length}</span>
+                <li className='second-notice-box' id='attention-work' onClick={()=>contentChange('WORK_UPDATED')}>
+                    <span className='item-head'>관심있는 일감 알림</span><span className='item-cnt'>{notifications.WORK_UPDATED.length}</span>
                 </li>
             </ul>
             {

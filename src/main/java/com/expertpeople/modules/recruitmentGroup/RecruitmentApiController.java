@@ -118,7 +118,7 @@ public class RecruitmentApiController {
     public ResponseEntity<?> newEnrollment(@CurrentAccount Account account,@PathVariable String path,
                                            @PathVariable("id") Recruitment recruitment){
         workService.isCheckWork(path);
-        //Recruitment recruitment= recruitmentService.addEnrollment(account,id);
+        recruitmentService.addEnrollment(account,recruitment);
         RecruitmentVo recruitmentVo=recruitmentService.convertRecruit(recruitment);
 
         return ResponseEntity.ok().body(recruitmentVo);
@@ -128,7 +128,6 @@ public class RecruitmentApiController {
     public ResponseEntity<?> removeRecruit(@CurrentAccount Account account,@PathVariable String path,
                                            @PathVariable("id") Recruitment recruitment){
         workService.isCheckWork(path);
-       // Recruitment recruitment=recruitmentService.getUpdateRecruit(id,account);
         recruitmentService.removeRecruitment(recruitment);
         return ResponseEntity.ok().build();
     }

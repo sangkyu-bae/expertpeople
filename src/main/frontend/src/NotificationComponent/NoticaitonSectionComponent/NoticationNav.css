@@ -51,3 +51,7 @@
     padding-left: 1em;
     position: relative;
 }
+
+.second-notice-boxs:hover{
+    cursor: pointer;
+}

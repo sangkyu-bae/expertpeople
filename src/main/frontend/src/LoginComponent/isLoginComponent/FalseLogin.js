@@ -20,7 +20,7 @@ function FalseLogin(props) {
     }
     const userName = useSelector(state => state.userReducer.user);
     useEffect(() => {
-        //fetchSse(userName.userId);
+       // fetchSse(userName.userId);
     }, [])
     const [isNotify,setIsNotify]=useState(false);
     const fetchSse = async (userId) => {

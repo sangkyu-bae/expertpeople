@@ -39,6 +39,16 @@ function OldNotification(props) {
                 console.log(e);
             })
     }
+    const [fullInfo,setFullInfo]=useState({
+        isFull:true,
+        mode:"full"
+    });
+    const contentChange=(mode)=>{
+        setFullInfo({
+            isFull:false,
+            mode:mode
+        })
+    }
 
     return (
         <div className="container">
@@ -50,8 +60,10 @@ function OldNotification(props) {
                             <NotificationLeftNav check='old'
                                                  newCount={noticeInfo.newCount}
                                                  oldCount={noticeInfo.oldCount}
-                                                 notifications={noticeInfo}/>
-                            <NoReadNotification notifications={noticeInfo}/>
+                                                 notifications={noticeInfo}
+                                                 contentChange={contentChange}/>
+                            <NoReadNotification notifications={noticeInfo}
+                                                fullInfo={fullInfo}/>
                         </>
                     }
 
