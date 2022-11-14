@@ -1,5 +1,8 @@
 package com.expertpeople.modules.work.Event;
 
+import com.expertpeople.infra.config.AppProperties;
+import com.expertpeople.infra.mail.EmailMessage;
+import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountPredicates;
 import com.expertpeople.modules.account.AccountRepository;
@@ -17,6 +20,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +40,9 @@ public class WorkEventListener {
     private final NotificationRepository notificationRepository;
     private final NotificationService notificationService;
     private final EmitterRepository emitterRepository;
+    private final AppProperties appProperties;
+    private final TemplateEngine templateEngine;
+    private final EmailService emailService;
     @EventListener
     public void handleWorkCreatedEvent(WorkCreatedEvent workCreatedEvent){
 
@@ -41,7 +50,8 @@ public class WorkEventListener {
         Iterable<Account> accounts =accountRepository.findAll(AccountPredicates.findByTagsAndZones(work.getJobs(),work.getZones()));
         accounts.forEach(account -> {
             if(account.isWorkCreateByEmail()){
-
+                sendWorkCreatedEmail(work,account,"새로운 일감이 생겼습니다.",
+                        "expert PeoPle '"+work.getTitle()+"'일감이 생겼습니다");
             }
 
             if(account.isWorkCreateByWeb()){
@@ -53,6 +63,8 @@ public class WorkEventListener {
         });
     }
 
+
+
     @EventListener
     public void handleWorkUpdateWork(WorkUpdateEvent workUpdateEvent){
         Work work=workRepository.findWorkWithManagersAndMembersById(workUpdateEvent.getWork().getId());
@@ -62,7 +74,8 @@ public class WorkEventListener {
 
         accounts.forEach(account -> {
             if(account.isWorkCreateByEmail()){
-
+                sendWorkCreatedEmail(work,account,"일감에 새로운 소식이 있습니다.",
+                        "expert PeoPle '"+work.getTitle()+"'일감에 새로운 소식이 있습니다.");
             }
 
             if(account.isWorkCreateByWeb()){
@@ -84,5 +97,21 @@ public class WorkEventListener {
                 notificationType(notificationType).
                 build();
         notificationRepository.save(notification);
+    }
+
+    private void sendWorkCreatedEmail(Work work, Account account, String contextMessage, String emailSubject) {
+        Context context=new Context();
+        context.setVariable("name",account.getName());
+        context.setVariable("link","/work/"+work.getPath());
+        context.setVariable("message",contextMessage);
+        context.setVariable("host",appProperties.getHost());
+
+        String message=templateEngine.process("Email/simple-link",context);
+        EmailMessage emailMessage=EmailMessage.builder().
+                subject(emailSubject).
+                to(account.getEmail()).
+                message(message).
+                build();
+        emailService.sendEmail(emailMessage);
     }
 }
