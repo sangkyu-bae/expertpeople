@@ -8,47 +8,47 @@ function Notification(props) {
         WORK_CREATED: [],
         WORK_UPDATED: [],
         RECRUIT_ENROLLMENT: [],
-        newCount:0,
-        oldCount:0
+        newCount: 0,
+        oldCount: 0
     })
 
-    const splitByNotification=(notifications,newCount,oldCount)=>{
+    const splitByNotification = (notifications, newCount, oldCount) => {
         let initNotificationData = {
             WORK_CREATED: [],
             WORK_UPDATED: [],
             RECRUIT_ENROLLMENT: [],
-            newCount:newCount,
-            oldCount:oldCount
+            newCount: newCount,
+            oldCount: oldCount
         }
 
-        notifications.forEach(notification=>{
+        notifications.forEach(notification => {
             initNotificationData[notification.notificationType].push(notification);
         })
 
         setNoticeInfo(initNotificationData)
     }
-    useEffect(()=>{
+    useEffect(() => {
         getNotify()
-    },[])
+    }, [])
 
-    const getNotify=()=>{
+    const getNotify = () => {
         axiosCo.getNotification()
-            .then(e=>{
-                splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount)
+            .then(e => {
+                splitByNotification(e.data.notifications, e.data.newCount, e.data.oldCount)
             })
-            .catch(e=>{
+            .catch(e => {
                 console.log(e);
             })
     }
 
-    const [fullInfo,setFullInfo]=useState({
-        isFull:true,
-        mode:"full"
+    const [fullInfo, setFullInfo] = useState({
+        isFull: true,
+        mode: "full"
     });
-    const contentChange=(mode)=>{
+    const contentChange = (mode) => {
         setFullInfo({
-            isFull:false,
-            mode:mode
+            isFull: false,
+            mode: mode
         })
     }
 
@@ -57,13 +57,14 @@ function Notification(props) {
             <div className="container-wrap">
                 <div className="flex">
                     {
-                        Object.keys(noticeInfo).length>0&&
+                        Object.keys(noticeInfo).length > 0 &&
                         <>
                             <NotificationLeftNav check='new'
                                                  newCount={noticeInfo.newCount}
                                                  oldCount={noticeInfo.oldCount}
                                                  notifications={noticeInfo}
-                                                 contentChange={contentChange}/>
+                                                 contentChange={contentChange}
+                                                 fullInfo={fullInfo}/>
                             <NoReadNotification notifications={noticeInfo}
                                                 fullInfo={fullInfo}/>
                         </>

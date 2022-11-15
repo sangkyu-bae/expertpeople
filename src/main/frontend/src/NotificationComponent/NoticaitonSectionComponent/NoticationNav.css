@@ -55,3 +55,7 @@
 .second-notice-boxs:hover{
     cursor: pointer;
 }
+.second-click{
+    background-color: #47E1A8;
+    color: white;
+}

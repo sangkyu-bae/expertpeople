@@ -1,6 +1,7 @@
 package com.expertpeople.modules.account;
 
 import com.expertpeople.WithAccount;
+import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.Jwt.JwtResponse;
 import com.expertpeople.modules.Jwt.JwtService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+
+import javax.annotation.PostConstruct;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -30,7 +35,8 @@ class AccountSettingApiControllerTest {
     AccountRepository accountRepository;
     @Autowired
     JwtService jwtService;
-
+    @MockBean
+    EmailService emailService;
     private String token="";
 
 //    public void getToken()throws Exception{
@@ -42,26 +48,36 @@ class AccountSettingApiControllerTest {
 //        token=jwtResponse.getToken();
 //    }
 
-    @BeforeEach
-    public void initializationToken() throws Exception {
-        token="";
-        Account account= Account.builder().
-                email("uiwv29l@naver.com")
-                .password("wnsvaf309")
-                .build();
-        JwtResponse jwtResponse=jwtService.testGetJwtResponse(true);
-        token=jwtResponse.getToken();
+//    @BeforeEach
+//    public void initializationToken() throws Exception {
+//        token="";
+//        Account account= Account.builder().
+//                email("uiwv29l@naver.com")
+//                .password("wnsvaf309")
+//                .build();
+//        JwtResponse jwtResponse=jwtService.testGetJwtResponse(true);
+//        token=jwtResponse.getToken();
+//    }
+    @PostConstruct
+    public void settingUserTest(){
+        Account account=new Account();
+        account.setEmail("uiwv29l@naver.com");
+        account.setPassword("wnsvaf309");
+        account.setRole("ROLE_USER");
+        accountRepository.save(account);
     }
 
-    @WithAccount(email = "uiwv29l@naver.com")
+    @WithUserDetails(value = "uiwv29l@naver.com")
     @DisplayName("프로필 수정 - 입력값 정상")
     @Test
     void updateProfile() throws Exception{
-        System.out.println("타?");
-        String bio = "소개  test";
-        HttpHeaders httpHeaders= new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
 
+//        System.out.println("타?");
+//
+//        System.out.println(token);
+//        HttpHeaders httpHeaders= new HttpHeaders();
+//        httpHeaders.add("Authorization", "Bearer " + token);
+        String bio = "소개  test";
         mockMvc.perform(post("/api/setting/profile")
                 .param("bio", bio))
                 .andExpect(status().isOk()).andDo(print());

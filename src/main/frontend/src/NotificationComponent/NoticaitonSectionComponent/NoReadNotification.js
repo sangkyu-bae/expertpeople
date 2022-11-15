@@ -3,8 +3,6 @@ import './NoticationRightWrap.css'
 import NoticeItemBox from "./NoticeItemBox";
 
 function NoReadNotification({notifications, fullInfo}) {
-    console.log(fullInfo)
-    console.log(notifications)
     return (
         <div className='notice-right-wrap'>
 

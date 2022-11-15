@@ -37,8 +37,9 @@ public class JwtService {
                 email("uiwv29l@naver.com")
                 .password("wnsvaf309")
                 .build();
-        authenticate(account);
-        final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account.getEmail());
+        Account account1=accountRepository.save(account);
+        authenticate(account1);
+        final UserDetails userDetails=jwtUserDetailService.loadUserByUsername(account1.getEmail());
         //final String token=jwtTokenUtil.generateToken(userDetails);
         final String token=jwtTokenProvider.generateToken(userDetails);
 

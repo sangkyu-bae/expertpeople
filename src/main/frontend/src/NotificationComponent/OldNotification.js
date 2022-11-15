@@ -61,7 +61,8 @@ function OldNotification(props) {
                                                  newCount={noticeInfo.newCount}
                                                  oldCount={noticeInfo.oldCount}
                                                  notifications={noticeInfo}
-                                                 contentChange={contentChange}/>
+                                                 contentChange={contentChange}
+                                                 fullInfo={fullInfo}/>
                             <NoReadNotification notifications={noticeInfo}
                                                 fullInfo={fullInfo}/>
                         </>

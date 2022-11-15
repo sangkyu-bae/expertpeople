@@ -20,7 +20,6 @@ public class AccountApiController {
     private final AccountService accountService;
     private final JoinUpFormValidator joinUpFormValidator;
     private final JwtService jwtService;
-    private final JavaMailSender javaMailSender;
 
     @InitBinder("joinUpForm")
     public void initBinder(WebDataBinder webDataBinder){
@@ -41,18 +40,18 @@ public class AccountApiController {
         Account account=accountService.getAccount(email);
         return account;
     }
-    @GetMapping("/test")
-    public ResponseEntity<?> test(){
-        Account newAccount= Account.builder()
-                .email("tkdrb1361@naver.com")
-                .emailCheckToken("test")
-                .build();
-        SimpleMailMessage mailMessage=new SimpleMailMessage();
-        mailMessage.setTo(newAccount.getEmail());
-        mailMessage.setSubject("expertPeople, 회원가입 인증");
-        mailMessage.setText("/check-email-token?token="+newAccount.getEmailCheckToken()+
-                "&email="+ newAccount.getEmail());
-        javaMailSender.send(mailMessage);
-        return null;
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<?> test(){
+//        Account newAccount= Account.builder()
+//                .email("tkdrb1361@naver.com")
+//                .emailCheckToken("test")
+//                .build();
+//        SimpleMailMessage mailMessage=new SimpleMailMessage();
+//        mailMessage.setTo(newAccount.getEmail());
+//        mailMessage.setSubject("expertPeople, 회원가입 인증");
+//        mailMessage.setText("/check-email-token?token="+newAccount.getEmailCheckToken()+
+//                "&email="+ newAccount.getEmail());
+//        javaMailSender.send(mailMessage);
+//        return null;
+//    }
 }
