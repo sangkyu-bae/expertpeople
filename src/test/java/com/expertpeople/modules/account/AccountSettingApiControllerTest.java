@@ -1,9 +1,11 @@
 package com.expertpeople.modules.account;
 
-import com.expertpeople.WithAccount;
+
 import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.Jwt.JwtResponse;
 import com.expertpeople.modules.Jwt.JwtService;
+import com.expertpeople.modules.account.form.Profile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,18 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 class AccountSettingApiControllerTest {
@@ -37,52 +43,48 @@ class AccountSettingApiControllerTest {
     JwtService jwtService;
     @MockBean
     EmailService emailService;
+    @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     private String token="";
 
-//    public void getToken()throws Exception{
-//        Account account= Account.builder().
-//                email("uiwv29l@naver.com")
-//                .password("wnsvaf309")
-//                .build();
-//        JwtResponse jwtResponse=jwtService.getJwtResponse(account,true);
-//        token=jwtResponse.getToken();
-//    }
-
-//    @BeforeEach
-//    public void initializationToken() throws Exception {
-//        token="";
-//        Account account= Account.builder().
-//                email("uiwv29l@naver.com")
-//                .password("wnsvaf309")
-//                .build();
-//        JwtResponse jwtResponse=jwtService.testGetJwtResponse(true);
-//        token=jwtResponse.getToken();
-//    }
     @PostConstruct
-    public void settingUserTest(){
+    public void settingUserTest() throws Exception {
         Account account=new Account();
+
         account.setEmail("uiwv29l@naver.com");
-        account.setPassword("wnsvaf309");
+        account.setPassword(passwordEncoder.encode("wnsvaf309"));
         account.setRole("ROLE_USER");
         accountRepository.save(account);
     }
 
-    @WithUserDetails(value = "uiwv29l@naver.com")
-    @DisplayName("프로필 수정 - 입력값 정상")
+
     @Test
+    @DisplayName("프로필 수정 - 입력값 정상")
+    @WithUserDetails(value = "uiwv29l@naver.com")
     void updateProfile() throws Exception{
 
 //        System.out.println("타?");
 //
-//        System.out.println(token);
+        System.out.println(token);
 //        HttpHeaders httpHeaders= new HttpHeaders();
 //        httpHeaders.add("Authorization", "Bearer " + token);
         String bio = "소개  test";
-        mockMvc.perform(post("/api/setting/profile")
-                .param("bio", bio))
-                .andExpect(status().isOk()).andDo(print());
+
+        Profile profile=new Profile();
+        profile.setBio(bio);
+
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
-        assertEquals(bio,account.getBio());
+        mockMvc.perform(post("/api/setting/profile")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(profile))
+                        .with(csrf()))
+                        .andExpect(status().isOk());
+
+        Account account2=accountRepository.findByEmail("uiwv29l@naver.com");
+        assertTrue(account.getBio()==bio);
     }
 
 
