@@ -2,6 +2,7 @@ package com.expertpeople.modules.account;
 
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
+import com.expertpeople.modules.account.validator.PasswordFormValidator;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.job.Vo.JobResult;
@@ -30,9 +31,11 @@ public class AccountSettingApiController {
     private final ZoneRepository zoneRepository;
     private final JobRepository jobRepository;
 
+    private final PasswordFormValidator passwordFormValidator;
+
     @InitBinder("passwordForm")
     public void passwordBinder(WebDataBinder webDataBinder){
-        webDataBinder.addValidators();
+        webDataBinder.addValidators(passwordFormValidator);
     }
     @PostMapping("/setting/profile")
     public ResponseEntity<?>updateProfile(@CurrentAccount Account account,@RequestBody @Valid Profile profile,
@@ -43,11 +46,12 @@ public class AccountSettingApiController {
         }
         accountService.updateAccountProfile(account,profile);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(account);
     }
 
     @PostMapping("/setting/password")
-    public ResponseEntity<?>updatePassword(@CurrentAccount Account account, @RequestBody @Valid PasswordForm passwordForm,
+    public ResponseEntity<?>
+    updatePassword(@CurrentAccount Account account, @RequestBody @Valid PasswordForm passwordForm,
                                            Errors errors) throws JsonProcessingException{
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().build();
