@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +41,8 @@ class WorkApiControllerTest {
     ObjectMapper objectMapper;
     @Autowired
     WorkRepository workRepository;
+    @Autowired
+    WorkService  workService;
 
     @BeforeEach
     public void settingUserTest() throws Exception {
@@ -76,7 +79,7 @@ class WorkApiControllerTest {
     @Test
     @DisplayName("일감 생성 - 입력값 오류")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void createWork_fali() throws Exception{
+    void createWork_fail() throws Exception{
         WorkForm workForm=new WorkForm();
 
         workForm.setPath("wrong path");
@@ -92,5 +95,25 @@ class WorkApiControllerTest {
                 .andDo(print());
         Work work=workRepository.findByPath("test");
         assertNull(work);
+    }
+
+    @Test
+    @DisplayName("일감 가져오기")
+    @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void getWork() throws Exception{
+        WorkForm workForm=new WorkForm();
+
+        workForm.setPath("test");
+        workForm.setTitle("test일감");
+        workForm.setShortDescription("test짧은내용ㅇ");
+        workForm.setFullDescription("긴test내용");
+
+        Account account=accountRepository.findByEmail("uiwv29l@naver.com");
+        Work work=workService.createWork(account,workForm);
+
+        mockMvc.perform(get("/api/work/"+work.getPath()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
     }
 }
