@@ -2,12 +2,14 @@ package com.expertpeople.modules.work;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface WorkRepository extends JpaRepository<Work,Long>{
+public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredicateExecutor<Work>,WorkRepositoryExtension {
 
     boolean existsByPath(String path);
    @EntityGraph(attributePaths = {"jobs","zones","managers","members"})
@@ -28,4 +30,6 @@ public interface WorkRepository extends JpaRepository<Work,Long>{
 
     @EntityGraph(attributePaths = {"managers","members"})
     Work findWorkWithManagersAndMembersById(Long id);
+
+    List<Work> findByKeyword(String keyword);
 }
