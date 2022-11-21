@@ -10,6 +10,9 @@ import TrueLogin from "../LoginComponent/isLoginComponent/TrueLogin";
 import FalseLogin from "../LoginComponent/isLoginComponent/FalseLogin";
 import {requestURL} from "../util/common/RequestUrl";
 import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import axiosCo from "../util/common/axiosCommon";
 
 
 function MainNav(props) {
@@ -34,6 +37,18 @@ function MainNav(props) {
         navigate("/");
     }
 
+    const [search,setSearch]=useState("");
+    const searchSubmit=(e)=>{
+        e.preventDefault();
+        axiosCo.getSearchWork(search)
+            .then(e=>{
+                console.log(e.data)
+            })
+            .catch(e=>{
+                console.log(e)
+            })
+    }
+
     return (
         <nav className="navbar">
             <div className="head-wrap flex">
@@ -41,6 +56,9 @@ function MainNav(props) {
                     <Link to="/">
                         <FontAwesomeIcon className="icons" icon={faHelmetSafety}/>
                     </Link>
+                    <Form onSubmit={searchSubmit}>
+                        <input type="search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
+                    </Form>
                 </div>
                 <div className="item ">
                     {!isLogin &&

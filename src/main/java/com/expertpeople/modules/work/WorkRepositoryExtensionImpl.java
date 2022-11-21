@@ -6,6 +6,7 @@ import com.expertpeople.modules.zone.QZone;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport implements WorkRepositoryExtension{
@@ -22,7 +23,8 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
                 .or(qWork.zones.any().localNameOfCity.containsIgnoreCase(keyword)))
                 .leftJoin(qWork.jobs, QJob.job1).fetchJoin()
                 .leftJoin(qWork.zones, QZone.zone).fetchJoin()
-                .leftJoin(qWork.members, QAccount.account).fetchJoin();
+                .leftJoin(qWork.members, QAccount.account).fetchJoin()
+                .distinct();
         return query.fetch();
     }
 }

@@ -11,6 +11,7 @@
     font-size: 1.7em;
     font-weight: bold;
     flex: 0.8;
+    display: flex;
 }
 .item{
     flex: 0.2;
@@ -25,13 +26,13 @@
     display: block;
     width: 2%;
     height: 100%;
-    padding: 0 2em;
+    padding: 0 1em;
     color: white;
     text-decoration: none;
 }
 .icons{
     width: 1em;
-    height: 1em;
+    height: 1.5em;
 }
 .nav-item{
     height: 100%;
@@ -112,14 +113,14 @@ a{
     padding-left: 2em;
 }
 .work-wrap{
-    width: 90%;
+    width: 100%;
     height: 100%;
     position: relative;
     margin: 0 auto;
 }
 .work{
     position: absolute;
-    left: 0;
+    left: 8%;
     top: 0%;
     width: 20%;
     color: gray;
@@ -140,4 +141,7 @@ a{
 .border :hover{
     background-color: #00AAFF;
     color: white;
+}
+.search{
+    flex: 0.15;
 }

@@ -208,6 +208,15 @@ const axiosCo = {
     getOldNotification:async ()=>{
         const res=await accessAPI.get(`${requests.fetchGetNotification}/old`);
         return res;
+    },
+    getSearchWork:async (search)=> {
+        console.log(search)
+        const res=await API.get(`${requests.fetchSearch}`, {
+                params: {
+                    keyword: search
+                }
+            })
+        return res;
     }
 }
 
