@@ -13,3 +13,9 @@
     height: 39em;
     margin-bottom: 2em;
 }
+.search-text-center{
+    text-align: center;
+    margin-top: 2em;
+    font-size: 1.5em;
+    color: #7f7f7f;
+}

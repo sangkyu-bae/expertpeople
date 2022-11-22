@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 import axiosCo from "../util/common/axiosCommon";
 
 
-function MainNav(props) {
+function MainNav({search,searchChange,searchSubmit,changeIsSearch}) {
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.userReducer.isLogin);
     const userName = useSelector(state => state.userReducer.user);
@@ -37,27 +37,16 @@ function MainNav(props) {
         navigate("/");
     }
 
-    const [search,setSearch]=useState("");
-    const searchSubmit=(e)=>{
-        e.preventDefault();
-        axiosCo.getSearchWork(search)
-            .then(e=>{
-                console.log(e.data)
-            })
-            .catch(e=>{
-                console.log(e)
-            })
-    }
 
     return (
         <nav className="navbar">
             <div className="head-wrap flex">
                 <div className="main">
-                    <Link to="/">
+                    <Link to="/" onClick={changeIsSearch}>
                         <FontAwesomeIcon className="icons" icon={faHelmetSafety}/>
                     </Link>
                     <Form onSubmit={searchSubmit}>
-                        <input type="search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
+                        <input type="search" value={search} onChange={searchChange}/>
                     </Form>
                 </div>
                 <div className="item ">

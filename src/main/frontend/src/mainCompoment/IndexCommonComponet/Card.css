@@ -1,0 +1,39 @@
+.main_flex{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 3em;
+}
+.card_wrap{
+    height: 13em;
+    border: 1px solid gray;
+    margin-right: 3%;
+    margin-bottom: 1.5em;
+    width: 30%;
+}
+.card_wrap:nth-child(3n){
+    margin-right: 0;
+}
+.card_img{
+    height: 20%;
+    background-color: black;
+}
+.card_content{
+    padding: 1em;
+}
+.card_head{
+    font-size: 2em;
+    color: #00AAFF;
+    margin-bottom: 0.5em;
+}
+.card_tag_list{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: flex;
+}
+.card_foot{
+    display: flex;
+    color: dimgray;
+}
+.card_member{
+    margin-right: 11em;
+}

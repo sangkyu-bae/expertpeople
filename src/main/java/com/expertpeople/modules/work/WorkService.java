@@ -1,7 +1,9 @@
 package com.expertpeople.modules.work;
 
 import com.expertpeople.modules.account.Account;
+import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.job.Job;
+import com.expertpeople.modules.job.JobRepository;
 import com.expertpeople.modules.work.Event.WorkCreatedEvent;
 import com.expertpeople.modules.work.Event.WorkUpdateEvent;
 import com.expertpeople.modules.work.Vo.WorkVo;
@@ -31,6 +33,20 @@ public class WorkService {
     private final ModelMapper modelMapper;
     private final WorkRepository workRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AccountRepository accountRepository;
+    private final JobRepository jobRepository;
+
+
+
+    public Work create(Work work){
+        Account account=accountRepository.findByEmail("uiwv29l@naver.com");
+
+        Work newWork= workRepository.save(work);
+        work.addManager(account);
+        Job test=jobRepository.findByJob("석공");
+        newWork.getJobs().add(test);
+        return work;
+    }
     public Work createWork(Account account, WorkForm workForm) {
         Work work=modelMapper.map(workForm,Work.class);
         workRepository.save(work);

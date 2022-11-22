@@ -3,11 +3,12 @@ package com.expertpeople.modules.work;
 import com.expertpeople.modules.account.QAccount;
 import com.expertpeople.modules.job.QJob;
 import com.expertpeople.modules.zone.QZone;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport implements WorkRepositoryExtension{
     public WorkRepositoryExtensionImpl() {
@@ -15,7 +16,7 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
     }
 
     @Override
-    public List<Work> findByKeyword(String keyword) {
+    public Page<Work> findByKeyword(String keyword, Pageable pageable) {
         QWork qWork=QWork.work;
         JPQLQuery<Work>query= from(qWork).where(qWork.published.isTrue()
                 .and(qWork.title.containsIgnoreCase(keyword))
@@ -25,6 +26,8 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
                 .leftJoin(qWork.zones, QZone.zone).fetchJoin()
                 .leftJoin(qWork.members, QAccount.account).fetchJoin()
                 .distinct();
-        return query.fetch();
+        JPQLQuery<Work> pageableQuery= getQuerydsl().applyPagination(pageable,query);
+        QueryResults<Work> workQueryResults=pageableQuery.fetchResults();
+        return new PageImpl<>(workQueryResults.getResults(),pageable, workQueryResults.getTotal());
     }
 }

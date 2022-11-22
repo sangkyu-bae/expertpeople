@@ -23,13 +23,47 @@ import RecruitmentList from "./WorkComponent/Recruitment/RecruitmentList";
 import UpdateRecruit from "./WorkComponent/Recruitment/UpdateRecruit";
 import Notification from "./NotificationComponent/Notification";
 import OldNotification from "./NotificationComponent/OldNotification";
+import {useState} from "react";
+import axiosCo from "./util/common/axiosCommon";
+
 
 function App() {
+    const [searchData,setSearchData]=useState([]);
+    const [search,setSearch]=useState("");
+    const searchSubmit=(e)=>{
+        e.preventDefault();
+        axiosCo.getSearchWork(search)
+            .then(e=>{
+                console.log(e.data)
+                setSearchData(e.data);
+                setSearch("");
+                setIsSearch(true)
+            })
+            .catch(e=>{
+                console.log(e)
+            })
+    }
+    const searchChange=(e)=>{
+        setSearch(e.target.value);
+    }
+    const [isSearch, setIsSearch] = useState(false);
+    const changeIsSearch=()=>{
+        isSearch&&
+        setIsSearch(false)
+    }
+
     return (
         <BrowserRouter>
-            <MainNav></MainNav>
+            <MainNav
+                search={search}
+                searchSubmit={searchSubmit}
+                searchChange={searchChange}
+                changeIsSearch={changeIsSearch}></MainNav>
                 <Routes>
-                    <Route path="/" element={<Index></Index>}/>
+                    <Route path="/" element={<Index
+                        searchData={searchData}
+                        isSearch={isSearch}
+                    ></Index>}/>
                     <Route path="/login" element={<Login></Login>}/>
                     <Route path="/join-up" element={<JoinUp></JoinUp>}/>
                     <Route path="/myprofile" element={<Profile></Profile>}/>
