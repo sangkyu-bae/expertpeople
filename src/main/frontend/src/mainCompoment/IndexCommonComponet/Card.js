@@ -1,6 +1,8 @@
 import React from 'react';
 import './Card.css'
+import moment from "moment/moment";
 function Card({search}) {
+    search.publishedDateTime=moment(search.publishedDateTime).format("YYYY-MM-DD ");
     return (
         <div className="card_wrap">
             <div className="card_img">

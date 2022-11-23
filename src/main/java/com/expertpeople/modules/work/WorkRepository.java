@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredicateExecutor<Work>,WorkRepositoryExtension {
 
@@ -30,5 +32,6 @@ public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredic
     @EntityGraph(attributePaths = {"managers","members"})
     Work findWorkWithManagersAndMembersById(Long id);
 
-    Page<Work> findByKeyword(String keyword, Pageable pageable);
+    //Page<Work> findByKeyword(String keyword, Pageable pageable);
+    List<Work> findByKeyword(String keyword);
 }
