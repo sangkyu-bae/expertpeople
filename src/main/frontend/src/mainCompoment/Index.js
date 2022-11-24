@@ -15,29 +15,37 @@ function Index({searchData,isSearch}) {
         currentPage:1,
         pageWorks:[]
     })
-    const [works,setWork]=useState()
+    const [works,setWorks]=useState()
     const{totalCount,totalPage,pagingPage,isNext,isPrev,currentPage,pageWorks}=pagination;
     useEffect(()=>{
         if(searchData.works){
-            console.log(searchData)
-            setWork(searchData);
+            const total=getTotalPage(searchData.works.length,pagingPage);
+            const totalCnt=searchData.works.length;
+            setWorks(searchData.works);
             setPagination({
                 ...pagination,
-                totalCount: searchData.length,
-                totalPage: getTotalPage(searchData.works.length),
-                pageWorks: setWorksPage(searchData.works)
+                totalCount: searchData.works.length,
+                totalPage: total,
+                pageWorks: setWorksPage(searchData.works,currentPage,totalCnt,pagingPage)
             })
         }
     },[searchData])
 
-    const getTotalPage=(totalCount)=>{
-        const tt=totalCount/pagingPage;
-        return Math.floor(tt);
+    const getTotalPage=(totalCount,pagingCount)=>{
+        const tt=totalCount/pagingCount;
+        return Math.ceil(tt);
     }
-    const setWorksPage=(worksData)=>{
+    const setWorksPage=(worksData,page,totalcnt,paging)=>{
         const work=[];
-        let i=(currentPage-1)*pagingPage;
-        let brenchmark=currentPage*pagingPage
+        let i=(page-1)*pagingPage;
+        let brenchmark=page*pagingPage;
+
+        if(totalcnt<paging){
+            brenchmark=paging
+        }
+        if(totalcnt<brenchmark){
+            brenchmark=totalcnt;
+        }
 
         for(i;i<brenchmark;i++){
             work.push(worksData[i]);
@@ -47,7 +55,12 @@ function Index({searchData,isSearch}) {
     }
 
     function handleChange(event: React.ChangeEvent<unknown>, value: number) {
-
+        const work=setWorksPage(works,value,totalCount);
+        setPagination({
+            ...pagination,
+            currentPage: value,
+            pageWorks: work
+        })
     }
 
     return (
@@ -55,22 +68,15 @@ function Index({searchData,isSearch}) {
             <div className="container">
                 {
                     isSearch ?
+                        pageWorks.length>0&&
                         <div className="py-5 search-text-center ">
-                            {searchData.keyword}에 해당하는 일감을{searchData.works.length}개 찾았습니다.
+                            {searchData.keyword}에 해당하는 일감을{totalCount}개 찾았습니다.
                         </div>:
                         <div className="py-5 text-center">
                             <h2> 전문인력들을 만나다 ExpertPeople</h2>
                         </div>
                 }
                 <div className="main_flex">
-                    {/*{*/}
-                    {/*    searchData.works&&*/}
-                    {/*    isSearch&&*/}
-                    {/*    searchData.works.length>0 &&*/}
-                    {/*    searchData.works.map(search=>*/}
-                    {/*      <Card key={search.id} search={search}></Card>*/}
-                    {/*    )*/}
-                    {/*}*/}
                     {
                         isSearch&&
                         pageWorks.length>0 &&
@@ -80,7 +86,7 @@ function Index({searchData,isSearch}) {
                     }
                     {
                         isSearch&&
-                        totalPage>0 &&
+                        totalPage>1 &&
                         <Pagination count={totalPage}
                                     shape="rounded"
                                     className="pagig-nav"
