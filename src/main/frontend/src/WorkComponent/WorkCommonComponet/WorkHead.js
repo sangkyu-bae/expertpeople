@@ -37,6 +37,10 @@ function WorkHead(props) {
     const work=useSelector(state=>state.workReducer.work);
     const isManager=useSelector(state=>state.workReducer.isManager);
     const isMember=useSelector(state =>state.workReducer.isMember);
+
+    // console.log(work);
+    // console.log(isManager);
+    // console.log(isMember)
     return (
         <div className="content-wrap">
             <div className="flex">

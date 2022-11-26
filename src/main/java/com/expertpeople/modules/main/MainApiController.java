@@ -32,8 +32,10 @@ public class MainApiController {
         //Page<Work> works=workRepository.findByKeyword(keyword,pageable);
         List<Work> works=workRepository.findByKeyword(keyword);
 
-        List<fetchWorkVo> fetchWork=works.stream().map(fetchWorkVo::new).collect(Collectors.toList());
 
+
+       List<fetchWorkVo> fetchWork=works.stream().map(fetchWorkVo::new).collect(Collectors.toList());
+       // return ResponseEntity.ok().build();
         return ResponseEntity.ok().body(new ResponseSearchWork<>(fetchWork,keyword));
     }
 
