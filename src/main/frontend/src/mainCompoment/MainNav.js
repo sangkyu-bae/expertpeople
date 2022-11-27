@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 import axiosCo from "../util/common/axiosCommon";
 
 
-function MainNav({search,searchChange,searchSubmit,changeIsSearch}) {
+function MainNav({search,searchChange,searchSubmit,changeIsSearch,isSearch}) {
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.userReducer.isLogin);
     const userName = useSelector(state => state.userReducer.user);
@@ -37,7 +37,10 @@ function MainNav({search,searchChange,searchSubmit,changeIsSearch}) {
         navigate("/");
     }
 
-
+    const nav=useNavigate();
+    useEffect(()=>{
+        if(isSearch) nav("/")
+    },[isSearch])
     return (
         <nav className="navbar">
             <div className="head-wrap flex">

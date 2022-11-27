@@ -9,12 +9,13 @@ import moment from "moment";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import {Link} from "react-router-dom";
-import Markdown from "react-mark/lib/components/basic/Markdown";
-function ActionAreaCard({search}) {
+import {Marker} from "react-mark.js";
+
+function ActionAreaCard({search, keyword}) {
     search.publishedDateTime = moment(search.publishedDateTime).format("YYYY-MM-DD ");
     return (
         <Link to={`work/${search.path}`} className='card_box'>
-            <Card sx={{maxWidth: 345,minWidth: 345}} className="card_box">
+            <Card sx={{maxWidth: 345, minWidth: 345}} className="card_box">
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -32,14 +33,20 @@ function ActionAreaCard({search}) {
                         <div className="card_tag_list">
                             {
                                 search.zones.length > 0 &&
-                                search.zones.map((zone) =>
-                                        <Chip icon={<LocationOnIcon/>} label={zone.localNameOfCity} className="ee"/>
-                                )
+                                    search.zones.map((zone) =>
+                                        <Marker mark={keyword} options={{className: "custom-marker-1"}}>
+                                            <Chip icon={<LocationOnIcon/>} key={zone.id} label={zone.localNameOfCity}
+                                                  className="ee"/>
+                                        </Marker>
+                                    )
                             }
                             {
                                 search.jobs.length > 0 &&
                                 search.jobs.map((job) =>
-                                    <Chip icon={<EngineeringIcon/>} label={job.job} variant="outlined" className="ee"/>
+                                    <Marker mark={keyword} options={{className: "custom-marker-1"}}>
+                                        <Chip icon={<EngineeringIcon/>} key={job.id} label={job.job} variant="outlined"
+                                              className="ee"/>
+                                    </Marker>
                                 )
                             }
                         </div>

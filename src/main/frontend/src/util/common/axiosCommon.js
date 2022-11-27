@@ -210,12 +210,15 @@ const axiosCo = {
         return res;
     },
     getSearchWork:async (search)=> {
-        console.log(search)
         const res=await API.get(`${requests.fetchSearch}`, {
                 params: {
                     keyword: search
                 }
             })
+        return res;
+    },
+    getMainWorkData:async ()=>{
+        const res=await API.get(`${requests.fetchMainWork}`);
         return res;
     }
 }

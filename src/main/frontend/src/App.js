@@ -1,6 +1,6 @@
 import './App.css';
 import MainNav from "./mainCompoment/MainNav";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
 import Login from "./LoginComponent/Login";
 import Index from './mainCompoment/Index';
 import JoinUp from "./accountComponeent/JoinUp";
@@ -30,6 +30,7 @@ import axiosCo from "./util/common/axiosCommon";
 function App() {
     const [searchData,setSearchData]=useState([]);
     const [search,setSearch]=useState("");
+
     const searchSubmit=(e)=>{
         e.preventDefault();
         axiosCo.getSearchWork(search)
@@ -58,7 +59,9 @@ function App() {
                 search={search}
                 searchSubmit={searchSubmit}
                 searchChange={searchChange}
-                changeIsSearch={changeIsSearch}></MainNav>
+                changeIsSearch={changeIsSearch}
+                isSearch={isSearch}
+            ></MainNav>
                 <Routes>
                     <Route path="/" element={<Index
                         searchData={searchData}

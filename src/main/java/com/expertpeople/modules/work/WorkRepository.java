@@ -34,4 +34,7 @@ public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredic
 
     //Page<Work> findByKeyword(String keyword, Pageable pageable);
     List<Work> findByKeyword(String keyword);
+
+    @EntityGraph(attributePaths = {"members","jobs","zones"})
+    List<Work> findTop9ByPublishedOrderByPublishedDateTimeAsc(boolean published);
 }
