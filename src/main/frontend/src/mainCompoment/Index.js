@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import './Index.css'
 import {Pagination, Typography} from "@mui/material";
-import Dropdown from "../CommonComponent/Dropdwon";
 import Paging from "../util/common/Paging";
 import paging from "../util/common/Paging";
 import ActionAreaCard from "../CommonComponent/ActionAreaCard";
-import {Marker} from "react-mark.js";
 import axiosCo from "../util/common/axiosCommon";
 import JoinupHead from "../CommonComponent/JoinupHead";
+import MainHead from "./IndexCommonComponet/MainHead";
+import {useSelector} from "react-redux";
 function Index({searchData, isSearch}) {
     const [pagination, setPagination] = useState({
         totalCount: 0,
@@ -65,8 +65,8 @@ function Index({searchData, isSearch}) {
                 console.log(e)
             })
     }
+    const isLogin=useSelector(state=> state.userReducer.isLogin);
 
-    console.log(searchData.keyword)
     return (
         <div>
             <div className="container">
@@ -74,17 +74,12 @@ function Index({searchData, isSearch}) {
                     isSearch ?
                         pageWorks.length > 0 &&
                         <>
-                            <Marker mark={searchData.keyword} options={{className: "custom-marker-1"}}>
-                                <div className="py-5 search-text-center ">
-                                    {searchData.keyword}에 해당하는 일감을{totalCount}개 찾았습니다.
-                                </div>
-                            </Marker>
-                            <div className="tet">
-                                <Dropdown workChangeSearch={workChangeSearch}></Dropdown>
-                            </div>
-
+                            <MainHead totalCount={totalCount}
+                                      searchKeyword={searchData.keyword}
+                                      workChangeSearch={workChangeSearch}></MainHead>
                         </>
                         :
+                        !isLogin&&
                         <JoinupHead></JoinupHead>
                 }
 

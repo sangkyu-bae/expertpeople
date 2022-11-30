@@ -23,8 +23,10 @@ import RecruitmentList from "./WorkComponent/Recruitment/RecruitmentList";
 import UpdateRecruit from "./WorkComponent/Recruitment/UpdateRecruit";
 import Notification from "./NotificationComponent/Notification";
 import OldNotification from "./NotificationComponent/OldNotification";
-import {useState} from "react";
+import {useReducer, useState} from "react";
 import axiosCo from "./util/common/axiosCommon";
+import {useSelector} from "react-redux";
+import LoginRoute from "./CommonComponent/LoginRoute";
 
 
 function App() {
@@ -35,7 +37,6 @@ function App() {
         e.preventDefault();
         axiosCo.getSearchWork(search)
             .then(e=>{
-                console.log(e.data)
                 setSearchData(e.data);
                 setSearch("");
                 setIsSearch(true)
@@ -52,7 +53,7 @@ function App() {
         isSearch&&
         setIsSearch(false)
     }
-
+    const isLogin=useSelector(state=>state.userReducer.isLogin);
     return (
         <BrowserRouter>
             <MainNav
@@ -69,24 +70,24 @@ function App() {
                     ></Index>}/>
                     <Route path="/login" element={<Login></Login>}/>
                     <Route path="/join-up" element={<JoinUp></JoinUp>}/>
-                    <Route path="/myprofile" element={<Profile></Profile>}/>
-                    <Route path="/setting/profile" element={<MyProfile></MyProfile>}/>
-                    <Route path="/setting/password" element={<PasswordUpdate></PasswordUpdate>}/>
-                    <Route path="/setting/attention-topic" element={<AttentionTopic></AttentionTopic>}></Route>
-                    <Route path="/setting/location" element={<MyLocation></MyLocation>}></Route>
-                    <Route path="/new-work" element={<NewWork></NewWork>}></Route>
-                    <Route path="/work/:path" element={<Work></Work>}></Route>
-                    <Route path="/work/:path/members" element={<WorkMembers></WorkMembers>}></Route>
-                    <Route path="/work/:path/setting/info" element={<WorkSetting></WorkSetting>}></Route>
-                    <Route path="/work/:path/setting/job" element={<SettingJob></SettingJob>}></Route>
-                    <Route path="/work/:path/setting/location" element={<SettingLocation></SettingLocation>}></Route>
-                    <Route path="/work/:path/setting" element={<WorkInfo></WorkInfo>}></Route>
-                    <Route path="/work/:path/recruitment/:id" element={<WorkRecuitment></WorkRecuitment>}></Route>
-                    <Route path="/work/:path/new-recruitment" element={<NewRecruitment></NewRecruitment>}></Route>
-                    <Route path="/work/:path/recruitment" element={<RecruitmentList></RecruitmentList>}></Route>
-                    <Route path="/work/:path/update-recruitment/:id" element={<UpdateRecruit></UpdateRecruit>}></Route>
-                    <Route path="/notification/new" element={<Notification></Notification>}></Route>
-                    <Route path="/notification/old" element={<OldNotification></OldNotification>}></Route>
+                    <Route path="/myprofile" element={<LoginRoute isLogin={isLogin} component={<Profile/>}/> }/>
+                    <Route path="/setting/profile" element={<LoginRoute isLogin={isLogin} component={<MyProfile/>}/> }/>
+                    <Route path="/setting/password"  element={<LoginRoute isLogin={isLogin} component={<PasswordUpdate/>}/>}/>
+                    <Route path="/setting/attention-topic" element={<LoginRoute isLogin={isLogin} component={<AttentionTopic/>}/>}></Route>
+                    <Route path="/setting/location" element={<LoginRoute isLogin={isLogin} component={<MyLocation/>}/>} ></Route>
+                    <Route path="/new-work" element={<LoginRoute isLogin={isLogin} component={<NewWork/>}/>}></Route>
+                    <Route path="/work/:path" element={<LoginRoute isLogin={isLogin} component={<Work/>}/>}></Route>
+                    <Route path="/work/:path/members" element={<LoginRoute isLogin={isLogin} component={<WorkMembers/>}/>}></Route>
+                    <Route path="/work/:path/setting/info" element={<LoginRoute isLogin={isLogin} component={<WorkSetting/>}/>}></Route>
+                    <Route path="/work/:path/setting/job" element={<LoginRoute isLogin={isLogin} component={<SettingJob/>}/>} ></Route>
+                    <Route path="/work/:path/setting/location" element={<LoginRoute isLogin={isLogin} component={<SettingLocation/>}/>} ></Route>
+                    <Route path="/work/:path/setting" element={<LoginRoute isLogin={isLogin} component={<WorkInfo/>}/>} ></Route>
+                    <Route path="/work/:path/recruitment/:id" element={<LoginRoute isLogin={isLogin} component={<WorkRecuitment/>}/>}></Route>
+                    <Route path="/work/:path/new-recruitment" element={<LoginRoute isLogin={isLogin} component={<NewRecruitment/>}/>}></Route>
+                    <Route path="/work/:path/recruitment" element={<LoginRoute isLogin={isLogin} component={<RecruitmentList/>}/>}></Route>
+                    <Route path="/work/:path/update-recruitment/:id" element={<LoginRoute isLogin={isLogin} component={<UpdateRecruit/>}/>}></Route>
+                    <Route path="/notification/new" element={<LoginRoute isLogin={isLogin} component={<Notification/>}/>} ></Route>
+                    <Route path="/notification/old" element={<LoginRoute isLogin={isLogin} component={<OldNotification/>}/>}></Route>
                 </Routes>
             <Footer></Footer>
         </BrowserRouter>
