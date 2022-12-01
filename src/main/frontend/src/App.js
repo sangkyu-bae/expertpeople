@@ -27,6 +27,7 @@ import {useReducer, useState} from "react";
 import axiosCo from "./util/common/axiosCommon";
 import {useSelector} from "react-redux";
 import LoginRoute from "./CommonComponent/LoginRoute";
+import AdminWork from "./SettingComponent/MyProfile/AdminWork";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
                     <Route path="/login" element={<Login></Login>}/>
                     <Route path="/join-up" element={<JoinUp></JoinUp>}/>
                     <Route path="/myprofile" element={<LoginRoute isLogin={isLogin} component={<Profile/>}/> }/>
+                    <Route path="/myprofile/admin-work" element={<LoginRoute isLogin={isLogin} component={<AdminWork/>}/> }/>
                     <Route path="/setting/profile" element={<LoginRoute isLogin={isLogin} component={<MyProfile/>}/> }/>
                     <Route path="/setting/password"  element={<LoginRoute isLogin={isLogin} component={<PasswordUpdate/>}/>}/>
                     <Route path="/setting/attention-topic" element={<LoginRoute isLogin={isLogin} component={<AttentionTopic/>}/>}></Route>

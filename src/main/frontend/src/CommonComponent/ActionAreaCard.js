@@ -12,7 +12,7 @@ function ActionAreaCard({search, keyword}) {
         <>
             {
                 isLogin ?
-                    <Link to={`work/${search.path}`} className='card_box'>
+                    <Link to={`/work/${search.path}`} className='card_box'>
                         <MainCardView search={search} keyword={keyword}></MainCardView>
                     </Link>
                     :

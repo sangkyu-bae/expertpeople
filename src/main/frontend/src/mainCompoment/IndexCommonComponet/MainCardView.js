@@ -9,6 +9,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 function MainCardView({search,keyword}) {
+    console.log(search)
     return (
         <Card sx={{maxWidth: 345, minWidth: 345}} className="card_box">
             <CardActionArea>

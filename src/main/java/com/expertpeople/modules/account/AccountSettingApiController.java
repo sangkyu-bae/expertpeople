@@ -122,4 +122,5 @@ public class AccountSettingApiController {
 
         return ResponseEntity.ok().build();
     }
+
 }

@@ -220,6 +220,10 @@ const axiosCo = {
     getMainWorkData:async ()=>{
         const res=await API.get(`${requests.fetchMainWork}`);
         return res;
+    },
+    getAdminWork:async ()=>{
+        const res=await accessAPI.get(`${requests.fetchAdminWork}`)
+        return res;
     }
 }
 

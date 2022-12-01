@@ -1,7 +1,6 @@
 package com.expertpeople.modules.work;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.expertpeople.modules.account.Account;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -37,4 +36,7 @@ public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredic
 
     @EntityGraph(attributePaths = {"members","jobs","zones"})
     List<Work> findTop9ByPublishedOrderByPublishedDateTimeAsc(boolean published);
+
+    @EntityGraph(attributePaths = {"members","jobs","zones"})
+    List<Work> findByManagers(Account account);
 }

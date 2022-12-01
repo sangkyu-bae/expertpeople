@@ -29,7 +29,7 @@ function Profile(props) {
                 <div className="flex">
                     {userInfo &&
                         <>
-                        <ProfileLeft userImage={userInfo.profileImage}></ProfileLeft>
+                        <ProfileLeft userImage={userInfo.profileImage} click={'info'}></ProfileLeft>
                         <ProfieRigth userInfo={userInfo}></ProfieRigth>
                         </>
                     }

@@ -18,6 +18,7 @@ const requests={
     sseNotify:"/api/notify",
     fetchSearch:"api/search/work",
     fetchMainWork:"api/main/work",
+    fetchAdminWork:"/api/account/work"
 }
 
 export const requestURL="http://localhost:8080/"
