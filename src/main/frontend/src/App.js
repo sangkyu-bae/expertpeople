@@ -28,6 +28,7 @@ import axiosCo from "./util/common/axiosCommon";
 import {useSelector} from "react-redux";
 import LoginRoute from "./CommonComponent/LoginRoute";
 import AdminWork from "./SettingComponent/MyProfile/AdminWork";
+import SettingMyNotification from "./SettingComponent/SettingMyNotification/SettingMyNotification";
 
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
                     <Route path="/myprofile" element={<LoginRoute isLogin={isLogin} component={<Profile/>}/> }/>
                     <Route path="/myprofile/admin-work" element={<LoginRoute isLogin={isLogin} component={<AdminWork/>}/> }/>
                     <Route path="/setting/profile" element={<LoginRoute isLogin={isLogin} component={<MyProfile/>}/> }/>
+                    <Route path="/setting/notification" element={<LoginRoute isLogin={isLogin} component={<SettingMyNotification/>}/> }/>
                     <Route path="/setting/password"  element={<LoginRoute isLogin={isLogin} component={<PasswordUpdate/>}/>}/>
                     <Route path="/setting/attention-topic" element={<LoginRoute isLogin={isLogin} component={<AttentionTopic/>}/>}></Route>
                     <Route path="/setting/location" element={<LoginRoute isLogin={isLogin} component={<MyLocation/>}/>} ></Route>

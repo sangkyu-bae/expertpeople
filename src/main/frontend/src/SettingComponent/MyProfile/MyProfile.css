@@ -168,3 +168,20 @@ button :hover{
     height: 100%;
     object-fit: scale-down;
 }
+.admin_main{
+    flex: 0.8;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 3em;
+}
+
+.ct_height{
+    height: 150%;
+}
+.job_info_box{
+    color: gray;
+    font-weight: bold;
+}
+.alram_box{
+    margin:2em 0;
+}

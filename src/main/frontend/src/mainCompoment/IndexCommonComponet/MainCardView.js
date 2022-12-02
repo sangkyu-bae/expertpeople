@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "@mui/material/Card";
 import {CardActionArea, Chip} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,11 +7,32 @@ import Typography from "@mui/material/Typography";
 import {Marker} from "react-mark.js";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EngineeringIcon from "@mui/icons-material/Engineering";
+import {useLocation} from "react-router-dom";
 
-function MainCardView({search,keyword}) {
-    console.log(search)
+function MainCardView({search, keyword}) {
+    const [cardWidth,setCardWidth]=useState([]);
+    const location=useLocation();
+
+    const width={
+        small:[280,280],
+        big:[345,345]
+    }
+    const short=['/myprofile/admin-work'];
+    const long=['/']
+    useEffect(()=>{
+        if(short.includes(location.pathname)){
+            setCardWidth(width.small);
+        }
+
+        if(long.includes(location.pathname)){
+            setCardWidth(width.big);
+        }
+    },[])
+
+
     return (
-        <Card sx={{maxWidth: 345, minWidth: 345}} className="card_box">
+        // <Card sx={`${locationPath.includes("profile")&&{maxWidth: 280, minWidth: 280}} `} className="card_box">
+        <Card sx={{maxWidth: cardWidth[0], minWidth: cardWidth[1]}} className="card_box">
             <CardActionArea>
                 <CardMedia
                     component="img"
@@ -31,7 +52,7 @@ function MainCardView({search,keyword}) {
                             search.zones.length > 0 &&
                             search.zones.map((zone) =>
                                 <Marker mark={keyword} key={zone.id} options={{className: "custom-marker-1"}}>
-                                    <Chip icon={<LocationOnIcon/>}  label={zone.localNameOfCity}
+                                    <Chip icon={<LocationOnIcon/>} label={zone.localNameOfCity}
                                           className="ee"/>
                                 </Marker>
                             )
@@ -39,7 +60,7 @@ function MainCardView({search,keyword}) {
                         {
                             search.jobs.length > 0 &&
                             search.jobs.map((job) =>
-                                <Marker mark={keyword}  key={job.id}options={{className: "custom-marker-1"}}>
+                                <Marker mark={keyword} key={job.id} options={{className: "custom-marker-1"}}>
                                     <Chip icon={<EngineeringIcon/>} label={job.job} variant="outlined"
                                           className="ee"/>
                                 </Marker>

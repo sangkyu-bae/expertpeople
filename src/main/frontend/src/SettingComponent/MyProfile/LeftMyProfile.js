@@ -21,12 +21,14 @@ function LeftMyProfile(props) {
                             </span>
                         </li>
                     </Link>
-
-                    <li className="items">
+                    <Link to='/setting/notification'>
+                        <li className={`items ${props.check=='notification' && "click"}`}>
                         <span>
                             알림
                         </span>
-                    </li>
+                        </li>
+                    </Link>
+
                     <Link to="/setting/attention-topic">
                         <li className={`items ${props.check=='attention' && "click"}`}>
                             <span>

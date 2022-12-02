@@ -34,18 +34,6 @@ const paging = {
         workData.sort((a, b) => new Date(b.publishedDateTime)-new Date(a.publishedDateTime) )
         return workData;
     },
-    // getInitMainWorkData:()=>{
-    //     let work=[];
-    //     axiosCo.getMainWorkData()
-    //         .then(e=>{
-    //             console.log(e.data)
-    //             work=e.data;
-    //             return work
-    //         })
-    //         .catch(e=>{
-    //             console.log(e)
-    //         })
-    // }
 }
 
 export default paging;
