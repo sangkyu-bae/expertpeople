@@ -5,7 +5,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
-function GetWorkNotification(props) {
+function GetWorkNotification({myNotification,updateMyNotification}) {
     return (
         <div className="alram_box">
             <Alert severity="success" color="info">
@@ -16,7 +16,13 @@ function GetWorkNotification(props) {
                     <FormGroup aria-label="position" row>
                         <FormControlLabel
                             value="start"
-                            control={<Switch color="primary" />}
+                            control={myNotification.workEnrollmentResultByEmail ?
+                                <Switch color="primary" name="workEnrollmentResultByEmail"
+                                        onChange={updateMyNotification}
+                                        defaultChecked/> :
+                                <Switch color="primary" name="workEnrollmentResultByEmail"
+                                        onChange={updateMyNotification}/>
+                            }
                             label="이메일로 받기"
                             labelPlacement="start"
                         />
@@ -26,7 +32,13 @@ function GetWorkNotification(props) {
                     <FormGroup aria-label="position" row>
                         <FormControlLabel
                             value="start"
-                            control={<Switch color="primary" />}
+                            control={myNotification.workEnrollmentResultByWeb ?
+                                <Switch color="primary"  name="workEnrollmentResultByWeb"
+                                        onChange={updateMyNotification}
+                                        defaultChecked/> :
+                                <Switch color="primary"  name="workEnrollmentResultByWeb"
+                                        onChange={updateMyNotification}/>
+                            }
                             label="웹으로 받기"
                             labelPlacement="start"
                         />

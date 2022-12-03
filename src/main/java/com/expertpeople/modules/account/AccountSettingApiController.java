@@ -1,5 +1,6 @@
 package com.expertpeople.modules.account;
 
+import com.expertpeople.modules.account.form.Notifications;
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.account.validator.PasswordFormValidator;
@@ -12,7 +13,9 @@ import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
 import com.expertpeople.modules.zone.form.ZoneForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
@@ -119,6 +122,25 @@ public class AccountSettingApiController {
             return ResponseEntity.badRequest().build();
         }
         accountService.removeJobs(account,job);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/setting/my-notification")
+    public ResponseEntity<?>getMyNotification(@CurrentAccount Account account){
+        if(account==null){
+            return ResponseEntity.badRequest().body("로그인되어 있는지 확인하세요.");
+        }
+
+        return ResponseEntity.ok().body(new Notifications(account));
+    }
+
+    @PutMapping("/setting/update/notifications")
+    public ResponseEntity<?> updateNotifications(@CurrentAccount Account account, @Valid @RequestBody Notifications notifications,Errors errors){
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
+        accountService.updateNotification(account,notifications);
 
         return ResponseEntity.ok().build();
     }

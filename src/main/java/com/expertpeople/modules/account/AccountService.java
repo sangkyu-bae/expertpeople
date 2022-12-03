@@ -4,6 +4,7 @@ import com.expertpeople.infra.config.AppProperties;
 import com.expertpeople.infra.mail.EmailMessage;
 import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.account.form.JoinUpForm;
+import com.expertpeople.modules.account.form.Notifications;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.job.Job;
@@ -166,5 +167,10 @@ public class AccountService  {
     public void removeZone(Account account, Zone zone) {
         Optional<Account> byId=accountRepository.findById(account.getId());
         byId.ifPresent(a->a.getZone().remove(zone));
+    }
+
+    public void updateNotification(Account account, Notifications notifications) {
+        modelMapper.map(notifications,account);
+        accountRepository.save(account);
     }
 }

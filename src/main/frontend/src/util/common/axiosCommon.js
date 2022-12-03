@@ -224,6 +224,21 @@ const axiosCo = {
     getAdminWork:async ()=>{
         const res=await accessAPI.get(`${requests.fetchAdminWork}`)
         return res;
+    },
+    getMyNotification:async ()=>{
+        const res=await accessAPI.get(`${requests.fetchGetMyNotification}`)
+        return res;
+    },
+    updateMyNotification:async (myNoti)=> {
+        const res=await accessAPI.put(`${requests.fetchUpdateMyNotification}`,{
+            workCreateByEmail:myNoti.workCreateByEmail,
+            workCreateByWeb:myNoti.workCreateByWeb,
+            workEnrollmentResultByEmail:myNoti.workEnrollmentResultByEmail,
+            workEnrollmentResultByWeb:myNoti.workEnrollmentResultByWeb,
+            workUpdateByEmail:myNoti.workUpdateByEmail,
+            workUpdateByWeb:myNoti.workUpdateByWeb
+        })
+        return res;
     }
 }
 
