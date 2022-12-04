@@ -17,4 +17,5 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment,Long> {
     @EntityGraph(attributePaths = "erollments")
     List<Recruitment> findByWorkOrderByStartDateTime(Work work);
     Recruitment findByCreateByAndId(Account account, Long id);
+
 }

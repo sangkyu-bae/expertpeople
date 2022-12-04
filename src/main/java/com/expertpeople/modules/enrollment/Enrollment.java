@@ -8,6 +8,13 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedEntityGraph(
+        name = "Enrollment.withEventAndWork",
+        attributeNodes = {
+                @NamedAttributeNode(value = "recruitment",subgraph = "work")
+        },
+        subgraphs = @NamedSubgraph(name = "work",attributeNodes = @NamedAttributeNode("work"))
+)
 @Entity
 @Getter @Setter @EqualsAndHashCode(of="id")
 @AllArgsConstructor @NoArgsConstructor @Builder

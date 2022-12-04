@@ -239,6 +239,10 @@ const axiosCo = {
             workUpdateByWeb:myNoti.workUpdateByWeb
         })
         return res;
+    },
+    getMyData:async ()=>{
+        const res=await accessAPI.get(`${requests.fetchGetMyData}`)
+        return res;
     }
 }
 

@@ -20,7 +20,8 @@ const requests={
     fetchMainWork:"api/main/work",
     fetchAdminWork:"/api/account/work",
     fetchGetMyNotification:"/api/setting/my-notification",
-    fetchUpdateMyNotification:"/api/setting/update/notifications"
+    fetchUpdateMyNotification:"/api/setting/update/notifications",
+    fetchGetMyData:"/api/main/my-data",
 }
 
 export const requestURL="http://localhost:8080/"

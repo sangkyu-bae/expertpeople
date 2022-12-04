@@ -51,12 +51,6 @@ function MainNav({search, searchChange, searchSubmit, changeIsSearch, isSearch})
 
                 </div>
                 <div className="item ">
-                    {/*{!isLogin &&*/}
-                    {/*    <TrueLogin></TrueLogin>*/}
-                    {/*}*/}
-                    {/*{isLogin &&*/}
-                    {/*    <FalseLogin name={userName.name} logout={logout}></FalseLogin>*/}
-                    {/*}*/}
                     {
                         isLogin ?
                             <FalseLogin name={userName.name} logout={logout}></FalseLogin> :

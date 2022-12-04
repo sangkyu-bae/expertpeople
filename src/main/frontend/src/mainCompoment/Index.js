@@ -8,6 +8,7 @@ import axiosCo from "../util/common/axiosCommon";
 import JoinupHead from "../CommonComponent/JoinupHead";
 import MainHead from "./IndexCommonComponet/MainHead";
 import {useSelector} from "react-redux";
+import MainMyData from "./MainMyData";
 function Index({searchData, isSearch}) {
     const [pagination, setPagination] = useState({
         totalCount: 0,
@@ -66,10 +67,12 @@ function Index({searchData, isSearch}) {
             })
     }
     const isLogin=useSelector(state=> state.userReducer.isLogin);
-
     return (
         <div>
             <div className="container">
+                {
+                    isLogin&&<MainMyData></MainMyData>
+                }
                 {
                     isSearch ?
                         pageWorks.length > 0 &&
@@ -77,10 +80,13 @@ function Index({searchData, isSearch}) {
                             <MainHead totalCount={totalCount}
                                       searchKeyword={searchData.keyword}
                                       workChangeSearch={workChangeSearch}></MainHead>
+
                         </>
                         :
                         !isLogin&&
-                        <JoinupHead></JoinupHead>
+                        <>
+                            <JoinupHead></JoinupHead>
+                        </>
                 }
 
                 <div className="main_flex">

@@ -4,6 +4,7 @@ import com.expertpeople.modules.Jwt.JwtResponse;
 import com.expertpeople.modules.Jwt.JwtService;
 import com.expertpeople.modules.account.form.JoinUpForm;
 import com.expertpeople.modules.account.validator.JoinUpFormValidator;
+import com.expertpeople.modules.work.Vo.fetchWorkVo;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +47,7 @@ public class AccountApiController {
     @GetMapping("/api/account/work")
     public ResponseEntity<?> getWorkWithManager(@CurrentAccount Account account){
         List<Work> managerWorks=workRepository.findByManagers(account);
-        return ResponseEntity.ok().body(managerWorks);
+        List<fetchWorkVo>workVos=managerWorks.stream().map(fetchWorkVo::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(workVos);
     }
 }

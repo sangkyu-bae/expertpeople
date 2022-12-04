@@ -10,7 +10,7 @@ public class AccountPredicates {
     public static Predicate findByTagsAndZones(Set<Job> jobs, Set<Zone> zones){
         QAccount qAccount=QAccount.account;
 
-        return qAccount.zone.any().in(zones).or(qAccount.jobs.any().in(jobs));
+        return qAccount.zone.any().in(zones).and(qAccount.jobs.any().in(jobs));
     }
 
 }

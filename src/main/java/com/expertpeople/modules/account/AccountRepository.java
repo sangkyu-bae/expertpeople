@@ -1,5 +1,6 @@
 package com.expertpeople.modules.account;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,5 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface AccountRepository extends JpaRepository<Account,Long> , QuerydslPredicateExecutor<Account> {
     Account findByEmail(String email);
     boolean existsByEmail(String email);
+    @EntityGraph(attributePaths = {"jobs","zone"})
+    Account findAccountWithJobsAndZonesById(Long id);
 }
 

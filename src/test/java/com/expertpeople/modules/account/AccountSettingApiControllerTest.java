@@ -1,7 +1,6 @@
 package com.expertpeople.modules.account;
 
 
-import com.expertpeople.WithAccount;
 import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.Jwt.JwtResponse;
 import com.expertpeople.modules.Jwt.JwtService;

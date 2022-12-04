@@ -27,6 +27,7 @@ import org.thymeleaf.context.Context;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Slf4j
@@ -173,4 +174,5 @@ public class AccountService  {
         modelMapper.map(notifications,account);
         accountRepository.save(account);
     }
+
 }
