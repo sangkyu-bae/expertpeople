@@ -36,3 +36,17 @@
 .keyword{
     background: #fd0;
 }
+#interest_box{
+    border:none;
+}
+.left-content{
+    flex: 0.2;
+}
+.main_head{
+    font-size: 1.6em;
+    color: slategray;
+    margin-bottom: 0.7em;
+}
+.tt{
+    border-bottom: black;
+}

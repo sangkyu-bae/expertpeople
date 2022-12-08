@@ -60,7 +60,7 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
                 .leftJoin(qWork.jobs,QJob.job1).fetchJoin()
                 .leftJoin(qWork.zones,QZone.zone).fetchJoin()
                 .leftJoin(qWork.members,QAccount.account).fetchJoin()
-                .distinct();
+                .distinct().limit(6);
         return query.fetch();
     }
 

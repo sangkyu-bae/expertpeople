@@ -6,6 +6,7 @@ import com.expertpeople.modules.account.AccountService;
 import com.expertpeople.modules.account.CurrentAccount;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
+import com.expertpeople.modules.enrollment.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.Recruitment;
 import com.expertpeople.modules.recruitmentGroup.RecruitmentRepository;
 import com.expertpeople.modules.work.Vo.fetchWorkVo;
@@ -62,7 +63,7 @@ public class MainApiController {
         Account loadAccount=accountRepository.findAccountWithJobsAndZonesById(account.getId());
 
         List<Work> managerWorks=workRepository.findByManagers(loadAccount);
-        List<fetchWorkVo>workVos=managerWorks.stream().map(fetchWorkVo::new).collect(Collectors.toList());
+        List<fetchWorkVo>managerWorksVos=managerWorks.stream().map(fetchWorkVo::new).collect(Collectors.toList());
 
         List<Work> interestWork=workRepository.findByJobsAndZones(loadAccount.getJobs(),loadAccount.getZone());
         List<fetchWorkVo>interestWorkVo=interestWork.stream().map(fetchWorkVo::new).collect(Collectors.toList());
@@ -70,13 +71,12 @@ public class MainApiController {
         List<Work> attendWork=workRepository.findByMembers(loadAccount);
         List<fetchWorkVo> attendFetchWorkVos=attendWork.stream().map(fetchWorkVo::new).collect(Collectors.toList());
 
-        //List<Recruitment> recruitments=recruitmentRepository.findByAccountAndAcceptedOrderByEnrolledAtDesc(loadAccount,true);
-
         List<Enrollment> enrollments=enrollmentRepository.findByAccountAndAcceptedOrderByEnrolledAtDesc(loadAccount,true);
+        List<RecruitmentVo> recruitmentVos=enrollments.stream().map(RecruitmentVo::new).collect(Collectors.toList());
 
-        ResponseMainMyData responseMainMyData=new ResponseMainMyData(loadAccount,workVos,interestWorkVo,attendFetchWorkVos,enrollments);
+        ResponseMainMyData responseMainMyData=new ResponseMainMyData(loadAccount,managerWorksVos,interestWorkVo,attendFetchWorkVos,recruitmentVos);
 
-        return ResponseEntity.ok().body(enrollments);
+        return ResponseEntity.ok().body(responseMainMyData);
     }
     @GetMapping("/work/data")
     public String generateTestData() {
@@ -103,27 +103,24 @@ public class MainApiController {
     static class ResponseMainMyData{
         Account loadAccount;
 
-        List<fetchWorkVo>workVos;
+        List<fetchWorkVo>managerWorksVos;
 
         List<fetchWorkVo>interestWorkVo;
 
         List<fetchWorkVo> attendFetchWorkVos;
 
-        List<Enrollment> enrollments;
+        List<RecruitmentVo> recruitmentVos;
 
         public ResponseMainMyData(Account loadAccount,
-                                  List<fetchWorkVo>workVos,
+                                  List<fetchWorkVo>managerWorksVos,
                                   List<fetchWorkVo>interestWorkVo,
                                   List<fetchWorkVo> attendFetchWorkVos,
-                                  List<Enrollment> enrollments){
+                                  List<RecruitmentVo> recruitmentVos){
             this.loadAccount=loadAccount;
-            this.workVos=workVos;
+            this.managerWorksVos=managerWorksVos;
             this.interestWorkVo=interestWorkVo;
             this.attendFetchWorkVos=attendFetchWorkVos;
-            this.enrollments=enrollments;
-        }
-        static class Recurit{
-
+            this.recruitmentVos=recruitmentVos;
         }
     }
 

@@ -10,5 +10,5 @@ import java.util.List;
 public interface EnrollmentRepository extends JpaRepository<Enrollment,Long> {
     boolean existsByRecruitmentAndAccount(Recruitment recruitment, Account account);
     @EntityGraph("Enrollment.withEventAndWork")
-    List<Enrollment> findByAccountAndAcceptedOrderByEnrolledAtDesc(Account loadAccount, boolean b);
+    List<Enrollment> findByAccountAndAcceptedOrderByEnrolledAtDesc(Account loadAccount, boolean isAttend);
 }

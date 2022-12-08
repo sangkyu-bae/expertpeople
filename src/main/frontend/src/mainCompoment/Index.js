@@ -71,9 +71,6 @@ function Index({searchData, isSearch}) {
         <div>
             <div className="container">
                 {
-                    isLogin&&<MainMyData></MainMyData>
-                }
-                {
                     isSearch ?
                         pageWorks.length > 0 &&
                         <>
@@ -91,7 +88,11 @@ function Index({searchData, isSearch}) {
 
                 <div className="main_flex">
                     {
-                        isSearch &&
+                        isLogin&&!isSearch&&
+                        <MainMyData></MainMyData>
+                    }
+                    {
+                        isLogin&& isSearch &&
                         pageWorks.length > 0 &&
                         pageWorks.map(search =>
                             <ActionAreaCard key={search.id} keyword={searchData.keyword}
@@ -99,7 +100,7 @@ function Index({searchData, isSearch}) {
                         )
                     }
                     {
-                        !isSearch && works && works.length>0&&
+                        !isLogin&& !isSearch && works && works.length>0&&
                         works.map(work =>
                             <ActionAreaCard key={work.id} search={work}></ActionAreaCard>
                         )
