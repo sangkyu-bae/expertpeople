@@ -50,3 +50,20 @@
 .tt{
     border-bottom: black;
 }
+.center-content{
+    flex:0.6;
+}
+.center_card_head{
+    font-size: 1.5em;
+}
+.center_card_description{
+    color: gray;
+    margin: 1.1em 0;
+}
+.center_card_box{
+    padding: 1em;
+}
+.right-content{
+    flex: 0.2;
+    padding-left: 3em;
+}

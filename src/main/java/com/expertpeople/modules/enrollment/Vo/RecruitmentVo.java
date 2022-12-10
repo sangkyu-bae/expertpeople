@@ -18,7 +18,7 @@ public class RecruitmentVo {
 
     private Long id;
 
-    private Long workId;
+    private String workPath;
 
     private String title;
 
@@ -28,14 +28,17 @@ public class RecruitmentVo {
 
     private LocalDateTime endDateTime;
 
+    private Long recruitId;
+
     public RecruitmentVo(Enrollment enrollment){
         Recruitment recruitment=enrollment.getRecruitment();
         this.id=recruitment.getId();
-        this.workId=recruitment.getWork().getId();
+        this.workPath=recruitment.getWork().getPath();
         this.title=recruitment.getTitle();
         this.description=recruitment.getDescription();
         this.createTime=recruitment.getCreateTime();
         this.endDateTime=recruitment.getEndDateTime();
+        this.recruitId=recruitment.getId();
     }
 
 }

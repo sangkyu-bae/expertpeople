@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axiosCo from "../util/common/axiosCommon";
-import Box from '@mui/system/Box';
-import Grid from '@mui/system/Unstable_Grid';
 import styled from '@mui/system/styled';
-import MenuItem from "@mui/material/MenuItem";
-import {MenuList} from "@mui/joy";
-import {Paper} from "@mui/material";
 import MainDataLeftComponent from "./MainDataComponent/MainDataLeftComponent";
-import Main from "../util/MainService/Main";
+import MainDataCenterComponent from "./MainDataComponent/MainCenter/MainDataCenterComponent";
+import Box from "@mui/system/Box";
+import Grid from "@mui/system/Unstable_Grid";
+import {Paper} from "@mui/material";
+import {MenuList} from "@mui/joy";
+import MainDataRightComponent from "./MainDataComponent/MainDataRightComponent";
 
 const Item = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -57,7 +57,18 @@ function MainMyData(props) {
       <>
           {
               isLoading&&
-                <MainDataLeftComponent  jobs={loadAccount.jobs} zones={loadAccount.zone}></MainDataLeftComponent>
+              <>
+                  <MainDataLeftComponent  jobs={loadAccount.jobs} zones={loadAccount.zone}></MainDataLeftComponent>
+                  <MainDataCenterComponent
+                      recruitments={recruitments}
+                      interestWorks={interestWorks}
+                  ></MainDataCenterComponent>
+                  <MainDataRightComponent
+                      managerWorks={managerWorks}
+                      attendWorks={attendWorks}
+                  ></MainDataRightComponent>
+              </>
+
           }
 
       </>

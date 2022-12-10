@@ -8,6 +8,7 @@ import {Marker} from "react-mark.js";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import {useLocation} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 function MainCardView({search, keyword}) {
     const [cardWidth,setCardWidth]=useState([]);
@@ -19,6 +20,8 @@ function MainCardView({search, keyword}) {
     }
     const short=['/myprofile/admin-work'];
     const long=['/']
+
+    const isLogin=useSelector(state=>state.userReducer.isLogin);
     useEffect(()=>{
         if(short.includes(location.pathname)){
             setCardWidth(width.small);
@@ -26,6 +29,10 @@ function MainCardView({search, keyword}) {
 
         if(long.includes(location.pathname)){
             setCardWidth(width.big);
+        }
+
+        if(long.includes(location.pathname)&&isLogin){
+            setCardWidth(width.small);
         }
     },[])
 

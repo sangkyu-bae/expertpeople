@@ -8,13 +8,21 @@ import Main from "../../util/MainService/Main";
 
 function MainDataLeftComponent({jobs,zones,main}) {
 
-    const [jobTag,setJobTag]=useState([]);
-    useEffect(()=>{
-        let main=new Main(jobs,zones);
-        const tagList=main.getJobsTag()
-        setJobTag(tagList)
-    },[])
 
+    const [leftList,setLeftList]=useState({
+        jobTag:[],
+        zoneTag:[]
+    })
+    const {jobTag,zoneTag}=leftList;
+    useEffect(()=>{
+        let main=new Main();
+        const tagList=main.getJobsTag(jobs)
+        const zoneList=main.getZoneTag(zones);
+        setLeftList({
+            jobTag: tagList,
+            zoneTag: zoneList
+        });
+    },[])
     return (
         <div className="left-content">
             <Box sx={{ flexGrow: 1 }}>
@@ -27,10 +35,6 @@ function MainDataLeftComponent({jobs,zones,main}) {
                                     jobTag.length>0&&
                                     jobTag.map(job=>job)
                                 }
-
-                                {/*<MenuItem sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>Profile</MenuItem>*/}
-                                {/*<MenuItem sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>My account</MenuItem>*/}
-                                {/*<MenuItem >Logout</MenuItem>*/}
                             </MenuList>
                         </Paper>
                     </Grid>
@@ -38,9 +42,10 @@ function MainDataLeftComponent({jobs,zones,main}) {
                         <div className="main_head">구인 지역</div>
                         <Paper>
                             <MenuList id={"interest_box"}>
-                                <MenuItem sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>Profile</MenuItem>
-                                <MenuItem sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>My account</MenuItem>
-                                <MenuItem >Logout</MenuItem>
+                                {
+                                    zoneTag.length>0&&
+                                    zoneTag.map(zone=>zone)
+                                }
                             </MenuList>
                         </Paper>
                     </Grid>
