@@ -62,7 +62,7 @@ public class MainApiController {
     public ResponseEntity<?>mainMyData(@CurrentAccount Account account){
         Account loadAccount=accountRepository.findAccountWithJobsAndZonesById(account.getId());
 
-        List<Work> managerWorks=workRepository.findByManagers(loadAccount);
+        List<Work> managerWorks=workRepository.findLimit6ByManagers(loadAccount);
         List<fetchWorkVo>managerWorksVos=managerWorks.stream().map(fetchWorkVo::new).collect(Collectors.toList());
 
         List<Work> interestWork=workRepository.findByJobsAndZones(loadAccount.getJobs(),loadAccount.getZone());

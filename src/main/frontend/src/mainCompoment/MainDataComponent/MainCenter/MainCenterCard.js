@@ -19,7 +19,7 @@ function MainCenterCard({recruitment}) {
                         {recruitment.title}
                     </Typography>
                     <Typography  sx={{ fontSize: 16  }}   color="text.secondary" component="div">
-                        {recruitment.description}
+                        {recruitment.workDescription}
                     </Typography>
                     <div>
                         <CalendarTodayIcon fontSize="small"/>

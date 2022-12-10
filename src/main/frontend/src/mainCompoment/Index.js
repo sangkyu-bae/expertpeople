@@ -69,7 +69,7 @@ function Index({searchData, isSearch}) {
     const isLogin=useSelector(state=> state.userReducer.isLogin);
     return (
         <div>
-            <div className="container">
+            <div className="container" id={`${!isSearch && isLogin&& "login_main"}`}>
                 {
                     isSearch ?
                         pageWorks.length > 0 &&

@@ -4,10 +4,6 @@ import Grid from "@mui/system/Unstable_Grid";
 import './mainCenter.css';
 
 function MainCenterDownComponent({interestWorks}) {
-    useEffect(()=>{
-        const a=document.querySelector(".container");
-        a.style.width="95%";
-    },[])
 
     return (
       <>
@@ -17,12 +13,11 @@ function MainCenterDownComponent({interestWorks}) {
           {
               interestWorks.length>0&&
               interestWorks.map(interestWork=>
-                  <Grid xs={4}>
-                      <ActionAreaCard key={interestWork.id} search={interestWork}></ActionAreaCard>
+                  <Grid xs={4} key={interestWork.id}>
+                      <ActionAreaCard  search={interestWork}></ActionAreaCard>
                   </Grid>
               )
           }
-
       </>
     );
 }

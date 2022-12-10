@@ -30,6 +30,8 @@ public class RecruitmentVo {
 
     private Long recruitId;
 
+    private String workDescription;
+
     public RecruitmentVo(Enrollment enrollment){
         Recruitment recruitment=enrollment.getRecruitment();
         this.id=recruitment.getId();
@@ -39,6 +41,7 @@ public class RecruitmentVo {
         this.createTime=recruitment.getCreateTime();
         this.endDateTime=recruitment.getEndDateTime();
         this.recruitId=recruitment.getId();
+        this.workDescription=recruitment.getWork().getShortDescription();
     }
 
 }

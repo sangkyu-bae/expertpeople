@@ -11,9 +11,13 @@ import {useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 function MainCardView({search, keyword}) {
-    const [cardWidth,setCardWidth]=useState([]);
+    const [cardWidth,setCardWidth]=useState({
+        widths:[],
+        ml:0
+    });
     const location=useLocation();
 
+    const {widths,ml}=cardWidth;
     const width={
         small:[280,280],
         big:[345,345]
@@ -24,22 +28,31 @@ function MainCardView({search, keyword}) {
     const isLogin=useSelector(state=>state.userReducer.isLogin);
     useEffect(()=>{
         if(short.includes(location.pathname)){
-            setCardWidth(width.small);
+            setCardWidth({
+                widths:width.small,
+                ml:4
+            });
         }
 
         if(long.includes(location.pathname)){
-            setCardWidth(width.big);
+            setCardWidth({
+                widths: width.big,
+                ml:4
+            });
         }
 
         if(long.includes(location.pathname)&&isLogin){
-            setCardWidth(width.small);
+            setCardWidth({
+                ...cardWidth,
+                ml:0
+            });
         }
     },[])
 
 
     return (
         // <Card sx={`${locationPath.includes("profile")&&{maxWidth: 280, minWidth: 280}} `} className="card_box">
-        <Card sx={{maxWidth: cardWidth[0], minWidth: cardWidth[1]}} className="card_box">
+        <Card sx={{maxWidth: widths[0], minWidth: widths[1], ml:ml}} className="card_box">
             <CardActionArea>
                 <CardMedia
                     component="img"

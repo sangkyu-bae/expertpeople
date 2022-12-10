@@ -60,7 +60,7 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
                 .leftJoin(qWork.jobs,QJob.job1).fetchJoin()
                 .leftJoin(qWork.zones,QZone.zone).fetchJoin()
                 .leftJoin(qWork.members,QAccount.account).fetchJoin()
-                .distinct().limit(6);
+                .distinct();
         return query.fetch();
     }
 
@@ -82,5 +82,16 @@ public class WorkRepositoryExtensionImpl extends QuerydslRepositorySupport imple
        QWork qWork=QWork.work;
        JPQLQuery<Work>query=from(qWork).where(qWork.members.any().in(account));
        return query.fetch();
+    }
+
+    @Override
+    public List<Work> findLimit6ByManagers(Account account) {
+        QWork qWork=QWork.work;
+        JPQLQuery<Work>query=from(qWork).where(qWork.managers.any().in(account))
+                .leftJoin(qWork.jobs,QJob.job1).fetchJoin()
+                .leftJoin(qWork.zones,QZone.zone).fetchJoin()
+                .leftJoin(qWork.members,QAccount.account).fetchJoin()
+                .distinct().limit(6);
+        return query.fetch();
     }
 }

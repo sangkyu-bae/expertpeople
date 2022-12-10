@@ -21,4 +21,6 @@ public interface WorkRepositoryExtension {
     List<Work> findByJobsAndZones(Set<Job> jobs, Set<Zone> zones);
 
     List<Work>findByMembers(Account account);
+
+    List<Work>findLimit6ByManagers(Account account);
 }

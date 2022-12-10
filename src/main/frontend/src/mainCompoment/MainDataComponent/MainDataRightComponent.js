@@ -12,7 +12,15 @@ function MainDataRightComponent({attendWorks,managerWorks}) {
     })
     useEffect(()=>{
        const main=new Main();
+       const attendWork=main.getMainTag(attendWorks);
+       const managerWork=main.getMainTag(managerWorks);
+
+       setRightDataList({
+           attendTag: attendWork,
+           managerWorkTag: managerWork
+       })
     },[])
+    const{attendTag,managerWorkTag}=rightDataList;
     return (
         <div className="right-content">
             <Box sx={{ flexGrow: 1 }}>
@@ -21,7 +29,10 @@ function MainDataRightComponent({attendWorks,managerWorks}) {
                     <Grid xs={10}>
                         <Paper sx={{md:5}}>
                             <MenuList id={"interest_box"}>
-
+                                {
+                                    managerWorkTag.length>0&&
+                                    managerWorkTag.map(work=>work)
+                                }
                             </MenuList>
                         </Paper>
                     </Grid>
@@ -29,7 +40,10 @@ function MainDataRightComponent({attendWorks,managerWorks}) {
                         <div className="main_head">참가중인 일감</div>
                         <Paper>
                             <MenuList id={"interest_box"}>
-
+                                {
+                                    attendTag.length>0&&
+                                    attendTag.map(work=>work)
+                                }
                             </MenuList>
                         </Paper>
                     </Grid>

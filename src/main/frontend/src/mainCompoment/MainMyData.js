@@ -3,10 +3,6 @@ import axiosCo from "../util/common/axiosCommon";
 import styled from '@mui/system/styled';
 import MainDataLeftComponent from "./MainDataComponent/MainDataLeftComponent";
 import MainDataCenterComponent from "./MainDataComponent/MainCenter/MainDataCenterComponent";
-import Box from "@mui/system/Box";
-import Grid from "@mui/system/Unstable_Grid";
-import {Paper} from "@mui/material";
-import {MenuList} from "@mui/joy";
 import MainDataRightComponent from "./MainDataComponent/MainDataRightComponent";
 
 const Item = styled('div')(({ theme }) => ({

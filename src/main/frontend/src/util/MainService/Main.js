@@ -1,6 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {Link} from "react-router-dom";
 
 class Main{
     constructor() {
@@ -28,15 +29,16 @@ class Main{
         return zoneList;
     }
 
-    getMainTag(dataList){
+    getMainTag(dataList,isLink){
         const list=dataList.map((data,idx)=>{
             if(idx===dataList.length-1){
-                return <MenuItem icon={<LocationOnIcon/>}  key={data.id}>{data.title}</MenuItem>
+                return  <Link to={`/work/${data.path}`}>  <MenuItem icon={<LocationOnIcon/>}  key={data.id}>{data.title}</MenuItem></Link>
+
+
             }else{
-                return <MenuItem icon={<LocationOnIcon/>}  key={data.id} sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>{data.title}</MenuItem>
+                return <Link to={`/work/${data.path}`}> <MenuItem icon={<LocationOnIcon/>}  key={data.id} sx={{ borderBottom: 0.5,borderColor: 'grey.500'}}>{data.title}</MenuItem></Link>
             }
         })
-
         return list;
     }
 }
