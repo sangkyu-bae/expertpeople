@@ -39,6 +39,7 @@ function App() {
         e.preventDefault();
         axiosCo.getSearchWork(search)
             .then(e=>{
+                console.log(e)
                 setSearchData(e.data);
                 setSearch("");
                 setIsSearch(true)

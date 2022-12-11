@@ -44,7 +44,7 @@ public class MainApiController {
     private final EnrollmentRepository enrollmentRepository;
 
     @GetMapping("/search/work")
-    public ResponseEntity<?> searchWork(Pageable pageable, String keyword) {
+    public ResponseEntity<?> searchWork(String keyword) {
         //Page<Work> works=workRepository.findByKeyword(keyword,pageable);
         List<Work> works = workRepository.findByKeyword(keyword);
         List<fetchWorkVo> fetchWork = works.stream().map(fetchWorkVo::new).collect(Collectors.toList());
