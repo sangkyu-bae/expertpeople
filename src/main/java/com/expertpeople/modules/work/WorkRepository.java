@@ -17,7 +17,8 @@ public interface WorkRepository extends JpaRepository<Work,Long>, QuerydslPredic
     boolean existsByPath(String path);
    @EntityGraph(attributePaths = {"jobs","zones","managers","members"})
     Work findByPath(String path);
-
+   @EntityGraph(attributePaths = {"jobs","zones","managers","members",})
+   Work findWithTestByPath(String path);
    @EntityGraph(attributePaths = {"jobs","managers"})
     Work findWorkWithJobsByPath(String path);
 

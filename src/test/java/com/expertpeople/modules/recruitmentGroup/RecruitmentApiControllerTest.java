@@ -2,10 +2,11 @@ package com.expertpeople.modules.recruitmentGroup;
 
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
+import com.expertpeople.modules.enrollment.Enrollment;
+import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.JobRepository;
-import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkRepository;
@@ -21,17 +22,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -65,6 +63,13 @@ class RecruitmentApiControllerTest {
     ZoneRepository zoneRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    RecruitmentRepository recruitmentRepository;
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
+    @Autowired
+    RecruitmentService recruitmentService;
+
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("대전광역시").province("테스트구").build();
     private Job testJob=Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
 
@@ -123,14 +128,10 @@ class RecruitmentApiControllerTest {
         RecruitForm recruitForm = new RecruitForm();
         recruitForm.setTitle("test");
         recruitForm.setDescription("testDescription");
-        recruitForm.setJobsName("석공(기술공)");
+        recruitForm.setJobsName("조적(기술공)");
         recruitForm.setEventType("FCFS");
         recruitForm.setStartDateTime(now);
         recruitForm.setEndDateTime(endDateTime);
-
-        JobForm jobForm=modelMapper.map(recruitForm,JobForm.class);
-        Job jobs=jobRepository.save(testJob);
-        Job job=jobRepository.findByJobAndCarrer(jobForm.getJobName(),jobForm.getCarrer());
 
         mockMvc.perform(post(PATH+"/test/add/recruitment")
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -138,13 +139,49 @@ class RecruitmentApiControllerTest {
                         .content(objectMapper.writeValueAsString(recruitForm)))
                 .andExpect(status().isOk())
                 .andDo(print());
+//        List<Recruitment> recruitment=recruitmentRepository.findByTitle("test");
+//        assertTrue(!recruitment.isEmpty());
     }
 
     @Test
-    @DisplayName("회원 직업 태그 가져오기")
+    @DisplayName("일감 구인 구하기 -입력값 오류")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void getRecruitInfo() {
+    void addRecruitment_fali() throws Exception{
+        Work work=workRepository.findByPath("test");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime endDateTime=now.plusDays(1);
+
+        RecruitForm recruitForm = new RecruitForm();
+        recruitForm.setTitle("test");
+        recruitForm.setJobsName("조적(기술공)");
+        recruitForm.setEventType("FCFS");
+        recruitForm.setStartDateTime(now);
+        recruitForm.setEndDateTime(endDateTime);
+
+        mockMvc.perform(post(PATH+"/test/add/recruitment")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(recruitForm)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+        List<Recruitment> recruitment=recruitmentRepository.findByWorkOrderByStartDateTime(work);
+        assertTrue(recruitment.isEmpty());
     }
+
+
+    @Test
+    @DisplayName("구인 정보 가져 오기")
+    @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void getRecruitInfo() throws Exception {
+        Work work=workRepository.findByPath("test");
+        createTestRecruit(work);
+        mockMvc.perform(get("/api/recruitment/test"))
+                .andExpect(status().isOk())
+                .andDo(print());
+        List<Recruitment> recruitments=recruitmentRepository.findByWorkOrderByStartDateTime(work);
+        assertTrue(!recruitments.isEmpty());
+    }
+
 
     @Test
     @DisplayName("회원 직업 태그 가져오기")
@@ -193,4 +230,34 @@ class RecruitmentApiControllerTest {
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void cancelAttendEnrollment() {
     }
+
+    private void createTestRecruit(Work work) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime endDateTime=now.plusDays(1);
+
+        Account account=accountRepository.findByEmail("uiwv29l@naver.com");
+
+
+        Recruitment recruitment= Recruitment.builder()
+                .title("ttt")
+                .createTime(now)
+                .endDateTime(endDateTime)
+                .startDateTime(now)
+                .endEnrollmentDateTime(endDateTime)
+                .work(work)
+                .createBy(account)
+                .description("tet")
+                .limitOfEnrollments(2)
+                .eventType(EventType.FCFS)
+                .build();
+        Recruitment saveRecruitment= recruitmentRepository.save(recruitment);
+        Enrollment enrollment=Enrollment.builder().
+                account(account).
+                enrolledAt(LocalDateTime.now()).
+                accepted(false).
+                build();
+        recruitment.addEnrollment(enrollment);
+        enrollmentRepository.save(enrollment);
+    }
+
 }
