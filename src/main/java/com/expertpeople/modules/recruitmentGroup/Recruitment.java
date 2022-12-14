@@ -93,6 +93,9 @@ public class Recruitment {
         int remainAcceptCount= numberOfRemainSpot();
         if(isCheckRemainEnrollment(remainAcceptCount)){
             List<Enrollment> waitingList= getWaitingList();
+            if(remainAcceptCount>waitingList.size()){
+                remainAcceptCount= waitingList.size();
+            }
             if(!waitingList.isEmpty()){
                 waitingList.subList(0,remainAcceptCount).forEach(e->e.setAccepted(true));
             }
@@ -103,10 +106,13 @@ public class Recruitment {
         return remainAcceptCount > 0 && this.eventType == EventType.FCFS;
     }
 
-    private List<Enrollment> getWaitingList() {
-        return this.erollments.stream().filter(enrollment -> !enrollment.isAttended()).collect(Collectors.toList());
-    }
+//    private List<Enrollment> getWaitingList() {
+//        return this.erollments.stream().filter(enrollment -> !enrollment.isAttended()).collect(Collectors.toList());
+//    }
 
+    private List<Enrollment> getWaitingList() {
+        return this.erollments.stream().filter(enrollment -> !enrollment.isAccepted()).collect(Collectors.toList());
+    }
     public void acceptEnrollment(Enrollment enrollment) {
         checkContainEnrollment(enrollment);
         if(isCheckRemainAndComfirmative()){

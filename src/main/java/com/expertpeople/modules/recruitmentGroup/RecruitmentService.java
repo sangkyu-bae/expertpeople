@@ -92,7 +92,6 @@ public class RecruitmentService {
         modelMapper.map(recruitUpdateForm,recruitment);
         recruitment.acceptEnrollmentList();
         eventPublisher.publishEvent(new RecruitmentUpdateEvent(recruitment,"구인이 내용이 변경 되었습니다."));
-
     }
 
     public void removeRecruitment(Recruitment recruitment) {
