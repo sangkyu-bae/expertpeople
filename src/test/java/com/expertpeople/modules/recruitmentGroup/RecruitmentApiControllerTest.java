@@ -175,7 +175,7 @@ class RecruitmentApiControllerTest {
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void getRecruitInfo() throws Exception {
         Work work=workRepository.findByPath("test");
-        createTestRecruit(work);
+        createTestRecruit(work,EventType.FCFS);
         mockMvc.perform(get(PATH+"/"+workPath))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -189,7 +189,7 @@ class RecruitmentApiControllerTest {
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void getRecruitment() throws Exception {
         Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
+        Recruitment recruitment=createTestRecruit(work,EventType.FCFS);
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
         mockMvc.perform(get(PATH+"/"+work.getPath()+"/recruitment/"+recruitment.getId()))
                 .andExpect(status().isOk())
@@ -207,7 +207,7 @@ class RecruitmentApiControllerTest {
         RecruitUpdateForm recruitUpdateForm=getTestRecruitForm(testDescription,"COMFIRMATIVE");
 
         Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
+        Recruitment recruitment=createTestRecruit(work,EventType.FCFS);
 
         mockMvc.perform(put(PATH+"/update/"+workPath+"/"+recruitment.getId())
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -228,7 +228,7 @@ class RecruitmentApiControllerTest {
         RecruitUpdateForm recruitUpdateForm=getTestRecruitForm(testDescription,"FCFS");
 
         Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
+        Recruitment recruitment=createTestRecruit(work,EventType.FCFS);
 
         Enrollment enrollment=testEnrollmentData(recruitment);
 
@@ -253,7 +253,7 @@ class RecruitmentApiControllerTest {
         RecruitUpdateForm recruitUpdateForm=getTestRecruitForm(testDescription,"FCFS");
         recruitUpdateForm.setDescription(null);
         Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
+        Recruitment recruitment=createTestRecruit(work,EventType.FCFS);
 
         mockMvc.perform(put(PATH+"/update/"+workPath+"/"+recruitment.getId())
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -269,7 +269,7 @@ class RecruitmentApiControllerTest {
     void newEnrollment() throws Exception {
         Work work=workRepository.findByPath("test");
         Account account=getAccount();
-        Recruitment recruitment=getRecruitment(work,account);
+        Recruitment recruitment=getRecruitment(work,account,EventType.FCFS);
         Account addEnrollmentAccount=accountRepository.findByEmail("uiwv29l@naver.com");
         List<Enrollment>enrollments=recruitment.getErollments();
 
@@ -287,58 +287,103 @@ class RecruitmentApiControllerTest {
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void removeRecruit() throws Exception {
         Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
-        Account account=accountRepository.findByEmail("uiwv29l@naver.com");
+        Recruitment recruitment=createTestRecruit(work,EventType.FCFS);
 
-        boolean isExistRecruitment=recruitmentRepository.existsById(recruitment.getId());
-        assertTrue(recruitment!=null);
+        boolean isExistsRecruitment=recruitmentRepository.existsById(recruitment.getId());
+        assertTrue(isExistsRecruitment);
+
 
         mockMvc.perform(delete(PATH+"/"+workPath+"/recruitment/"+recruitment.getId())
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
-        System.out.println(recruitment);
-        Recruitment recruitment1=recruitmentRepository.findById(recruitment.getId()).orElseThrow();
-        assertTrue(recruitment==null);
+        isExistsRecruitment=recruitmentRepository.existsById(recruitment.getId());
+        assertTrue(!isExistsRecruitment);
     }
 
     @Test
-    @DisplayName("참가된 구직자 구인 취소 하기")
+    @DisplayName("구인인력 구인 승락하기")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void acceptEnrollment() throws Exception {
-        Work work=workRepository.findByPath("test");
-        Recruitment recruitment=createTestRecruit(work);
-        Account account=accountRepository.findByEmail("uiwv29l@naver.com");
+        List<Enrollment>enrollments=getTestEnrollments(false);
+        enrollments.stream().forEach(enrollment -> enrollment.setAccepted(false));
+        Enrollment enrollment=enrollments.stream().filter(enrollment1 -> enrollment1.isAccepted()==false).findFirst().orElseThrow();
+        Long recruitmentId=enrollment.getRecruitment().getId();
 
-        List<Enrollment>enrollments=recruitment.getErollments();
-        assertTrue(isEnrollment(enrollments,account));
-
-        mockMvc.perform(put(PATH+"/"+workPath+"/accept/recruitment/"+recruitment.getId()+"/"+enrollments.get(0).getId())
+        assertTrue(!enrollment.isAccepted());
+        mockMvc.perform(put(PATH+"/"+workPath+"/accept/recruitment/"+recruitmentId+"/"+enrollment.getId())
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
-        boolean a= isEnrollment(enrollments,account);
-        assertTrue(!isEnrollment(enrollments,account));
+        enrollments=enrollment.getRecruitment().getErollments();
+        enrollment=enrollments.stream().filter(enrollment1 -> enrollment1.isAccepted()==true).findFirst().orElseThrow();
+        assertTrue(enrollment.isAccepted());
     }
 
     @Test
-    @DisplayName("회원 직업 태그 가져오기")
+    @DisplayName("구인인력 구인 취소하기")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void rejectEnrollment() {
+    void rejectEnrollment() throws Exception {
+        List<Enrollment>enrollments=getTestEnrollments(true);
+        Enrollment enrollment=enrollments.stream().filter(enrollment1 -> enrollment1.isAccepted()==true).findFirst().orElseThrow();
+        Long recruitmentId=enrollment.getRecruitment().getId();
+
+        assertTrue(enrollment.isAccepted());
+        mockMvc.perform(put(PATH+"/"+workPath+"/reject/recruitment/"+recruitmentId+"/"+enrollment.getId())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+        enrollments=enrollment.getRecruitment().getErollments();
+        enrollment=enrollments.stream().filter(enrollment1 -> enrollment1.isAccepted()==false).findFirst().orElseThrow();
+        assertTrue(!enrollment.isAccepted());
     }
 
     @Test
-    @DisplayName("회원 직업 태그 가져오기")
+    @DisplayName("구인인력 일 시작시간 참가확인")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void attendAcceptEnrollment() {
+    void attendAcceptEnrollment() throws Exception {
+        List<Enrollment>enrollments=getTestEnrollments(true);
+        Enrollment enrollment=enrollments.get(0);
+        Long recruitmentId=enrollment.getRecruitment().getId();
+
+        assertTrue(!enrollment.isAttended());
+        mockMvc.perform(put(PATH+"/"+workPath+"/attend/enrollment/"+recruitmentId+"/"+enrollment.getId())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+        assertTrue(enrollment.isAttended());
     }
 
     @Test
-    @DisplayName("회원 직업 태그 가져오기")
+    @DisplayName("출석확인된 구인 출석 취소하기")
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void cancelAttendEnrollment() {
+    void cancelAttendEnrollment() throws Exception {
+        List<Enrollment>enrollments=getTestEnrollments(true);
+        enrollments.stream().forEach(enrollment -> enrollment.setAttended(true));
+        Enrollment enrollment=enrollments.get(0);
+        Long recruitmentId=enrollment.getRecruitment().getId();
+        assertTrue(enrollment.isAttended());
+
+        mockMvc.perform(put(PATH+"/"+workPath+"/cancel/attend/"+recruitmentId+"/"+enrollment.getId())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        assertTrue(!enrollment.isAttended());
+    }
+
+    List<Enrollment> getTestEnrollments(boolean isAccepted){
+        Work work=workRepository.findByPath("test");
+        Recruitment recruitment=createTestRecruit(work,EventType.COMFIRMATIVE);
+        List<Enrollment>enrollments=recruitment.getErollments();
+
+        enrollments.stream().forEach(enrollment -> enrollment.setAccepted(isAccepted));
+        return enrollments;
     }
 
     private boolean isEnrollment(List<Enrollment>enrollments,Account account) {
@@ -387,14 +432,14 @@ class RecruitmentApiControllerTest {
         return recruitUpdateForm;
     }
 
-    private Recruitment createTestRecruit(Work work) {
+    private Recruitment createTestRecruit(Work work,EventType eventType) {
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
-        Recruitment recruitment = getRecruitment(work, account);
+        Recruitment recruitment = getRecruitment(work, account,eventType);
 
         return recruitment;
     }
 
-    private Recruitment getRecruitment(Work work, Account account) {
+    private Recruitment getRecruitment(Work work, Account account,EventType eventType) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime endDateTime=now.plusDays(1);
         List<Enrollment> enrollments=new ArrayList<>();
@@ -409,7 +454,7 @@ class RecruitmentApiControllerTest {
                 .description("tet")
                 .erollments(enrollments)
                 .limitOfEnrollments(2)
-                .eventType(EventType.FCFS)
+                .eventType(eventType)
                 .build();
         Recruitment saveRecruitment= recruitmentRepository.save(recruitment);
         Recruitment addEnrollmentRecruitment= recruitmentService.addEnrollment(account,saveRecruitment);

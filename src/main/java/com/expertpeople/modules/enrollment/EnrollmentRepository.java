@@ -11,4 +11,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,Long> {
     boolean existsByRecruitmentAndAccount(Recruitment recruitment, Account account);
     @EntityGraph("Enrollment.withEventAndWork")
     List<Enrollment> findByAccountAndAcceptedOrderByEnrolledAtDesc(Account loadAccount, boolean isAttend);
+    @EntityGraph(attributePaths = "recruitment")
+    List<Enrollment> findByRecruitment(Recruitment recruitment);
 }

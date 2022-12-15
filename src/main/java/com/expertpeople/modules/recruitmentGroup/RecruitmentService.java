@@ -95,6 +95,8 @@ public class RecruitmentService {
     }
 
     public void removeRecruitment(Recruitment recruitment) {
+        List<Enrollment> enrollments=enrollmentRepository.findByRecruitment(recruitment);
+        enrollmentRepository.deleteAll(enrollments);
         recruitmentRepository.delete(recruitment);
         eventPublisher.publishEvent(new RecruitmentUpdateEvent(recruitment,"구인을 취소 하였습니다."));
     }
