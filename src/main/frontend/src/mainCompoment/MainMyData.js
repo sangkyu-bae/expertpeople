@@ -30,8 +30,10 @@ function MainMyData(props) {
     },[])
 
     const getMyData=()=>{
+        console.log(localStorage.getItem("jwt"));
         axiosCo.getMyData()
             .then(e=>{
+                console.log(e);
                 const data=e.data;
                 console.log(data)
 
