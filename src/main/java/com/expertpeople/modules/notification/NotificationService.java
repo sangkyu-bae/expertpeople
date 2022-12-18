@@ -93,4 +93,8 @@ public class NotificationService {
     public void readAllNotification(List<Notification> notifications) {
         notifications.stream().forEach(notification -> notification.updateReadNotification());
     }
+
+    public void remove(List<Notification> oldNotifications) {
+        notificationRepository.deleteAll(oldNotifications);
+    }
 }

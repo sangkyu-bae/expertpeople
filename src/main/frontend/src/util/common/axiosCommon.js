@@ -295,7 +295,12 @@ const axiosCo = {
     },
     readAllNotification:async ()=> {
         const JwtAPI=updateAPI();
-        const res=await JwtAPI.get(`${requests.fetchReadAllNotification}`)
+        const res=await JwtAPI.put(`${requests.fetchReadAllNotification}`)
+        return res;
+    },
+    deleteOldNotification:async ()=> {
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.delete(`${requests.fetchDeleteOldNotification}`)
         return res;
     }
 }

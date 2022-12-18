@@ -22,6 +22,7 @@ function Notification(props) {
         axiosCo.getNotification()
             .then(e => {
                 const notification =new Notice();
+                console.log(e.data.notifications)
                 const initNotificationData=notification.splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount);
                 setNoticeInfo(initNotificationData)
 
@@ -41,16 +42,10 @@ function Notification(props) {
             mode: mode
         })
     }
-
-    const readAllNotification=()=>{
-        axiosCo.readAllNotification()
-            .then(e=>{
-
-            })
-            .catch(e=>{
-                console.log(e);
-            })
+    const changeNoticeInfo=(notification)=>{
+        setNoticeInfo(notification);
     }
+
     return (
         <div className="container">
             <div className="container-wrap">
@@ -64,7 +59,7 @@ function Notification(props) {
                                                  notifications={noticeInfo}
                                                  contentChange={contentChange}
                                                  fullInfo={fullInfo}
-                                                 readAllNotification={readAllNotification}/>
+                                                 changeNoticeInfo={changeNoticeInfo}/>
                             <NoReadNotification notifications={noticeInfo}
                                                 fullInfo={fullInfo}/>
                         </>

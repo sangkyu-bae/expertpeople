@@ -1,9 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import './NoticationNav.css';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Button from "@mui/material/Button";
+import axiosCo from "../../util/common/axiosCommon";
+import Notice from "../../util/Class/Notice";
 
-function NotificationLeftNav({check, newCount, oldCount, notifications,contentChange,fullInfo,readAllNotification}) {
+function NotificationLeftNav({check, newCount, oldCount, notifications,contentChange,fullInfo,changeNoticeInfo}) {
+    const path=useLocation().pathname;
+
+    const readAllNotification=()=>{
+        axiosCo.readAllNotification()
+            .then(e=>{
+                const notice=new Notice();
+                let notifications;
+                if(path.includes('old')){
+                    notifications= notice.splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount)
+                }
+                if(path.includes('new')){
+                    notifications=notice.splitByNotification([],e.data.newCount,e.data.oldCount)
+                }
+                changeNoticeInfo(notifications);
+            })
+            .catch(e=>{
+                console.log(e);
+            })
+    }
+
+    const deleteOldNotification=()=>{
+        axiosCo.deleteOldNotification()
+            .then(e=>{
+
+            })
+            .catch(e=>{
+                console.log(e);
+            })
+    }
+
     return (
 
         <div className='notice-nav-wrap'>
@@ -31,9 +63,12 @@ function NotificationLeftNav({check, newCount, oldCount, notifications,contentCh
                     <span className='item-head'>관심있는 일감 알림</span><span className='item-cnt'>{notifications.WORK_UPDATED.length}</span>
                 </li>
             </ul>
-            <Button variant="contained" color="success" onClick={()=>readAllNotification()}>
-                읽지 않은 알림 모두 읽기
-            </Button>
+            {
+                newCount>0&&
+                <Button variant="contained" color="success" onClick={()=>readAllNotification()}>
+                    읽지 않은 알림 모두 읽기
+                </Button>
+            }
             {
                 oldCount>0&&
                 <>

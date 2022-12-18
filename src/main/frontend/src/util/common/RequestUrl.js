@@ -23,7 +23,8 @@ const requests={
     fetchUpdateMyNotification:"/api/setting/update/notifications",
     fetchGetMyData:"/api/main/my-data",
     fetchReadNotification:"/api/notification/read",
-    fetchReadAllNotification:"/api/notification/all"
+    fetchReadAllNotification:"/api/notification/read/all",
+    fetchDeleteOldNotification:"/api/notification/remove/old"
 }
 
 export const requestURL="http://localhost:8080/"

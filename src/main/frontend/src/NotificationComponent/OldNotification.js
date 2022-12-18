@@ -40,6 +40,10 @@ function OldNotification(props) {
         })
     }
 
+    const changeNoticeInfo=(notification)=>{
+        setNoticeInfo(notification);
+    }
+
     return (
         <div className="container">
             <div className="container-wrap">
@@ -52,7 +56,8 @@ function OldNotification(props) {
                                                  oldCount={noticeInfo.oldCount}
                                                  notifications={noticeInfo}
                                                  contentChange={contentChange}
-                                                 fullInfo={fullInfo}/>
+                                                 fullInfo={fullInfo}
+                                                 changeNoticeInfo={changeNoticeInfo}/>
                             <NoReadNotification notifications={noticeInfo}
                                                 fullInfo={fullInfo}/>
                         </>

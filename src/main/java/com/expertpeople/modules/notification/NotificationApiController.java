@@ -69,6 +69,15 @@ public class NotificationApiController {
         return ResponseEntity.ok().body(new ResponseNotify<>(notifications,0,oldCount));
     }
 
+    @DeleteMapping("/notification/remove/old")
+    public ResponseEntity<?>removeOldNotification(@CurrentAccount Account account){
+        List<Notification> oldNotifications=notificationRepository.findByAccountAndCheckedOrderByCreateDateTimeDesc(account,true);
+        if(!oldNotifications.isEmpty()){
+            notificationService.remove(oldNotifications);
+        }
+
+        return ResponseEntity.ok().build();
+    }
 
     @Getter
     @Setter
