@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axiosCo from "../util/common/axiosCommon";
 import NotificationLeftNav from "./NoticaitonSectionComponent/NoticationLeftNav";
 import NoReadNotification from "./NoticaitonSectionComponent/NoReadNotification";
+import {Notifications} from "@mui/icons-material";
+import Notice from "../util/Class/Notice";
 
 function Notification(props) {
     const [noticeInfo, setNoticeInfo] = useState({
@@ -12,21 +14,6 @@ function Notification(props) {
         oldCount: 0
     })
 
-    const splitByNotification = (notifications, newCount, oldCount) => {
-        let initNotificationData = {
-            WORK_CREATED: [],
-            WORK_UPDATED: [],
-            RECRUIT_ENROLLMENT: [],
-            newCount: newCount,
-            oldCount: oldCount
-        }
-
-        notifications.forEach(notification => {
-            initNotificationData[notification.notificationType].push(notification);
-        })
-
-        setNoticeInfo(initNotificationData)
-    }
     useEffect(() => {
         getNotify()
     }, [])
@@ -34,7 +21,10 @@ function Notification(props) {
     const getNotify = () => {
         axiosCo.getNotification()
             .then(e => {
-                splitByNotification(e.data.notifications, e.data.newCount, e.data.oldCount)
+                const notification =new Notice();
+                const initNotificationData=notification.splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount);
+                setNoticeInfo(initNotificationData)
+
             })
             .catch(e => {
                 console.log(e);
@@ -52,6 +42,15 @@ function Notification(props) {
         })
     }
 
+    const readAllNotification=()=>{
+        axiosCo.readAllNotification()
+            .then(e=>{
+
+            })
+            .catch(e=>{
+                console.log(e);
+            })
+    }
     return (
         <div className="container">
             <div className="container-wrap">
@@ -64,7 +63,8 @@ function Notification(props) {
                                                  oldCount={noticeInfo.oldCount}
                                                  notifications={noticeInfo}
                                                  contentChange={contentChange}
-                                                 fullInfo={fullInfo}/>
+                                                 fullInfo={fullInfo}
+                                                 readAllNotification={readAllNotification}/>
                             <NoReadNotification notifications={noticeInfo}
                                                 fullInfo={fullInfo}/>
                         </>

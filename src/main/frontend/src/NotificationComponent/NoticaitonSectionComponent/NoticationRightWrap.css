@@ -18,6 +18,9 @@
     padding-left: 2em;
 
 }
+.noti-item:hover{
+    cursor: pointer;
+}
 .noti-item:not(:last-of-type){
     border-bottom: 1px solid gray;
 }

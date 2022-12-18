@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from "moment";
 import {Link} from "react-router-dom";
 
-function NoticeItemBox({notification}) {
+function NoticeItemBox({notification,readNotification}) {
 
     const [diffTime,setDiffTimes]=useState('');
     const getDiffTime =(nowDate, createDate)=> {
@@ -39,11 +39,9 @@ function NoticeItemBox({notification}) {
         <>
         {
             diffTime!=''&&
-            <li className='noti-item'>
-                <Link to={`${notification.link}`}>
-                    <span>{notification.title}</span>
-                </Link>
-                    <span className='item-cnt'>{diffTime}</span>
+            <li className='noti-item' onClick={()=>readNotification(notification.id,notification.link)}>
+                <span className="noti-title">{notification.title}</span>
+                <span className='item-cnt'>{diffTime}</span>
             </li>
         }
         </>

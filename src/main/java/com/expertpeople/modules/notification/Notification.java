@@ -29,4 +29,9 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
+    public void updateReadNotification() {
+        if(!this.checked){
+            this.checked=true;
+        }
+    }
 }

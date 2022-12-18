@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './NoticationNav.css';
 import {Link} from "react-router-dom";
+import Button from "@mui/material/Button";
 
-function NotificationLeftNav({check, newCount, oldCount, notifications,contentChange,fullInfo}) {
-console.log(fullInfo)
+function NotificationLeftNav({check, newCount, oldCount, notifications,contentChange,fullInfo,readAllNotification}) {
     return (
 
         <div className='notice-nav-wrap'>
@@ -31,13 +31,17 @@ console.log(fullInfo)
                     <span className='item-head'>관심있는 일감 알림</span><span className='item-cnt'>{notifications.WORK_UPDATED.length}</span>
                 </li>
             </ul>
+            <Button variant="contained" color="success" onClick={()=>readAllNotification()}>
+                읽지 않은 알림 모두 읽기
+            </Button>
             {
                 oldCount>0&&
                 <>
                     <button className='remove-btn'>읽은 알림 삭제</button>
-                    <small>삭제하지 않아도 한달이 지난 알림은 삭제됩니다.</small>s
+                    <small>삭제하지 않아도 한달이 지난 알림은 삭제됩니다.</small>
                 </>
             }
+
         </div>
     );
 }

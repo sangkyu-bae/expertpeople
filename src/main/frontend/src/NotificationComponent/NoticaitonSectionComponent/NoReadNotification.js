@@ -1,8 +1,20 @@
 import React from 'react';
 import './NoticationRightWrap.css'
 import NoticeItemBox from "./NoticeItemBox";
+import axiosCo from "../../util/common/axiosCommon";
+import {useNavigate} from "react-router-dom";
 
 function NoReadNotification({notifications, fullInfo}) {
+    const nav=useNavigate();
+    const readNotification=(notificationId,link)=>{
+        axiosCo.readNotification(notificationId)
+            .then(e=>{
+                nav(`${link}`)
+            })
+            .catch(e=>{
+                console.log(e);
+            })
+    }
     return (
         <div className='notice-right-wrap'>
 
@@ -16,7 +28,8 @@ function NoReadNotification({notifications, fullInfo}) {
                                     {
                                         notifications.WORK_CREATED.map(notification =>
                                             <NoticeItemBox key={notification.id}
-                                                           notification={notification}></NoticeItemBox>)
+                                                           notification={notification}
+                                                           readNotification={readNotification}></NoticeItemBox>)
                                     }
                                 </ul>
                             </div>

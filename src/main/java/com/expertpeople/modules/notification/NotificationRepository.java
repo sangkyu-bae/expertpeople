@@ -13,4 +13,6 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     List<Notification> findByAccountOrderByCreateDateTimeDesc(Account account);
     @EntityGraph(attributePaths = {"account"})
     List<Notification> findByAccountAndCheckedOrderByCreateDateTimeDesc(Account account, boolean checked);
+
+    boolean existsByIdAndAccount(Long notificationId, Account account);
 }

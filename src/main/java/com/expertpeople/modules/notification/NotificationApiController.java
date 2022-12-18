@@ -27,6 +27,7 @@ public class NotificationApiController {
     private final NotificationRepository notificationRepository;
     private final NotificationService notificationService;
 
+
     @GetMapping(value = "/notify",produces = "text/event-stream")
     public SseEmitter notify(@RequestParam(value="jwt") String jwt,
                              @RequestHeader(value = "Last-Event-ID",required = false,defaultValue = "")String lastEventId){
@@ -52,6 +53,22 @@ public class NotificationApiController {
 
         return ResponseEntity.ok().body(new ResponseNotify<>(oldNotifications,newCount,oldCount));
     }
+    @PutMapping("/notification/read/{notificationId}")
+    public ResponseEntity<?> readNotification(@CurrentAccount Account account,@PathVariable("notificationId")Notification notification){
+        notificationService.isNotification(notification.getId(),account);
+        notificationService.readNotification(notification);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/notification/read/all")
+    public ResponseEntity<?>readAllNotification(@CurrentAccount Account account){
+        List<Notification> notifications=notificationRepository.findByAccountAndCheckedOrderByCreateDateTimeDesc(account,false);
+        notificationService.readAllNotification(notifications);
+        Long oldCount=notifications.stream().count();
+
+        return ResponseEntity.ok().body(new ResponseNotify<>(notifications,0,oldCount));
+    }
+
 
     @Getter
     @Setter

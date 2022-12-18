@@ -287,6 +287,16 @@ const axiosCo = {
         const res=await JwtAPI.get(`${requests.fetchGetMyData}`)
         //const res=await accessAPI.get(`${requests.fetchGetMyData}`)
         return res;
+    },
+    readNotification:async (notificationId)=> {
+        const JwtApI=updateAPI();
+        const res=await JwtApI.put(`${requests.fetchReadNotification}/${notificationId}`)
+        return res;
+    },
+    readAllNotification:async ()=> {
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchReadAllNotification}`)
+        return res;
     }
 }
 

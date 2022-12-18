@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -76,5 +77,20 @@ public class NotificationService {
 
 
         return account;
+    }
+
+    public void isNotification(Long notificationId,Account account) {
+        boolean isNotification=notificationRepository.existsByIdAndAccount(notificationId,account);
+        if(!isNotification){
+            throw new IllegalArgumentException("존재하지 않은 알람입니다.");
+        }
+    }
+
+    public void readNotification(Notification notification) {
+        notification.updateReadNotification();
+    }
+
+    public void readAllNotification(List<Notification> notifications) {
+        notifications.stream().forEach(notification -> notification.updateReadNotification());
     }
 }
