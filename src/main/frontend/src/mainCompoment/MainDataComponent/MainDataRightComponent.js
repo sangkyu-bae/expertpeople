@@ -19,6 +19,7 @@ function MainDataRightComponent({attendWorks,managerWorks}) {
            attendTag: attendWork,
            managerWorkTag: managerWork
        })
+
     },[])
     const{attendTag,managerWorkTag}=rightDataList;
     return (

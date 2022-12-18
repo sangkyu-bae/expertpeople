@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MainNav from "../mainCompoment/MainNav";
 
 import Alert from "../CommonComponent/Alert";
@@ -10,6 +10,9 @@ import axiosCo from "../util/common/axiosCommon";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../util/Redux/userReducer";
+import {getCookie, setCookie} from "../util/common/Cookies";
+import {now} from "moment/moment";
+
 
 function Login(props) {
 
@@ -33,8 +36,10 @@ function Login(props) {
         else setIsPassword(true);
         setPassword(e.target.value);
     }
-
+    const [isLogin,setIsLogin]=useState(false);
     const loginSubmit=e=>{
+        let after30m = new Date();
+
         e.preventDefault();
         if(email.length<5&&!isEmail){
             alert("이메일을 확인하세요");
@@ -46,12 +51,30 @@ function Login(props) {
         }
         const t=axiosCo.login(email,password);
         t.then(t=>{
-            // console.log(t.data);
-            localStorage.setItem("jwt",t.data.token);
+            let now = new Date();
+            // localStorage.setItem("jwt",t.data.token);
+            after30m.setMinutes(now.getMinutes() + 30)
+            setCookie('jwt',
+                    t.data.token,
+                    {
+                        path: '/',
+                        expires: after30m,
+                    }
+                )
             dispatch(loginUser(t.data));
-            navigate("/");
-        }).catch(t=>setIsServerError(true));
+            setIsLogin(true);
+        }).catch(t=>{
+            console.log(t);
+            setIsServerError(true)
+        });
     }
+    useEffect(()=>{
+        if(isLogin){
+            const jwt=getCookie("jwt")
+            navigate("/")
+            // jwt&&
+        }
+    },[isLogin])
 
     return (
         <div>

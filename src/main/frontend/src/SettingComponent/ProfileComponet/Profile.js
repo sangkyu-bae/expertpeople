@@ -12,15 +12,12 @@ function Profile(props) {
     const [userInfo,setUserInfo]=useState([]);
 
     useEffect(()=>{
-       const checkAuth=CommnMethod.checkAuth(login.id);
-       if(checkAuth){
-           const res=axiosCo.myInfo(login.id)
-           res.then(e=>{
-               console.log(e);
-               setUserInfo(e.data)
-           })
-               .catch(e=>console.log(e));
-       }
+        const res=axiosCo.myInfo(login.id)
+        res.then(e=>{
+            console.log(e);
+            setUserInfo(e.data)
+        })
+            .catch(e=>console.log(e));
     },[])
 
     return (

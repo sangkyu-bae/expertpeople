@@ -1,4 +1,4 @@
-import {accessAPI, accTE, API} from "./APICommon";
+import {accessAPI, accTE, API, tts, updateAPI} from "./APICommon";
 import requests from "./RequestUrl";
 
 const axiosCo = {
@@ -10,14 +10,16 @@ const axiosCo = {
         return res;
     },
     myInfo: async (email) => {
-        const res = await accessAPI.get(requests.fetchGetAccountInfo, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(requests.fetchGetAccountInfo, {
             params: {
                 email: email
             }
         })
         return res;
     }, updateProfile: async (Profile) => {
-        const res = await accessAPI.post(requests.fetchUpdateProfile, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(requests.fetchUpdateProfile, {
             bio: Profile.bio,
             location: Profile.location,
             profileImage: Profile.profileImage,
@@ -25,21 +27,25 @@ const axiosCo = {
         })
         return res;
     }, updatePassword: async (passwordForm) => {
-        const res = await accessAPI.post(requests.fetchUpdatePassword, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(requests.fetchUpdatePassword, {
             password: passwordForm.password,
             passwordCheck: passwordForm.newPassword
         });
         return res
     }, getMyJobs: async () => {
-        const res = await accessAPI.get(requests.fetchGetMyJob)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(requests.fetchGetMyJob)
         return res;
     }, addMyJobsTags: async (jobs) => {
-        const res = await accessAPI.post(requests.fetchAddMyJobsTags, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(requests.fetchAddMyJobsTags, {
             jobsName: jobs
         })
         return res;
     }, removeMyJobsTags: async (jobs) => {
-        const res = await accessAPI.delete(requests.fetchRemoveMyJobsTags, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.delete(requests.fetchRemoveMyJobsTags, {
                 data: {
                     jobsName: jobs
                 }
@@ -47,22 +53,26 @@ const axiosCo = {
         )
         return res;
     }, getMyLocation: async () => {
-        const res = await accessAPI.get(requests.fetchGetMyLocation)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(requests.fetchGetMyLocation)
         return res;
     }, addMyLocationTag: async (location) => {
-        const res = await accessAPI.post(requests.fetchAddMyLocation, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(requests.fetchAddMyLocation, {
             zoneName: location
         })
         return res;
     }, removeMyLocationTag: async (location) => {
-        const res = await accessAPI.delete(requests.fetchRemoveMyLocation, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.delete(requests.fetchRemoveMyLocation, {
             data: {
                 zoneName: location
             }
         })
         return res;
     }, addWork: async (work) => {
-        const res = await accessAPI.post(requests.fetchAddWork, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(requests.fetchAddWork, {
             title: work.workTitle,
             shortDescription: work.shortInfo,
             fullDescription: work.workInfo,
@@ -70,24 +80,30 @@ const axiosCo = {
         })
         return res
     }, getWork: async (path) => {
-        const res = await accessAPI.get(`${requests.fetchGetWork}/${path}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchGetWork}/${path}`)
+       // const res = await accessAPI.get(`${requests.fetchGetWork}/${path}`)
         return res;
     }, updateDescription: async (descriptions, path) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/description`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/description`, {
             fullDescription: descriptions.fullDescription,
             shortDescription: descriptions.shortDescription
         })
         return res;
     }, getWorkToJob: async (path) => {
-        const res = await accessAPI.get(`${requests.fetchWorkSetting}/${path}/jobs`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchWorkSetting}/${path}/jobs`)
         return res;
     }, addWorkToJob: async (jobsName, path) => {
-        const res = await accessAPI.post(`${requests.fetchWorkSetting}/${path}/jobs/add`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(`${requests.fetchWorkSetting}/${path}/jobs/add`, {
             jobsName: jobsName
         })
         return res;
     }, removeWorkToJob: async (jobsName, path) => {
-        const res = await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/jobs/remove`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.delete(`${requests.fetchWorkSetting}/${path}/jobs/remove`, {
             data: {
                 jobsName: jobsName
             }
@@ -95,11 +111,13 @@ const axiosCo = {
         return res;
     },
     getWorkToZone: async (path) => {
-        const res = await accessAPI.get(`${requests.fetchWorkSetting}/${path}/zone`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchWorkSetting}/${path}/zone`)
         return res;
     },
     removeWorkToZone: async (zoneName, path) => {
-        const res = await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/zone/remove`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.delete(`${requests.fetchWorkSetting}/${path}/zone/remove`, {
             data: {
                 zoneName: zoneName
             }
@@ -107,46 +125,56 @@ const axiosCo = {
         return res;
     },
     addWorkToZone: async (zoneName, path) => {
-        const res = await accessAPI.post(`${requests.fetchWorkSetting}/${path}/zone/add`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(`${requests.fetchWorkSetting}/${path}/zone/add`, {
             zoneName: zoneName
         })
         return res;
     },
     updatePublish: async (path) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/publish`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/publish`)
         return res;
     },
     openRecruit: async (path) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/start`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/start`)
         return res;
     },
     stopRecruit: async (path) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/stop`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/recruit/stop`)
         return res;
     },
     updateWorkUrl: async (path, newPath) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/url/${newPath}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/url/${newPath}`)
         return res;
     },
     updateWorkTitle: async (path, newTitle) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/title/${newTitle}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/title/${newTitle}`)
         return res;
     },
     removeWork: async (path) => {
-        const res = await accessAPI.delete(`${requests.fetchWorkSetting}/${path}/remove`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.delete(`${requests.fetchWorkSetting}/${path}/remove`)
         return res;
     },
     joinMember: async (path) => {
-        const res = await accessAPI.put(`${requests.fetchWorkSetting}/${path}/add/member`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchWorkSetting}/${path}/add/member`)
         return res;
     },
     getJobs: async () => {
-        const res = await accessAPI.get(`${requests.fetchRecruitment}/jobs`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchRecruitment}/jobs`)
         return res;
 
     },
     addRecruitment: async (inputs, path) => {
-        const res = await accessAPI.post(`${requests.fetchRecruitment}/${path}/add/recruitment`, {
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.post(`${requests.fetchRecruitment}/${path}/add/recruitment`, {
             title: inputs.title,
             description: inputs.description,
             endEnrollmentDateTime: new Date(inputs.endEnrollmentDateTime),
@@ -160,21 +188,26 @@ const axiosCo = {
 
     },
     getRecruitment: async (path, id) => {
-        const res = await accessAPI.get(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
+        //const res = await accessAPI.get(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
         return res;
     },
     addEnrollment: async (path, id) => {
-        const res = await accessAPI.put(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchRecruitment}/${path}/recruitment/${id}`)
         return res;
 
     },
     getWorkInRecruitments: async (path) => {
-        const res = await accessAPI.get(`${requests.fetchRecruitment}/${path}`)
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.get(`${requests.fetchRecruitment}/${path}`)
         return res;
 
     },
     updateRecruit: async (path, id,inputs) => {
-        const res = await accessAPI.put(`${requests.fetchRecruitment}/update/${path}/${id}`,{
+        const JwtAPI=updateAPI();
+        const res = await JwtAPI.put(`${requests.fetchRecruitment}/update/${path}/${id}`,{
             title:inputs.title,
             description:inputs.description,
             endEnrollmentDateTime:new Date(inputs.endEnrollmentDateTime),
@@ -186,27 +219,33 @@ const axiosCo = {
         return res;
     },
     acceptEnrollment:async (path, recruitId, enrollmentId)=> {
-        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/accept/recruitment/${recruitId}/${enrollmentId}`)
+        const JwtAPI=updateAPI();
+        const res= await JwtAPI.put(`${requests.fetchRecruitment}/${path}/accept/recruitment/${recruitId}/${enrollmentId}`)
         return res;
     },
     rejectEnrollment:async (path, recruitId, enrollmentId)=> {
-        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/reject/recruitment/${recruitId}/${enrollmentId}`)
+        const JwtAPI=updateAPI();
+        const res= await JwtAPI.put(`${requests.fetchRecruitment}/${path}/reject/recruitment/${recruitId}/${enrollmentId}`)
         return res;
     },
     attendAcceptEnrollment:async (path, recruitId, enrollmentId)=> {
-        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/attend/enrollment/${recruitId}/${enrollmentId}`)
+        const JwtAPI=updateAPI();
+        const res= await JwtAPI.put(`${requests.fetchRecruitment}/${path}/attend/enrollment/${recruitId}/${enrollmentId}`)
         return res;
     },
     cancelAttendEnrollment:async (path, recruitId, enrollmentId)=> {
-        const res= await accessAPI.put(`${requests.fetchRecruitment}/${path}/cancel/attend/${recruitId}/${enrollmentId}`)
+        const JwtAPI=updateAPI();
+        const res= await JwtAPI.put(`${requests.fetchRecruitment}/${path}/cancel/attend/${recruitId}/${enrollmentId}`)
         return res;
     },
     getNotification:async ()=>{
-        const res=await accessAPI.get(`${requests.fetchGetNotification}`);
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchGetNotification}`);
         return res;
     },
     getOldNotification:async ()=>{
-        const res=await accessAPI.get(`${requests.fetchGetNotification}/old`);
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchGetNotification}/old`);
         return res;
     },
     getSearchWork:async (search)=> {
@@ -222,15 +261,18 @@ const axiosCo = {
         return res;
     },
     getAdminWork:async ()=>{
-        const res=await accessAPI.get(`${requests.fetchAdminWork}`)
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchAdminWork}`)
         return res;
     },
     getMyNotification:async ()=>{
-        const res=await accessAPI.get(`${requests.fetchGetMyNotification}`)
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchGetMyNotification}`)
         return res;
     },
     updateMyNotification:async (myNoti)=> {
-        const res=await accessAPI.put(`${requests.fetchUpdateMyNotification}`,{
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.put(`${requests.fetchUpdateMyNotification}`,{
             workCreateByEmail:myNoti.workCreateByEmail,
             workCreateByWeb:myNoti.workCreateByWeb,
             workEnrollmentResultByEmail:myNoti.workEnrollmentResultByEmail,
@@ -241,7 +283,9 @@ const axiosCo = {
         return res;
     },
     getMyData:async ()=>{
-        const res=await accessAPI.get(`${requests.fetchGetMyData}`)
+        const JwtAPI=updateAPI();
+        const res=await JwtAPI.get(`${requests.fetchGetMyData}`)
+        //const res=await accessAPI.get(`${requests.fetchGetMyData}`)
         return res;
     }
 }

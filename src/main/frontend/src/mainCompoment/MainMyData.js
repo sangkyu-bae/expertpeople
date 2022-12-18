@@ -30,13 +30,10 @@ function MainMyData(props) {
     },[])
 
     const getMyData=()=>{
-        console.log(localStorage.getItem("jwt"));
         axiosCo.getMyData()
             .then(e=>{
-                console.log(e);
                 const data=e.data;
                 console.log(data)
-
                 setMyData({
                     isLoading:true,
                     loadAccount: data.loadAccount,
@@ -45,7 +42,6 @@ function MainMyData(props) {
                     managerWorks:data.managerWorksVos,
                     recruitments:data.recruitmentVos
                 })
-
             })
             .catch(e=>{
                 console.log(e)

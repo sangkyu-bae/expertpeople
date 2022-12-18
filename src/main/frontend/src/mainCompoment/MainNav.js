@@ -8,6 +8,7 @@ import {faHelmetSafety} from "@fortawesome/free-solid-svg-icons";
 import TrueLogin from "../LoginComponent/isLoginComponent/TrueLogin";
 import FalseLogin from "../LoginComponent/isLoginComponent/FalseLogin";
 import Form from "react-bootstrap/Form";
+import {removeCookie} from "../util/common/Cookies";
 
 function MainNav({search, searchChange, searchSubmit, changeIsSearch, isSearch}) {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function MainNav({search, searchChange, searchSubmit, changeIsSearch, isSearch})
     const navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("jwt");
+        removeCookie("jwt");
 
         setEvent({
             isConnection: false,
