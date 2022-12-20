@@ -75,8 +75,9 @@ public class NotificationApiController {
         if(!oldNotifications.isEmpty()){
             notificationService.remove(oldNotifications);
         }
-
-        return ResponseEntity.ok().build();
+        List<Notification>notifications=notificationRepository.findByAccountAndCheckedOrderByCreateDateTimeDesc(account,false);
+        Long newCount=notifications.stream().count();
+        return ResponseEntity.ok().body(new ResponseNotify<>(notifications,newCount,0));
     }
 
     @Getter

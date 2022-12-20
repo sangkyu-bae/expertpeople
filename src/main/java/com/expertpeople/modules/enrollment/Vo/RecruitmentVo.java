@@ -1,16 +1,10 @@
 package com.expertpeople.modules.enrollment.Vo;
 
-import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.enrollment.Enrollment;
-import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.recruitmentGroup.EventType;
 import com.expertpeople.modules.recruitmentGroup.Recruitment;
-import com.expertpeople.modules.work.Work;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor

@@ -5,14 +5,13 @@ import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.account.AccountService;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
 import com.expertpeople.modules.zone.form.ZoneForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -54,11 +53,11 @@ class WorkSettingApiControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
-    JobRepository jobRepository;
+    JobsRepository jobsRepository;
     @Autowired
     ZoneRepository zoneRepository;
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("테스트광역시").province("테스트구").build();
-    private Job testJob=Job.builder().job("test잡").averagePrice("test원").carrer(Carrer.TECH).build();
+    private Job testJob = Job.builder().job("test잡").averagePrice("test원").carrer(Carrer.TECH).build();
 
     private String apiPath="/api/work/setting/";
     @BeforeEach
@@ -80,7 +79,7 @@ class WorkSettingApiControllerTest {
         Work work=workService.createWork(account,workForm);
 
         zoneRepository.save(testZone);
-        jobRepository.save(testJob);
+        jobsRepository.save(testJob);
     }
     @Test
     @DisplayName("일감 수정 - 입력값 정상")
@@ -149,7 +148,7 @@ class WorkSettingApiControllerTest {
                         .content(objectMapper.writeValueAsString(jobForm)))
                 .andExpect(status().isOk())
                 .andDo(print());
-        Job job=jobRepository.findByJobAndCarrer(testJob.getJob(),testJob.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(testJob.getJob(), testJob.getCarrer());
         assertTrue(work.getJobs().contains(job));
     }
 
@@ -161,7 +160,7 @@ class WorkSettingApiControllerTest {
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
         String path=work.getPath();
 
-        workService.addJobs(account,testJob,path);
+        workService.addJobs(account, testJob,path);
         assertTrue(work.getJobs().contains(testJob));
 
         JobForm jobForm=new JobForm();
@@ -172,7 +171,7 @@ class WorkSettingApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(jobForm)))
                 .andExpect(status().isOk());
-        Job job=jobRepository.findByJobAndCarrer(testJob.getJob(),testJob.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(testJob.getJob(), testJob.getCarrer());
         assertFalse(work.getJobs().contains(job));
 
     }

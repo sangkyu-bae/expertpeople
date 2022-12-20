@@ -6,11 +6,7 @@ import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.QJob;
 import com.expertpeople.modules.zone.QZone;
 import com.expertpeople.modules.zone.Zone;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;

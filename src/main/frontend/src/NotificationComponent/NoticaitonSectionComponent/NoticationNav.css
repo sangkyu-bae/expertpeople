@@ -28,6 +28,12 @@
     font-weight: bold;
     margin-bottom: 1em;
 }
+.remove-btn:hover{
+    cursor: pointer;
+    color: white;
+    background-color: #e9ec69;
+    border: 1px solid white;
+}
 .item-cnt{
     position: absolute;
     right: 1em;

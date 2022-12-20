@@ -3,7 +3,7 @@ package com.expertpeople.modules.work;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.job.Vo.JobResult;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.work.form.WorkDescriptionForm;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class WorkSettingApiController {
 
     private final WorkService workService;
-    private final JobRepository jobRepository;
+    private final JobsRepository jobsRepository;
     private final ZoneRepository zoneRepository;
     private final WorkRepository workRepository;
 
@@ -48,7 +48,7 @@ public class WorkSettingApiController {
     public ResponseEntity<?> getJob(@CurrentAccount Account account, @PathVariable String path) {
         Set<Job> jobs = workService.getJob(path, account);
 
-        List<String> allJobs = jobRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
+        List<String> allJobs = jobsRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
         List<String> job = jobs.stream().map(Job::toString).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(new JobResult<>(job, allJobs));
@@ -57,7 +57,7 @@ public class WorkSettingApiController {
     @PostMapping("/jobs/add")
     public ResponseEntity<?> addJob(@CurrentAccount Account account, @PathVariable String path,
                                     @RequestBody JobForm jobForm) {
-        Job job = jobRepository.findByJobAndCarrer(jobForm.getJobName(), jobForm.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(jobForm.getJobName(), jobForm.getCarrer());
         if (job == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -69,7 +69,7 @@ public class WorkSettingApiController {
     @DeleteMapping("/jobs/remove")
     public ResponseEntity<?> removeJob(@CurrentAccount Account account, @PathVariable String path,
                                        @RequestBody JobForm jobForm) {
-        Job job = jobRepository.findByJobAndCarrer(jobForm.getJobName(), jobForm.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(jobForm.getJobName(), jobForm.getCarrer());
         if (job == null) {
             return ResponseEntity.badRequest().build();
         }

@@ -3,8 +3,6 @@ package com.expertpeople.modules.work;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.zone.Zone;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -6,7 +6,7 @@ import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkRepository;
 import com.expertpeople.modules.work.WorkService;
@@ -21,17 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 
@@ -58,7 +53,7 @@ class MainApiControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    JobRepository jobRepository;
+    JobsRepository jobsRepository;
     @Autowired
     ZoneRepository zoneRepository;
     @Autowired
@@ -66,7 +61,7 @@ class MainApiControllerTest {
     @Autowired
     private WorkService workService;
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("대전광역시").province("테스트구").build();
-    private Job testJob=Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
+    private Job testJob = Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
 
     @BeforeEach
     public void settingUserTest() throws Exception {
@@ -78,7 +73,7 @@ class MainApiControllerTest {
         Account account1=accountRepository.save(account);
 
         Zone zone= zoneRepository.save(testZone);
-        Job job = jobRepository.save(testJob);
+        Job job = jobsRepository.save(testJob);
 
         createAutoWork(account1, zone, job);
     }

@@ -2,42 +2,34 @@ package com.expertpeople.modules.account;
 
 
 import com.expertpeople.infra.mail.EmailService;
-import com.expertpeople.modules.Jwt.JwtResponse;
 import com.expertpeople.modules.Jwt.JwtService;
 import com.expertpeople.modules.account.form.PasswordForm;
 import com.expertpeople.modules.account.form.Profile;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
 import com.expertpeople.modules.zone.form.ZoneForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.PostConstruct;
 
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,11 +56,11 @@ class AccountSettingApiControllerTest {
     @Autowired
     AccountService accountService;
     @Autowired
-    JobRepository jobRepository;
+    JobsRepository jobsRepository;
     private String token="";
 
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("테스트광역시").province("테스트구").build();
-    private Job testJob=Job.builder().job("test잡").averagePrice("test원").carrer(Carrer.TECH).build();
+    private Job testJob = Job.builder().job("test잡").averagePrice("test원").carrer(Carrer.TECH).build();
     @BeforeEach
     public void settingUserTest() throws Exception {
         Account account=new Account();
@@ -79,7 +71,7 @@ class AccountSettingApiControllerTest {
         accountRepository.save(account);
 
         zoneRepository.save(testZone);
-        jobRepository.save(testJob);
+        jobsRepository.save(testJob);
     }
     @Transactional
     @Test
@@ -207,7 +199,7 @@ class AccountSettingApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
-        Job job=jobRepository.findByJobAndCarrer(testJob.getJob(),testJob.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(testJob.getJob(), testJob.getCarrer());
         assertTrue(account.getJobs().contains(job));
     }
 
@@ -216,7 +208,7 @@ class AccountSettingApiControllerTest {
     @WithUserDetails(value = "uiwv29l@naver.com",userDetailsServiceBeanName = "jwtUserDetailService",setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void removeJobsTag() throws Exception{
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");
-        accountService.addJobs(account,testJob);
+        accountService.addJobs(account, testJob);
         assertTrue(account.getJobs().contains(testJob));
 
         JobForm jobForm=new JobForm();
@@ -229,7 +221,7 @@ class AccountSettingApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        Job job=jobRepository.findByJobAndCarrer(testJob.getJob(),testJob.getCarrer());
+        Job job = jobsRepository.findByJobAndCarrer(testJob.getJob(), testJob.getCarrer());
         assertFalse(account.getJobs().contains(job));
     }
 

@@ -1,11 +1,11 @@
 package com.expertpeople.modules.recruitmentGroup;
 
 import com.expertpeople.modules.enrollment.Enrollment;
+import com.expertpeople.modules.job.Job;
 import com.expertpeople.modules.job.form.JobForm;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.CurrentAccount;
-import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.recruitmentGroup.Vo.RecruitmentVo;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/recruitment")
 public class RecruitmentApiController {
 
-    private final JobRepository jobRepository;
+    private final JobsRepository jobsRepository;
     private final WorkService workService;
     private final RecruitmentService recruitmentService;
     private final ModelMapper modelMapper;
@@ -50,7 +50,7 @@ public class RecruitmentApiController {
     }
     @GetMapping("/jobs")
     public ResponseEntity<?> getJob(@CurrentAccount Account account){
-        List<String> alljobs=jobRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
+        List<String> alljobs= jobsRepository.findAll().stream().map(Job::toString).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(alljobs);
     }
@@ -61,12 +61,12 @@ public class RecruitmentApiController {
             return ResponseEntity.badRequest().body(errors);
         }
         JobForm jobForm=modelMapper.map(recruitForm,JobForm.class);
-        Job job=jobRepository.findByJobAndCarrer(jobForm.getJobName(),jobForm.getCarrer());
-        if(job==null){
+        Job job = jobsRepository.findByJobAndCarrer(jobForm.getJobName(),jobForm.getCarrer());
+        if(job ==null){
             return ResponseEntity.badRequest().build();
         }
         Work work=workService.getWorkToUpdateStatus(account,path);
-        Recruitment recruitment=recruitmentService.createRecruitment(account,work,recruitForm,job);
+        Recruitment recruitment=recruitmentService.createRecruitment(account,work,recruitForm, job);
         return ResponseEntity.ok().body(recruitment.getId());
     }
 

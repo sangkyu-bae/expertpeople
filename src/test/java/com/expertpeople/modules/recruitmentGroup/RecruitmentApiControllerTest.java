@@ -6,7 +6,7 @@ import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitForm;
 import com.expertpeople.modules.recruitmentGroup.form.RecruitUpdateForm;
 import com.expertpeople.modules.work.Work;
@@ -15,7 +15,6 @@ import com.expertpeople.modules.work.WorkService;
 import com.expertpeople.modules.work.form.WorkForm;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +59,7 @@ class RecruitmentApiControllerTest {
     @Autowired
     WorkService workService;
     @Autowired
-    JobRepository jobRepository;
+    JobsRepository jobsRepository;
     @Autowired
     ZoneRepository zoneRepository;
     @Autowired
@@ -73,7 +72,7 @@ class RecruitmentApiControllerTest {
     RecruitmentService recruitmentService;
 
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("대전광역시").province("테스트구").build();
-    private Job testJob=Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
+    private Job testJob = Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
     private String PATH="/api/recruitment";
     private String workPath="test";
     @BeforeEach
@@ -81,7 +80,7 @@ class RecruitmentApiControllerTest {
         Account account=new Account();
 
         Zone zone= zoneRepository.save(testZone);
-        Job job=jobRepository.save(testJob);
+        Job job = jobsRepository.save(testJob);
 
         account.setEmail("uiwv29l@naver.com");
         account.setPassword(passwordEncoder.encode("wnsvaf309"));
@@ -110,8 +109,8 @@ class RecruitmentApiControllerTest {
                 .andDo(print());
 
         Account account=accountRepository.findByEmail("uiwv29l@naver.com");;
-        Set<Job> job=account.getJobs();
-        Job jobTest= job.stream().filter(jobData->jobData.getJob().equals("석공"))
+        Set<Job> job =account.getJobs();
+        Job jobTest = job.stream().filter(jobData->jobData.getJob().equals("석공"))
                 .findFirst()
                 .orElseThrow(()->new IllegalArgumentException());
 

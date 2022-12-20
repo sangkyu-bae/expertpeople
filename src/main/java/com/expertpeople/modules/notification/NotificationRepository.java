@@ -3,8 +3,8 @@ package com.expertpeople.modules.notification;
 import com.expertpeople.modules.account.Account;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
@@ -15,4 +15,6 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     List<Notification> findByAccountAndCheckedOrderByCreateDateTimeDesc(Account account, boolean checked);
 
     boolean existsByIdAndAccount(Long notificationId, Account account);
+
+    List<Notification> findByCheckedAndCreateDateTimeBefore(boolean checked, LocalDateTime monthBeforeDay);
 }

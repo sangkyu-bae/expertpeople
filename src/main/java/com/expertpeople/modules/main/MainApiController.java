@@ -7,28 +7,22 @@ import com.expertpeople.modules.account.CurrentAccount;
 import com.expertpeople.modules.enrollment.Enrollment;
 import com.expertpeople.modules.enrollment.EnrollmentRepository;
 import com.expertpeople.modules.enrollment.Vo.RecruitmentVo;
-import com.expertpeople.modules.recruitmentGroup.Recruitment;
 import com.expertpeople.modules.recruitmentGroup.RecruitmentRepository;
 import com.expertpeople.modules.work.Vo.fetchWorkVo;
-import com.expertpeople.modules.work.Vo.WorkVo;
 import com.expertpeople.modules.work.Work;
 import com.expertpeople.modules.work.WorkRepository;
 import com.expertpeople.modules.work.WorkService;
-import com.expertpeople.modules.zone.Zone;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.bytebuddy.utility.RandomString;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController

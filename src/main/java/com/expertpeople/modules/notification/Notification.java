@@ -34,4 +34,9 @@ public class Notification {
             this.checked=true;
         }
     }
+
+    public Notification test() {
+        this.setChecked(false);
+        return this;
+    }
 }

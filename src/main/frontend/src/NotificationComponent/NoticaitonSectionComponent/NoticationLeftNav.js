@@ -29,7 +29,15 @@ function NotificationLeftNav({check, newCount, oldCount, notifications,contentCh
     const deleteOldNotification=()=>{
         axiosCo.deleteOldNotification()
             .then(e=>{
-
+                const notice=new Notice();
+                let notifications;
+                if(path.includes('old')){
+                    notifications= notice.splitByNotification([],e.data.newCount,e.data.oldCount)
+                }
+                if(path.includes('new')){
+                    notifications=notice.splitByNotification(e.data.notifications,e.data.newCount,e.data.oldCount)
+                }
+                changeNoticeInfo(notifications);
             })
             .catch(e=>{
                 console.log(e);
@@ -72,7 +80,7 @@ function NotificationLeftNav({check, newCount, oldCount, notifications,contentCh
             {
                 oldCount>0&&
                 <>
-                    <button className='remove-btn'>읽은 알림 삭제</button>
+                    <button className='remove-btn' onClick={deleteOldNotification}>읽은 알림 삭제</button>
                     <small>삭제하지 않아도 한달이 지난 알림은 삭제됩니다.</small>
                 </>
             }

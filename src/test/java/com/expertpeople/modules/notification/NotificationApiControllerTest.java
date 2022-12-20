@@ -4,9 +4,7 @@ import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.job.Carrer;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
-import com.expertpeople.modules.work.Work;
-import com.expertpeople.modules.work.form.WorkForm;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.zone.Zone;
 import com.expertpeople.modules.zone.ZoneRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,18 +41,18 @@ class NotificationApiControllerTest {
     @Autowired
     ZoneRepository zoneRepository;
     @Autowired
-    JobRepository jobRepository;
+    JobsRepository jobsRepository;
     @Autowired
     NotificationRepository notificationRepository;
 
     private Zone testZone = Zone.builder().city("test도시").localNameOfCity("대전광역시").province("테스트구").build();
-    private Job testJob=Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
+    private Job testJob = Job.builder().job("석공").averagePrice("test원").carrer(Carrer.TECH).build();
     private String PATH="/api/notification";
     @BeforeEach
     public void settingUserTest() throws Exception {
         Account account=new Account();
         Zone zone= zoneRepository.save(testZone);
-        Job job=jobRepository.save(testJob);
+        Job job = jobsRepository.save(testJob);
 
         account.setEmail("uiwv29l@naver.com");
         account.setPassword(passwordEncoder.encode("wnsvaf309"));

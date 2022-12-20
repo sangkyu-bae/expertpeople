@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class JobService {
-    private final JobRepository jobRepository;
+    private final JobsRepository jobsRepository;
 
     @PostConstruct
     public void initJobData() throws IOException{
-        if(jobRepository.count()==0){
+        if(jobsRepository.count()==0){
             Resource resource=new ClassPathResource("job.csv");
-            List<Job> jobList=  Files.readAllLines(resource.getFile().toPath(), StandardCharsets.UTF_8).stream()
+            List<Job> jobList =  Files.readAllLines(resource.getFile().toPath(), StandardCharsets.UTF_8).stream()
                     .map(line->{
                         String[] split=line.split(",");
                         Carrer carrer=Enum.valueOf(Carrer.class,"NORMAL");
@@ -33,7 +33,7 @@ public class JobService {
                         }
                         return Job.builder().job(split[0]).averagePrice(split[1]).carrer(Carrer.TECH).build();
                     }).collect(Collectors.toList());
-            jobRepository.saveAll(jobList);
+            jobsRepository.saveAll(jobList);
         }
     }
 }

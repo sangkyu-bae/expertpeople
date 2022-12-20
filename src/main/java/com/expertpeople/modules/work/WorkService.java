@@ -3,7 +3,7 @@ package com.expertpeople.modules.work;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.job.JobRepository;
+import com.expertpeople.modules.job.JobsRepository;
 import com.expertpeople.modules.work.Event.WorkCreatedEvent;
 import com.expertpeople.modules.work.Event.WorkUpdateEvent;
 import com.expertpeople.modules.work.Vo.WorkVo;
@@ -18,11 +18,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +31,7 @@ public class WorkService {
     private final WorkRepository workRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final AccountRepository accountRepository;
-    private final JobRepository jobRepository;
+    private final JobsRepository jobsRepository;
 
 
 
@@ -43,7 +40,7 @@ public class WorkService {
 
         Work newWork= workRepository.save(work);
         work.addManager(account);
-        Job test=jobRepository.findByJob("석공");
+        Job test= jobsRepository.findByJob("석공");
         newWork.getJobs().add(test);
         return work;
     }
@@ -72,7 +69,7 @@ public class WorkService {
     }
 
 
-    public Set<Job> getJob(String path,Account account) {
+    public Set<Job> getJob(String path, Account account) {
         Work work=this.getWorkWithJob(path);
         checkManager(account, work);
         return work.getJobs();
@@ -89,7 +86,7 @@ public class WorkService {
         checkExistWork(work);
         return work;
     }
-    public void addJobs(Account account, Job job,String path) {
+    public void addJobs(Account account, Job job, String path) {
         Work work=this.getWorkWithJob(path);
         checkManager(account,work);
         work.getJobs().add(job);

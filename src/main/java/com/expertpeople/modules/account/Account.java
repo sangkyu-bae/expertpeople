@@ -68,7 +68,7 @@ public class Account {
     private Set<Zone> zone =new HashSet<>();
     //직업 태그
     @ManyToMany
-    private Set<Job>jobs=new HashSet<>();
+    private Set<Job> jobs =new HashSet<>();
 
 
     public void createEmailCheckToken() {

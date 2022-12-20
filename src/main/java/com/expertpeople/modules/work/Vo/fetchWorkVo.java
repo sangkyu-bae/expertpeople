@@ -7,8 +7,6 @@ import com.expertpeople.modules.zone.Zone;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,7 @@ public class fetchWorkVo {
         this.title=work.getTitle();
         this.shortDescription=work.getShortDescription();
         this.path=work.getPath();
-        this.jobs=work.getJobs();
+        this.jobs =work.getJobs();
         this.zones=work.getZones();
 
         Set<Accounts> accounts=work.getMembers().stream().map(Accounts::new).collect(Collectors.toSet());

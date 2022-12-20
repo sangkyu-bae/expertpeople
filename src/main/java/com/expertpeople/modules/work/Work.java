@@ -39,7 +39,7 @@ public class Work {
     private String image;
 
     @ManyToMany
-    private Set<Job> jobs=new HashSet<>();
+    private Set<Job> jobs =new HashSet<>();
 
     @ManyToMany
     private Set<Zone> zones=new HashSet<>();

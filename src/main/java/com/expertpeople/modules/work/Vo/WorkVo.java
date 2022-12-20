@@ -1,11 +1,8 @@
 package com.expertpeople.modules.work.Vo;
 
 import com.expertpeople.modules.account.Account;
-import com.expertpeople.modules.job.Job;
-import com.expertpeople.modules.zone.Zone;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
