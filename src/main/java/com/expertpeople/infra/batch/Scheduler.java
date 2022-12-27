@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +20,6 @@ import java.util.Map;
 @EnableScheduling
 @RequiredArgsConstructor
 @Component
-
 public class Scheduler {
     private final Job job;
     private final JobLauncher jobLauncher;
