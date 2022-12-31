@@ -32,7 +32,7 @@ public class NotificationApiController {
     public SseEmitter notify(@RequestParam(value="jwt") String jwt,
                              @RequestHeader(value = "Last-Event-ID",required = false,defaultValue = "")String lastEventId){
         Account account=notificationService.getAccountId(jwt);
-        return notificationService.subscribe(account,lastEventId);
+        return notificationService.subscribe(account);
     }
 
     @GetMapping("/notification")

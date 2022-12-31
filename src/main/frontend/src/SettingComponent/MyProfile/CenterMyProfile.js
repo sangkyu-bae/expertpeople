@@ -27,7 +27,7 @@ function CenterMyProfile(props) {
                     <input type="text" name="location" value={props.location} onChange={props.onChange}/>
                     <small>주로 일을 하는 지역이나, 가서 일할 지역의 도시 이름을 알려주세요</small>
                 </div>
-                <button>수정하기</button>
+                <button className="update_btn">수정하기</button>
             </form>
         </div>
         </>

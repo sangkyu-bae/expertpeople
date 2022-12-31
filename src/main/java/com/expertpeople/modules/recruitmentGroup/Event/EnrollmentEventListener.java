@@ -53,9 +53,9 @@ public class EnrollmentEventListener {
         }
         if(account.isWorkCreateByWeb()){
             createNotification(enrollmentEvent,account,recruitment,work);
-            ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
-            //notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"구인 참가에 변경사항이 있습니다. ");
+            notificationService.sendToEvent(account,"구인 참가에 변경사항이 있습니다.");
         }
+
     }
 
     private void createNotification(EnrollmentEvent enrollmentEvent, Account account, Recruitment recruitment, Work work) {

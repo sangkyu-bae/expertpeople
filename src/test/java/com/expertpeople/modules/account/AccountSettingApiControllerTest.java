@@ -1,9 +1,9 @@
 package com.expertpeople.modules.account;
 
 
-import com.expertpeople.NotificationJobConfig;
-import com.expertpeople.TestJobConfiguration;
-import com.expertpeople.infra.config.BatchConfig;
+//import com.expertpeople.NotificationJobConfig;
+//import com.expertpeople.TestJobConfiguration;
+//import com.expertpeople.infra.config.BatchConfig;
 import com.expertpeople.infra.mail.EmailService;
 import com.expertpeople.modules.Jwt.JwtService;
 import com.expertpeople.modules.account.form.PasswordForm;
@@ -33,6 +33,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,15 +58,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest(classes = {TestJobConfiguration.class,  NotificationJobConfig.class, Scheduled.class})
+//@SpringBootTest(classes = {TestJobConfiguration.class,  NotificationJobConfig.class, Scheduled.class})
+//@AutoConfigureMockMvc
+//@Transactional
+//@WebAppConfiguration
+//@EnableBatchProcessing
+//@EnableConfigurationProperties
+//@ContextConfiguration
+//@ExtendWith(SpringExtension.class)
+//@SpringBatchTest
+@SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@WebAppConfiguration
-@EnableBatchProcessing
-@EnableConfigurationProperties
-@ContextConfiguration
-@ExtendWith(SpringExtension.class)
-@SpringBatchTest
+
 class AccountSettingApiControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -86,10 +91,10 @@ class AccountSettingApiControllerTest {
     @Autowired
     JobsRepository jobsRepository;
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncherTestUtils;
-    @Autowired
-    private JobRepositoryTestUtils jobRepositoryTestUtils;
+//    @Autowired
+//    private JobLauncherTestUtils jobLauncherTestUtils;
+//    @Autowired
+//    private JobRepositoryTestUtils jobRepositoryTestUtils;
 
     private String token = "";
 
@@ -107,15 +112,15 @@ class AccountSettingApiControllerTest {
         zoneRepository.save(testZone);
         jobsRepository.save(testJob);
 
-        jobRepositoryTestUtils.removeJobExecutions();
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String now=simpleDateFormat.format(new Date());
-        Map<String, JobParameter> jobParameterMap=new HashMap<>();
-        jobParameterMap.put("requestDate",new JobParameter(now));
-        JobParameters jobParameters=new JobParameters(jobParameterMap);
-
-        //when
-        JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters); // (3)
+//        jobRepositoryTestUtils.removeJobExecutions();
+//        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String now=simpleDateFormat.format(new Date());
+//        Map<String, JobParameter> jobParameterMap=new HashMap<>();
+//        jobParameterMap.put("requestDate",new JobParameter(now));
+//        JobParameters jobParameters=new JobParameters(jobParameterMap);
+//
+//        //when
+//        JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters); // (3)
 
     }
 

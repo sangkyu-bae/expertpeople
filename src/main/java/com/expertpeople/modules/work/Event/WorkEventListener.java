@@ -56,12 +56,11 @@ public class WorkEventListener {
 
             if(account.isWorkCreateByWeb()){
                 saveWorkCreatedNotification(work, account,work.getShortDescription(),NotificationType.WORK_CREATED);
-
-                ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
-                notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"관심 일감 생성 알림");
+                notificationService.sendToEvent(account,"관심 일감 생성 알림");
             }
         });
     }
+
 
 
 
@@ -80,10 +79,9 @@ public class WorkEventListener {
 
             if(account.isWorkCreateByWeb()){
                 saveWorkCreatedNotification(work, account,workUpdateEvent.getMessage(),NotificationType.WORK_UPDATED);
-
-                ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
-                notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"일감에 새로운 소식이 있습니다. ");
+                notificationService.sendToEvent(account,"일감에 새로운 소식이 있습니다.");
             }
+
         });
     }
     private void saveWorkCreatedNotification(Work work, Account account,String message,NotificationType notificationType) {

@@ -70,16 +70,15 @@ public class RecruitmentEventListener {
         List<Enrollment> enrollments=recruitment.getErollments();
         String link="/work/"+ work.getPath()+"/"+recruitment.getId();
         enrollments.forEach(enrollment -> {
-            if(enrollment.getAccount().isWorkCreateByEmail()){
+            Account account=enrollment.getAccount();
+            if(account.isWorkCreateByEmail()){
                 sendWorkUpdateNotification(work,enrollment.getAccount(),"구인 내용이 변경 되었습니다",
                         "Expert PeoPle '"+work.getTitle()+" "+recruitment.getTitle()+"' 구인 내용이 변경 되었습니다.",link);
             }
 
-            if(enrollment.getAccount().isWorkCreateByWeb()){
+            if(account.isWorkCreateByWeb()){
                 saveWorkCreatedNotification(work, enrollment.getAccount(), recruitmentUpdateEvent.getMessage(), NotificationType.RECRUIT_ENROLLMENT,recruitment.getId());
-
-                ResponseEmitter emitter =emitterRepository.findByAccountId(enrollment.getAccount().getId());
-                notificationService.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),"구인 내용이 변경되었습니다.");
+                notificationService.sendToEvent(account,"구인 내용이 변경되었습니다.");
             }
         });
     }

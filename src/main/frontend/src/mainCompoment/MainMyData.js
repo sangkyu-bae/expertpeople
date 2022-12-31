@@ -33,7 +33,6 @@ function MainMyData(props) {
         axiosCo.getMyData()
             .then(e=>{
                 const data=e.data;
-                console.log(data)
                 setMyData({
                     isLoading:true,
                     loadAccount: data.loadAccount,

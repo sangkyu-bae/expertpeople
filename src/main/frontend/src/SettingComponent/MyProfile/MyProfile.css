@@ -185,3 +185,6 @@ button :hover{
 .alram_box{
     margin:2em 0;
 }
+.update_btn:hover{
+    cursor: pointer;
+}

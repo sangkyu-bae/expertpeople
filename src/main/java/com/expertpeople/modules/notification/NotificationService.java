@@ -4,6 +4,7 @@ import com.expertpeople.infra.jwt.JwtTokenProvider;
 import com.expertpeople.modules.account.Account;
 import com.expertpeople.modules.account.AccountRepository;
 import com.expertpeople.modules.notification.emitter.EmitterRepository;
+import com.expertpeople.modules.notification.emitter.ResponseEmitter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class NotificationService {
     private final AccountRepository accountRepository;
     private final EmitterRepository emitterRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    public SseEmitter subscribe(Account account, String lastEventId) {
+    public SseEmitter subscribe(Account account) {
 
         String userId=account.getId()+"_"+System.currentTimeMillis();
         SseEmitter sseEmitter=emitterRepository.save(userId,new SseEmitter(DEFAULT_TIMEOUT));
@@ -55,7 +56,7 @@ public class NotificationService {
         try {
             emitter.send(SseEmitter.event()
                     .id(id)
-                    .name("newWork")
+                    .name("newNotification")
                     .data(data));
         } catch (IOException exception) {
             emitterRepository.deleteById(id);
@@ -92,6 +93,12 @@ public class NotificationService {
 
     public void readAllNotification(List<Notification> notifications) {
         notifications.stream().forEach(notification -> notification.updateReadNotification());
+    }
+    public void sendToEvent(Account account,String eventDescription) {
+        ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
+        if(emitter!=null){
+            this.sendToNewNotification(emitter.getSseEmitter(),emitter.getId(),eventDescription);
+        }
     }
 
     public void remove(List<Notification> oldNotifications) {
