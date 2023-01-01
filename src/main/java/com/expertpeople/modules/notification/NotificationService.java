@@ -29,8 +29,12 @@ public class NotificationService {
     public SseEmitter subscribe(Account account) {
 
         String userId=account.getId()+"_"+System.currentTimeMillis();
-        SseEmitter sseEmitter=emitterRepository.save(userId,new SseEmitter(DEFAULT_TIMEOUT));
+        ResponseEmitter emitter =emitterRepository.findByAccountId(account.getId());
+        if(emitter.getId()!=null){
+            emitterRepository.deleteById(emitter.getId());
+        }
 
+        SseEmitter sseEmitter=emitterRepository.save(userId,new SseEmitter(DEFAULT_TIMEOUT));
         sseEmitter.onCompletion(()->emitterRepository.deleteById(userId));
         sseEmitter.onTimeout(()->emitterRepository.deleteById(userId));
 

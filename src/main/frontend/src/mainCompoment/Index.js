@@ -96,7 +96,7 @@ function Index({searchData, isSearch}) {
                         pageWorks.length > 0 &&
                         pageWorks.map(search =>
                             <ActionAreaCard key={search.id} keyword={searchData.keyword}
-                                            search={search}></ActionAreaCard>
+                                            search={search} isSearch={isSearch}></ActionAreaCard>
                         )
                     }
                     {

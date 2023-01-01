@@ -6,7 +6,6 @@ import Notice from "../../util/Class/Notice";
 function NoticeItemBox({notification,readNotification}) {
 
     const [diffTime,setDiffTimes]=useState('');
-
     useEffect(()=>{
         const notice=new Notice();
         const time=notice.getDiffTime(notification.createDateTime)

@@ -46,13 +46,13 @@ function WorkHead(props) {
     const work = useSelector(state => state.workReducer.work);
     const isManager = useSelector(state => state.workReducer.isManager);
     const isMember = useSelector(state => state.workReducer.isMember);
-
     return (
         <div className="content-wrap">
             <div className="flex">
                 <h2 className="work-head">{work.title}</h2>
                 {
                     isManager && !work.published ?
+                        isManager&&
                         <>
                             <Box sx={{display: 'flex', gap: 4, width: '15%', justifyContent: 'center'}}>
                                 <Tooltip title="일감 공개 준비중" variant="outlined">
@@ -62,9 +62,8 @@ function WorkHead(props) {
                                     <Button variant="outlined">OFF</Button>
                                 </Tooltip>
                             </Box>
-                            {/*<div className='togle'>DRAFT</div>*/}
-                            {/*<div className='togle'>OFF</div>*/}
                         </> :
+                        isManager&&
                         <>
                             <Box sx={{display: 'flex', gap: 4, width: '25%', justifyContent: 'center'}}>
                                 <Tooltip title="구직자 모집 시작" variant="outlined">

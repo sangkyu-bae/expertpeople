@@ -54,7 +54,8 @@ function NoReadNotification({notifications, fullInfo}) {
                                     {
                                         notifications.RECRUIT_ENROLLMENT.map(notification =>
                                             <NoticeItemBox key={notification.id}
-                                                           notification={notification}></NoticeItemBox>)
+                                                           notification={notification}
+                                                           readNotification={readNotification}></NoticeItemBox>)
                                     }
                                 </ul>
                             </div>
@@ -78,7 +79,8 @@ function NoReadNotification({notifications, fullInfo}) {
                                     {
                                         notifications.WORK_UPDATED.map(notification =>
                                             <NoticeItemBox key={notification.id}
-                                                           notification={notification}></NoticeItemBox>)
+                                                           notification={notification}
+                                                           readNotification={readNotification}></NoticeItemBox>)
                                     }
                                 </ul>
                             </div>

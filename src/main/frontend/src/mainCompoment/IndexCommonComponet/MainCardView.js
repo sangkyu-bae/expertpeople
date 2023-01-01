@@ -10,7 +10,7 @@ import EngineeringIcon from "@mui/icons-material/Engineering";
 import {useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-function MainCardView({search, keyword}) {
+function MainCardView({search, keyword ,isSearch}) {
     const [cardWidth,setCardWidth]=useState({
         widths:[],
         ml:0
@@ -41,11 +41,25 @@ function MainCardView({search, keyword}) {
             });
         }
 
+        // if(long.includes(location.pathname)&&isLogin){
+        //     setCardWidth({
+        //         ...cardWidth,
+        //         ml:0
+        //     });
+        // }
         if(long.includes(location.pathname)&&isLogin){
-            setCardWidth({
-                ...cardWidth,
-                ml:0
-            });
+            if(isSearch){
+                setCardWidth({
+                    widths: width.big,
+                    ml:4
+                });
+            }else{
+                setCardWidth({
+                    ...cardWidth,
+                    ml:0
+                });
+            }
+
         }
     },[])
 
