@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class JobService {
     private final JobsRepository jobsRepository;
 
-    @PostConstruct
+//    @PostConstruct
     public void initJobData() throws IOException{
         if(jobsRepository.count()==0){
             Resource resource=new ClassPathResource("job.csv");

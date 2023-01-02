@@ -42,7 +42,7 @@ class AccountControllerTest {
                 .andExpect(model().attributeExists("joinUpForm"))
                 .andExpect(unauthenticated());
     }
-    
+
     @DisplayName("회원 가입 처리 - 입력값 오류")
     @Test
     void joinUpSubmit_wrong_input()throws Exception{
